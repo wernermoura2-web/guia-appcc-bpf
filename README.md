@@ -16,3 +16,5 @@ PDF original editável atualizado em 24/10/2026: formulário, templates e açõe
 Condução revisada: 4.2.2/4.2.7/4.2.8 PPRO em todas as frases; 4.2.9 PPHO em todas. P preservado; base inicial 94, dinâmica. Migração única de classificações de dados locais/importados com cópia em legacyConducao; respostas e observações preservadas.
 
 Reservatórios revisados: 4.3.2/4.3.4/4.3.5 PPRO; 4.3.3 segunda frase PC e demais PPRO; 4.3.6 PPHO (última indicação do usuário). Probabilidades, respostas e observações preservadas; migração única com backup em legacyReservatorios.
+
+Correção das frases: 4.3.3 usa as três sentenças da descrição (PPRO/PC/PPRO); 4.3.4 usa duas sentenças (PPRO/PPRO), ambas com observação e resposta próprias pelo F. Por frase removido das opções APPCC. Base inicial dos reservatórios: 125.

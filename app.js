@@ -43,7 +43,23 @@ function migrateReservoirState(state){
  }
  state.reservoirVersion=RESERVOIR_VERSION;return state;
 }
-function migrateCurrentState(state){return migrateReservoirState(migrateConductionState(migrateState(state)));}
+function migrateInspectionState(state){
+ state.a=state.a||{};
+ if(state.reservoirSentencesVersion!=='4.3.3-tres-4.3.4-duas-20261024'){
+  state.legacyFrasesReservatorios=state.legacyFrasesReservatorios||{};
+  function merge(parts,cat){const out={cat};if(parts.some(r=>r&&r.a==='N'))out.a='N';else if(parts.every(r=>r&&r.a==='S'))out.a='S';const notes=parts.filter(Boolean).map(r=>r.obs||'').filter(Boolean);if(notes.length)out.obs=notes.join('\n');return out;}
+  for(const[k,c]of Object.entries(CFG.itens)){
+   const old=state.a[k];if(!old)continue;
+   if(c.code==='4.3.3'&&(old[3]||old[4])){state.legacyFrasesReservatorios[k]=JSON.parse(JSON.stringify(old));state.a[k]={0:merge([old[0],old[1]],c.frases[0].cat),1:{...old[2],cat:c.frases[1].cat},2:merge([old[3],old[4]],c.frases[2].cat)};}
+   if(c.code==='4.3.4'&&old[0]&&!old[1]){state.legacyFrasesReservatorios[k]=JSON.parse(JSON.stringify(old));state.a[k][1]={a:old[0].a,cat:old[0].cat||c.frases[1].cat};}
+  }
+  state.reservoirSentencesVersion='4.3.3-tres-4.3.4-duas-20261024';
+ }
+ for(const[k,rs]of Object.entries(state.a))for(const[i,r]of Object.entries(rs))if(r.cat&&!CATS.includes(r.cat)){state.legacyAPPCCLabels=state.legacyAPPCCLabels||{};state.legacyAPPCCLabels[k+'#'+i]=r.cat;delete r.cat;}
+ return state;
+}
+function migrateCurrentState(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
+
 S=migrateCurrentState(S);
 try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
@@ -53,7 +69,7 @@ function score(k){
  const c=CFG.itens[k],rr=rows(k);if(S.units['p'+c.page+'c'+c.col]===false)return {active:false,earned:0,maximum:0,w:0};
  const applicable=rr.filter(r=>r.a!=='A'),earned=applicable.filter(r=>r.a==='S').reduce((sum,r)=>sum+CFG.pesos[r.cat]*r.P,0),maximum=applicable.reduce((sum,r)=>sum+CFG.pesos[r.cat]*r.P,0);
  const cats=[...new Set(applicable.map(r=>r.cat))],nc=[...new Set(applicable.map(r=>CFG.pesos[r.cat]))],ps=[...new Set(applicable.map(r=>r.P))];
- return {active:true,pending:rr.some(r=>!r.a),a:!applicable.length?'A':applicable.some(r=>r.a==='N')?'N':rr.some(r=>!r.a)?undefined:'S',earned,maximum,w:earned,cat:cats.length===1?cats[0]:'Por frase',nc:nc.join('/'),p:ps.join('/')};
+ return {active:true,pending:rr.some(r=>!r.a),a:!applicable.length?'A':applicable.some(r=>r.a==='N')?'N':rr.some(r=>!r.a)?undefined:'S',earned,maximum,w:earned,cat:cats.join('/'),nc:nc.join('/'),p:ps.join('/')};
 }
 function consolidate(ss){
  const active=ss.filter(x=>x.active);if(!active.length)return {active:false,earned:0,maximum:0,w:0};
