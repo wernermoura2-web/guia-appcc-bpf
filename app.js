@@ -64,9 +64,18 @@ function migratePOPConductionState(state){
  for(const[k,c]of Object.entries(CFG.itens))if(c.code==='4.2.9'&&state.a[k]){const old=state.a[k];state.legacyPOPConducao[k]=JSON.parse(JSON.stringify(old));const next={};if(old[1])next[0]={...old[1]};if(old[0])next[1]={...old[0]};state.a[k]=next;}
  state.popConductionVersion='pop-429-ordem-20261024';return state;
 }
-function migrateCurrentState(state){return migratePOPConductionState(migrateStateBeforePOP(state));}
+function migrateCurrentState(state){return migrateResponsibilityState(migratePOPConductionState(migrateStateBeforePOP(state)));}
 function migrateStateBeforePOP(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
 
+function migrateResponsibilityState(state){
+ if(state.responsibilityVersion==='responsabilidade-ppho-ppro-20261024')return state;
+ state.a=state.a||{};state.legacyResponsabilidade=state.legacyResponsabilidade||{};
+ for(const[k,c]of Object.entries(CFG.itens))if(c.proc==='4.11'&&state.a[k]){
+  state.legacyResponsabilidade[k]=JSON.parse(JSON.stringify(state.a[k]));
+  for(let i=0;i<c.frases.length;i++)if(state.a[k][i])state.a[k][i].cat=c.frases[i].cat;
+ }
+ state.responsibilityVersion='responsabilidade-ppho-ppro-20261024';return state;
+}
 S=migrateCurrentState(S);
 try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
