@@ -3,3 +3,8 @@
 @media print{.paper-field.readonly{background:white!important}.paper-field.readonly.r-low{background:#92d050!important}.paper-field.readonly.r-med{background:#ffff00!important}.paper-field.readonly.r-high{background:#ff2424!important}}
 
 .paper-field button{white-space:nowrap;letter-spacing:-.15pt;padding:0!important}.paper-field:has(button) .print-value{white-space:nowrap;padding:0;text-align:center;letter-spacing:-.15pt}
+
+
+/* Keep both observation column frames visible, including empty columns. */
+.paper-field.observation-column{background:white;border:.5pt solid #7f8c95}
+@media print{.paper-field.observation-column{border:.5pt solid #7f8c95!important;background:white!important}}
