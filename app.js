@@ -58,7 +58,14 @@ function migrateInspectionState(state){
  for(const[k,rs]of Object.entries(state.a))for(const[i,r]of Object.entries(rs))if(r.cat&&!CATS.includes(r.cat)){state.legacyAPPCCLabels=state.legacyAPPCCLabels||{};state.legacyAPPCCLabels[k+'#'+i]=r.cat;delete r.cat;}
  return state;
 }
-function migrateCurrentState(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
+function migratePOPConductionState(state){
+ if(state.popConductionVersion==='pop-429-ordem-20261024')return state;
+ state.a=state.a||{};state.legacyPOPConducao=state.legacyPOPConducao||{};
+ for(const[k,c]of Object.entries(CFG.itens))if(c.code==='4.2.9'&&state.a[k]){const old=state.a[k];state.legacyPOPConducao[k]=JSON.parse(JSON.stringify(old));const next={};if(old[1])next[0]={...old[1]};if(old[0])next[1]={...old[0]};state.a[k]=next;}
+ state.popConductionVersion='pop-429-ordem-20261024';return state;
+}
+function migrateCurrentState(state){return migratePOPConductionState(migrateStateBeforePOP(state));}
+function migrateStateBeforePOP(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
 
 S=migrateCurrentState(S);
 try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
