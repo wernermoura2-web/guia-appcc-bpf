@@ -75,6 +75,8 @@ for page in range(13):
  entries={k:c for k,c in CFG['itens'].items() if c['page']==page}
  codes=sorted({int(c['code']) for c in entries.values()},key=lambda c:ORDER.get(page,[]).index(c) if page in ORDER else c)
  columns=sorted({c['col'] for c in entries.values()})
+ def description_height(size):
+  return sum(max(16,sum(len(lines(f'F{j} - '+f['texto']+' ['+f['ref']+']',516,size))*size*1.13+2 for j,f in phrases_for([c for c in entries.values() if c['code']==str(code)]))) for code in codes)
  xs=[14,60,98,126,155,174,258,342,426,510,581] if page<11 else [14,60,98,126,155,174,510,581]
  headers=['INDIC.','APPCC','NC','P','NC x P']
  if page<11:headers+=names.get(page,['RESERV. 1','RESERV. 2','RESERV. 3','RESERV. 4'])+['RESULTADO']
@@ -102,6 +104,8 @@ for page in range(13):
     widget(pg,f'fonte_{col}_{j}',inset((left,y,right,y+14)),label=label,button=True,script=f'selecionarFonte.call(this,{col},{json.dumps(label)});')
   cell(pg,(510,y,581,y+14));y+=14
  rowheight=15.3 if page<11 else (23 if page==11 else 37)
+ if page in (11,12):
+  rowheight=(788-y-56-description_height(7.25))/len(codes)
  for code in codes:
   cs=[c for c in entries.values() if c['code']==str(code)]
   fs=[f for c in cs for f in c['frases']]
@@ -111,7 +115,9 @@ for page in range(13):
   for i,value in enumerate(values):
    cell(pg,(xs[i],y,xs[i+1],y+rowheight),value,5.4 if i==1 and len(cats)>12 else 6.1,i==0,BLUE if i==0 else None,1)
   # Summary fields show all phrase classes; changing a class is done in F.
-  for name,a,b,value in [(f'classe_p{pnum}_{code}',60,98,cats),(f'criticidade_classe_p{pnum}_{code}',98,126,ns),(f'prob_classe_p{pnum}_{code}',126,155,ps),(f'pontuacao_p{pnum}_{code}',155,174,refs)]:widget(pg,name,inset((a,y,b,y+rowheight)),value if len(value)<11 else 'Ver F',ro=True)
+  summary_top=y+(rowheight-13)/2 if page>=11 else y+.7
+  summary_bottom=summary_top+13 if page>=11 else y+rowheight-.7
+  for name,a,b,value in [(f'classe_p{pnum}_{code}',60,98,cats),(f'criticidade_classe_p{pnum}_{code}',98,126,ns),(f'prob_classe_p{pnum}_{code}',126,155,ps),(f'pontuacao_p{pnum}_{code}',155,174,refs)]:widget(pg,name,(a+.7,summary_top,b-.7,summary_bottom),value if len(value)<11 else 'Ver F',ro=True)
   if page<11:
    for col in columns:
     a,b=xs[4+col],xs[5+col];cell(pg,(a,y,b,y+rowheight))
@@ -127,9 +133,12 @@ for page in range(13):
    widget(pg,f'obs_p{pnum}_{code}',(175,y+1,341,y+rowheight-1),multi=True)
    widget(pg,f'obs_p{pnum}_{code}_col2',(343,y+1,509,y+rowheight-1),multi=True)
    key=next(k for k,c in entries.items() if c['code']==str(code))
-   widget(pg,f'b_{key}_F',(512,y+1,532,y+rowheight-1),label='F',button=True,script=f'abrirFrases.call(this,{json.dumps(key)});')
+   button_top=y+(rowheight-16)/2
+   widget(pg,f'b_{key}_F',(512,button_top,532,button_top+16),label='F',button=True,script=f'abrirFrases.call(this,{json.dumps(key)});')
   cell(pg,(510,y,581,y+rowheight))
-  widget(pg,f'res_p{pnum}_{code}',(533 if page>=11 else 511,y+1,580,y+rowheight-1),ro=True)
+  result_top=y+(rowheight-14)/2 if page>=11 else y+1
+  result_bottom=result_top+14 if page>=11 else y+rowheight-1
+  widget(pg,f'res_p{pnum}_{code}',(533 if page>=11 else 511,result_top,580,result_bottom),ro=True)
   y+=rowheight
  for mode,label in [('pct','% ATENDIDO'),('risk','RISCO')]:
   cell(pg,(14,y,174,y+14),label,7,True,BLUE,1)
@@ -145,10 +154,8 @@ for page in range(13):
  y+=4
  # Full legislative text, including the references. Font size is fitted once
  # per page. Never silently clip or omit a phrase to fit a fixed page count.
- available=788-y-(68 if page<11 else 8)
+ available=788-y-(68 if page<11 else 0)
  size=7.25
- def description_height(size):
-  return sum(max(16,sum(len(lines(f'F{j} - '+f['texto']+' ['+f['ref']+']',516,size))*size*1.13+2 for j,f in phrases_for([c for c in entries.values() if c['code']==str(code)]))) for code in codes)
  # Page 8 keeps the former response grid. Shrink ONLY the description text
  # and reserve twice the baseline editable height for the two note columns.
  if page==7:
@@ -162,11 +169,11 @@ for page in range(13):
    if description_height(middle)<=available:low=middle
    else:high=middle
   size=math.floor(low*1000)/1000
- while description_height(size)>available and size>6.1:size-=.1
- if description_height(size)>available:raise ValueError(f'Page {pnum}: descriptions do not fit')
- # Pages 12/13 retain the ORIGINAL upper grid, controls, column widths and
- # type sizes. Only the lower description rows absorb the unused A4 space.
- extra_description_height=(788-y-description_height(size))/len(codes) if page in (11,12) else 0
+ while description_height(size)>available+.001 and size>6.1:size-=.1
+ if description_height(size)>available+.001:raise ValueError(f'Page {pnum}: descriptions do not fit')
+ # Description rows retain their original height and font; only the UPPER
+ # indicator/observation rows receive the additional A4 space on pages 12/13.
+ extra_description_height=0
  description_bottoms=[]
  for code in codes:
   pf=phrases_for([c for c in entries.values() if c['code']==str(code)])
@@ -219,14 +226,14 @@ for i,pg in enumerate(pdf):
   typ={fitz.PDF_WIDGET_TYPE_TEXT:'/Tx',fitz.PDF_WIDGET_TYPE_BUTTON:'/Btn',fitz.PDF_WIDGET_TYPE_CHECKBOX:'/Btn',fitz.PDF_WIDGET_TYPE_COMBOBOX:'/Ch'}.get(w.field_type,'/Tx')
   r=w.rect
   fields.append({'n':w.field_name,'type':typ,'x':r.x0,'y':r.y0,'w':r.width,'h':r.height,'ro':bool(w.field_flags&1),'multi':bool(w.field_flags&4096),'push':bool(w.field_flags&65536),'v':w.field_value or '', 'options':w.choice_values or [],'label':w.button_caption or w.field_label or '', 'font':w.text_fontsize or 7})
- name=f'paginas/layout-v3-{i+1:02d}.webp'
+ name=f'paginas/layout-v4-{i+1:02d}.webp'
  pix=pg.get_pixmap(matrix=fitz.Matrix(1.6,1.6),annots=False)
  from PIL import Image
  Image.frombytes('RGB',[pix.width,pix.height],pix.samples).save(ROOT/name,'WEBP',quality=92)
  paper.append({'width':pg.rect.width,'height':pg.rect.height,'fields':fields,'image':name})
 (ROOT/'paper-data.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
-(ROOT/'paper-data-layout-v3.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
-shutil.copyfile(out,ROOT/'Guia_APPCC_BPF_Layout_v3.pdf')
+(ROOT/'paper-data-layout-v4.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
+shutil.copyfile(out,ROOT/'Guia_APPCC_BPF_Layout_v4.pdf')
 # Integrity: canonical fields and widget tree must both include every phrase.
 check=PdfReader(out);fields=check.get_fields();expected={f'{prefix}_{k}_{j}' for k,c in CFG['itens'].items() for j,f in enumerate(c['frases']) for prefix in ('ans','cat','note')}
 assert expected<=fields.keys(),expected-fields.keys()
