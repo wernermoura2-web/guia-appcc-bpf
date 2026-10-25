@@ -3,7 +3,7 @@
 Run from the site root. Source PDF is retained in .build; generated PDF, page
 backgrounds and browser form geometry are emitted together from one model.
 """
-import json, math, re, shutil
+import argparse, json, math, re, shutil
 from pathlib import Path
 import fitz
 from pypdf import PdfReader, PdfWriter
@@ -14,7 +14,13 @@ CFG=json.loads((ROOT/'config.js').read_text().split('=',1)[1].rstrip().rstrip(';
 BUILD=ROOT/'.build';BUILD.mkdir(exist_ok=True)
 SOURCE=BUILD/'source.pdf'
 if not SOURCE.exists():shutil.copyfile(ROOT/'Guia_APPCC_BPF.pdf',SOURCE)
-doc=fitz.open(SOURCE)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--source',type=Path,help='Previously generated guide for a local incremental rebuild')
+parser.add_argument('--pages',help='Comma-separated 1-based pages for a local incremental rebuild')
+options=parser.parse_args()
+selected={int(n)-1 for n in options.pages.split(',')} if options.pages else set(range(13))
+if options.pages and not options.source:parser.error('--pages requires --source')
+doc=fitz.open(options.source or SOURCE)
 BLUE=(.86,.91,.94); PALE=(.94,.96,.97); LINE=(.35,.42,.46)
 PAGE_NAMES=['Captação','Condução das captações','Reservatórios - Captação 1','Reservatórios - Captação 2','Reservatórios - Captação 3','Reservatórios - Captação 4','Recepção de embalagens e insumos','Higienização de retornáveis e tampas','Higienização de descartáveis e tampas','Envase de retornáveis','Envase de descartáveis','Controle de qualidade','Responsabilidade e manipuladores']
 names={0:['CAPTAÇÃO 1','CAPTAÇÃO 2','CAPTAÇÃO 3','CAPTAÇÃO 4'],1:['CONDUÇÃO 1','CONDUÇÃO 2','CONDUÇÃO 3','CONDUÇÃO 4'],6:['RETORNÁVEIS','DESCARTÁVEIS','RÓTULOS','SANEANTES'],7:['LINHA 1','LINHA 2','LINHA 3','TAMPAS'],8:['LINHA 1','LINHA 2','LINHA 3','TAMPAS'],9:['LINHA 1','LINHA 2','LINHA 3','LINHA 4'],10:['LINHA 1','LINHA 2','LINHA 3','LINHA 4']}
@@ -62,10 +68,11 @@ def phrases_for(entries):
  return out
 
 for page in range(13):
+ if page not in selected:continue
  pg=doc[page];pnum=page+1;top=183 if page==0 else 90
  # Retain the original institutional header, identification, title and footer.
  for w in list(pg.widgets() or []):
-  if w.rect.y1>top and w.rect.y0<795:pg.delete_widget(w)
+  if (w.rect.y1>top and w.rect.y0<795) or w.field_name.startswith(('ans_q_','cat_q_','note_q_')):pg.delete_widget(w)
  pg.add_redact_annot(fitz.Rect(13,top-1,582,795),fill=(1,1,1))
  pg.apply_redactions(images=0,graphics=1,text=0)
  # The first page's old label refers only to the former RDC item numbering.
@@ -75,6 +82,8 @@ for page in range(13):
  entries={k:c for k,c in CFG['itens'].items() if c['page']==page}
  codes=sorted({int(c['code']) for c in entries.values()},key=lambda c:ORDER.get(page,[]).index(c) if page in ORDER else c)
  columns=sorted({c['col'] for c in entries.values()})
+ def description_height(size):
+  return sum(max(16,sum(len(lines(f'F{j} - '+f['texto']+' ['+f['ref']+']',516,size))*size*1.13+2 for j,f in phrases_for([c for c in entries.values() if c['code']==str(code)]))) for code in codes)
  xs=[14,60,98,126,155,174,258,342,426,510,581] if page<11 else [14,60,98,126,155,174,510,581]
  headers=['INDIC.','APPCC','NC','P','NC x P']
  if page<11:headers+=names.get(page,['RESERV. 1','RESERV. 2','RESERV. 3','RESERV. 4'])+['RESULTADO']
@@ -102,6 +111,11 @@ for page in range(13):
     widget(pg,f'fonte_{col}_{j}',inset((left,y,right,y+14)),label=label,button=True,script=f'selecionarFonte.call(this,{col},{json.dumps(label)});')
   cell(pg,(510,y,581,y+14));y+=14
  rowheight=15.3 if page<11 else (23 if page==11 else 37)
+ if page in (11,12):
+  # Expand the indicator/observation rows equally, while retaining the full
+  # description block and the original institutional footer on the A4 page.
+  rowheight=(788-y-56-description_height(7.25))/len(codes)
+  if rowheight<=0:raise ValueError(f'Page {pnum}: no room for indicator rows')
  for code in codes:
   cs=[c for c in entries.values() if c['code']==str(code)]
   fs=[f for c in cs for f in c['frases']]
@@ -145,12 +159,24 @@ for page in range(13):
  y+=4
  # Full legislative text, including the references. Font size is fitted once
  # per page. Never silently clip or omit a phrase to fit a fixed page count.
- available=788-y-(68 if page<11 else 8)
+ available=788-y-(68 if page<11 else 0)
  size=7.25
- def description_height(size):
-  return sum(max(16,sum(len(lines(f'F{j} - '+f['texto']+' ['+f['ref']+']',516,size))*size*1.13+2 for j,f in phrases_for([c for c in entries.values() if c['code']==str(code)]))) for code in codes)
- while description_height(size)>available and size>6.1:size-=.1
- if description_height(size)>available:raise ValueError(f'Page {pnum}: descriptions do not fit')
+ note_header_y=None
+ if page==7:
+  # Twice the previous usable height in EACH observation column. The two
+  # 0.7pt widget insets are excluded, so the actual editable height doubles.
+  previous_note_top=y+description_height(7.25)+19
+  previous_note_height=789-previous_note_top-1.4
+  note_header_y=789-2*previous_note_height-1.4-19
+  available=note_header_y-y
+  low,high=5.5,7.25
+  for _ in range(45):
+   middle=(low+high)/2
+   if description_height(middle)<=available:low=middle
+   else:high=middle
+  size=math.floor(low*1000)/1000
+ while description_height(size)>available+.001 and size>6.1:size-=.1
+ if description_height(size)>available+.001:raise ValueError(f'Page {pnum}: descriptions do not fit')
  for code in codes:
   pf=phrases_for([c for c in entries.values() if c['code']==str(code)])
   texts=[f'F{j} - '+f['texto']+' ['+f['ref']+']' for j,f in pf]
@@ -163,6 +189,7 @@ for page in range(13):
    dy+=2
   y+=h
  if page<11:
+  if note_header_y is not None:y=max(y,note_header_y)
   y+=3;cell(pg,(14,y,581,y+14),'OBSERVAÇÕES GERAIS',7,True,PALE,1);y+=16
   for suffix,a,b in [('',14,294),('_col2',301,581)]:
    rect=(a,y,b,789);cell(pg,rect);widget(pg,f'obs_gerais_p{pnum}{suffix}',inset(rect),multi=True)
