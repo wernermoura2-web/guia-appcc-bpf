@@ -64,7 +64,19 @@ function migratePOPConductionState(state){
  for(const[k,c]of Object.entries(CFG.itens))if(c.code==='4.2.9'&&state.a[k]){const old=state.a[k];state.legacyPOPConducao[k]=JSON.parse(JSON.stringify(old));const next={};if(old[1])next[0]={...old[1]};if(old[0])next[1]={...old[0]};state.a[k]=next;}
  state.popConductionVersion='pop-429-ordem-20261024';return state;
 }
-function migrateCurrentState(state){return migrateReceptionState(migrateFillingState(migrateHygieneState(migrateQualityState(migrateResponsibilityState(migratePOPConductionState(migrateStateBeforePOP(state)))))));}
+function migrateCurrentState(state){
+ state=migrateBeforeHygienePCC(state);
+ if(state.hygienePCCVersion==='pcc-higienizacao-20261025-v2')return state;
+ state.a=state.a||{};
+ for(const [key,c] of Object.entries(CFG.itens))for(let i=0;i<c.frases.length;i++){
+  const f=c.frases[i],code=f.legacyCode||c.legacyCode||c.code,indices=f.legacyIndices||[i];
+  if((code==='4.6.5'&&indices.includes(1))||(code==='4.6.6'&&indices.includes(0))){
+   const r=state.a[key]?.[i];if(r)r.cat='PCC';
+  }
+ }
+ state.hygienePCCVersion='pcc-higienizacao-20261025-v2';return state;
+}
+function migrateBeforeHygienePCC(state){return migrateReceptionState(migrateFillingState(migrateHygieneState(migrateQualityState(migrateResponsibilityState(migratePOPConductionState(migrateStateBeforePOP(state)))))));}
 function migrateStateBeforePOP(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
 
 function migrateResponsibilityState(state){
