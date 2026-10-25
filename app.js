@@ -64,7 +64,7 @@ function migratePOPConductionState(state){
  for(const[k,c]of Object.entries(CFG.itens))if(c.code==='4.2.9'&&state.a[k]){const old=state.a[k];state.legacyPOPConducao[k]=JSON.parse(JSON.stringify(old));const next={};if(old[1])next[0]={...old[1]};if(old[0])next[1]={...old[0]};state.a[k]=next;}
  state.popConductionVersion='pop-429-ordem-20261024';return state;
 }
-function migrateCurrentState(state){return migrateQualityState(migrateResponsibilityState(migratePOPConductionState(migrateStateBeforePOP(state))));}
+function migrateCurrentState(state){return migrateReceptionState(migrateFillingState(migrateHygieneState(migrateQualityState(migrateResponsibilityState(migratePOPConductionState(migrateStateBeforePOP(state)))))));}
 function migrateStateBeforePOP(state){return migrateInspectionState(migrateReservoirState(migrateConductionState(migrateState(state))));}
 
 function migrateResponsibilityState(state){
@@ -84,6 +84,37 @@ function migrateQualityState(state){
   for(let i=0;i<c.frases.length;i++)if(state.a[k][i])state.a[k][i].cat='PPRO';
  }
  state.qualityVersion='controle-qualidade-ppro-20261024';return state;
+}
+function migrateHygieneState(state){
+ if(state.hygieneVersion==='higienizacao-20261025')return state;
+ state.a=state.a||{};state.legacyHigienizacao=state.legacyHigienizacao||{};
+ for(const[k,c]of Object.entries(CFG.itens))if(c.proc==='4.6'&&state.a[k]){
+  state.legacyHigienizacao[k]=JSON.parse(JSON.stringify(state.a[k]));
+  for(let i=0;i<c.frases.length;i++)if(state.a[k][i])state.a[k][i].cat=c.frases[i].cat;
+ }
+ state.hygieneVersion='higienizacao-20261025';return state;
+}
+function migrateFillingState(state){
+ if(state.fillingVersion==='envase-20261025')return state;
+ state.a=state.a||{};state.legacyEnvase=state.legacyEnvase||{};
+ for(const[k,c]of Object.entries(CFG.itens))if(c.proc==='4.7'&&state.a[k]){
+  state.legacyEnvase[k]=JSON.parse(JSON.stringify(state.a[k]));
+  for(let i=0;i<c.frases.length;i++)if(state.a[k][i])state.a[k][i].cat=c.frases[i].cat;
+ }
+ state.fillingVersion='envase-20261025';return state;
+}
+function migrateReceptionState(state){
+ if(state.receptionVersion==='recepcao-20261025')return state;
+ state.a=state.a||{};state.legacyRecepcao=state.legacyRecepcao||{};
+ for(const[k,c]of Object.entries(CFG.itens))if(c.proc==='4.5'&&state.a[k]){
+  const old=JSON.parse(JSON.stringify(state.a[k]));state.legacyRecepcao[k]=old;
+  if(c.code==='4.5.3'&&!old[2]){
+   state.a[k]={};if(old[0]){state.a[k][0]={...old[0]};state.a[k][1]={...old[0]};}
+   if(old[1])state.a[k][2]={...old[1]};
+  }
+  for(let i=0;i<c.frases.length;i++)if(state.a[k][i])state.a[k][i].cat=c.frases[i].cat;
+ }
+ state.receptionVersion='recepcao-20261025';return state;
 }
 S=migrateCurrentState(S);
 try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
