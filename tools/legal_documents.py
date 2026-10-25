@@ -50,6 +50,13 @@ def lock_legal_docs(path):
    obj[NameObject('/Ff')]=NumberObject(int(obj.get('/Ff',0))|1)
    obj[NameObject('/V')]=TextStringObject('');obj[NameObject('/DV')]=TextStringObject('')
    action(obj,'/V',f"if(String(this.getField('doc_legal_{i}_situacao').value).toLowerCase()!=='entregue'){{event.rc=false;event.value='';}}")
+ # Replace the legacy initialization rule as well: reopening a saved PDF
+ # must not restore an automatic "NÃO" for an undelivered document.
+ names=writer.root_object.get('/Names',{}).get('/JavaScript',{}).get('/Names',[])
+ for index in range(1,len(names),2):
+  act=names[index].get_object();source=str(act.get('/JS',''))
+  source=source.replace("else if(v==='Não entregue'){a.value='NÃO';", "else if(v==='Não entregue'){a.value='';")
+  act[NameObject('/JS')]=TextStringObject(source)
  writer.add_js(SCRIPT)
  temp=path.with_name(path.name+'.legal-docs.tmp')
  with temp.open('wb') as stream:writer.write(stream)
