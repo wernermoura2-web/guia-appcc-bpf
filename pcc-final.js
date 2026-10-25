@@ -7,6 +7,11 @@ var PCCFinal=(function(){
   Object.keys(previous).forEach(function(id){
    if(previous[id]===current[id])return;
    var old=normalize(previous[id]),at=text.indexOf(old);
+   while(at>=0){
+    var end=at+old.length;
+    if((at===0||text.slice(at-2,at)==='\n\n')&&(end===text.length||text.slice(end,end+2)==='\n\n'))break;
+    at=text.indexOf(old,at+1);
+   }
    // An edited paragraph belongs to the reviewer and must not be overwritten.
    if(at>=0)text=text.slice(0,at)+(current[id]||'')+text.slice(at+old.length);
   });
