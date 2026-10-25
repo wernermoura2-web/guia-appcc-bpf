@@ -1,0 +1,787 @@
+{
+  "version": "legislacao-indicadores-20261025",
+  "source": "https://wernermoura2-web.github.io/appcc-guia/html.appcc.int.html",
+  "sourceSha": "fc24e6ab16902acadadba49038e6c7d75d739bbf",
+  "baseConfigSha": "9f2918907cec7a43b49dc92d890df9426a2e5c7f",
+  "groups": [
+    {
+      "page": 0,
+      "group": "cap",
+      "indicator": 1,
+      "sourceSerial": 1,
+      "phrases": 2,
+      "legacyCode": "4.1.1"
+    },
+    {
+      "page": 0,
+      "group": "cap",
+      "indicator": 2,
+      "sourceSerial": 2,
+      "phrases": 3,
+      "legacyCode": "4.1.2"
+    },
+    {
+      "page": 0,
+      "group": "cap",
+      "indicator": 3,
+      "sourceSerial": 3,
+      "phrases": 2,
+      "legacyCode": "4.1.3"
+    },
+    {
+      "page": 0,
+      "group": "cap",
+      "indicator": 4,
+      "sourceSerial": 4,
+      "phrases": 1,
+      "legacyCode": null
+    },
+    {
+      "page": 0,
+      "group": "cap",
+      "indicator": 5,
+      "sourceSerial": 5,
+      "phrases": 1,
+      "legacyCode": "4.3.2"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 6,
+      "sourceSerial": 6,
+      "phrases": 1,
+      "legacyCode": "4.2.1"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 7,
+      "sourceSerial": 7,
+      "phrases": 3,
+      "legacyCode": "4.2.2"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 8,
+      "sourceSerial": 8,
+      "phrases": 1,
+      "legacyCode": "4.2.4"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 9,
+      "sourceSerial": 9,
+      "phrases": 2,
+      "legacyCode": "4.2.6"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 10,
+      "sourceSerial": 10,
+      "phrases": 3,
+      "legacyCode": "4.2.7"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 11,
+      "sourceSerial": 11,
+      "phrases": 2,
+      "legacyCode": "4.2.8"
+    },
+    {
+      "page": 1,
+      "group": "cond",
+      "indicator": 12,
+      "sourceSerial": 12,
+      "phrases": 3,
+      "legacyCode": "4.2.9"
+    },
+    {
+      "page": 2,
+      "group": "res",
+      "indicator": 13,
+      "sourceSerial": 13,
+      "phrases": 3,
+      "legacyCode": "4.3.2"
+    },
+    {
+      "page": 2,
+      "group": "res",
+      "indicator": 14,
+      "sourceSerial": 14,
+      "phrases": 4,
+      "legacyCode": "4.3.3"
+    },
+    {
+      "page": 2,
+      "group": "res",
+      "indicator": 15,
+      "sourceSerial": 15,
+      "phrases": 2,
+      "legacyCode": "4.3.4"
+    },
+    {
+      "page": 2,
+      "group": "res",
+      "indicator": 16,
+      "sourceSerial": 16,
+      "phrases": 4,
+      "legacyCode": "4.3.5"
+    },
+    {
+      "page": 2,
+      "group": "res",
+      "indicator": 17,
+      "sourceSerial": 17,
+      "phrases": 3,
+      "legacyCode": "4.3.6"
+    },
+    {
+      "page": 3,
+      "group": "res",
+      "indicator": 13,
+      "sourceSerial": 13,
+      "phrases": 3,
+      "legacyCode": "4.3.2"
+    },
+    {
+      "page": 3,
+      "group": "res",
+      "indicator": 14,
+      "sourceSerial": 14,
+      "phrases": 4,
+      "legacyCode": "4.3.3"
+    },
+    {
+      "page": 3,
+      "group": "res",
+      "indicator": 15,
+      "sourceSerial": 15,
+      "phrases": 2,
+      "legacyCode": "4.3.4"
+    },
+    {
+      "page": 3,
+      "group": "res",
+      "indicator": 16,
+      "sourceSerial": 16,
+      "phrases": 4,
+      "legacyCode": "4.3.5"
+    },
+    {
+      "page": 3,
+      "group": "res",
+      "indicator": 17,
+      "sourceSerial": 17,
+      "phrases": 3,
+      "legacyCode": "4.3.6"
+    },
+    {
+      "page": 4,
+      "group": "res",
+      "indicator": 13,
+      "sourceSerial": 13,
+      "phrases": 3,
+      "legacyCode": "4.3.2"
+    },
+    {
+      "page": 4,
+      "group": "res",
+      "indicator": 14,
+      "sourceSerial": 14,
+      "phrases": 4,
+      "legacyCode": "4.3.3"
+    },
+    {
+      "page": 4,
+      "group": "res",
+      "indicator": 15,
+      "sourceSerial": 15,
+      "phrases": 2,
+      "legacyCode": "4.3.4"
+    },
+    {
+      "page": 4,
+      "group": "res",
+      "indicator": 16,
+      "sourceSerial": 16,
+      "phrases": 4,
+      "legacyCode": "4.3.5"
+    },
+    {
+      "page": 4,
+      "group": "res",
+      "indicator": 17,
+      "sourceSerial": 17,
+      "phrases": 3,
+      "legacyCode": "4.3.6"
+    },
+    {
+      "page": 5,
+      "group": "res",
+      "indicator": 13,
+      "sourceSerial": 13,
+      "phrases": 3,
+      "legacyCode": "4.3.2"
+    },
+    {
+      "page": 5,
+      "group": "res",
+      "indicator": 14,
+      "sourceSerial": 14,
+      "phrases": 4,
+      "legacyCode": "4.3.3"
+    },
+    {
+      "page": 5,
+      "group": "res",
+      "indicator": 15,
+      "sourceSerial": 15,
+      "phrases": 2,
+      "legacyCode": "4.3.4"
+    },
+    {
+      "page": 5,
+      "group": "res",
+      "indicator": 16,
+      "sourceSerial": 16,
+      "phrases": 4,
+      "legacyCode": "4.3.5"
+    },
+    {
+      "page": 5,
+      "group": "res",
+      "indicator": 17,
+      "sourceSerial": 17,
+      "phrases": 3,
+      "legacyCode": "4.3.6"
+    },
+    {
+      "page": 6,
+      "group": "rec_ret",
+      "indicator": 18,
+      "sourceSerial": 18,
+      "phrases": 1,
+      "legacyCode": "4.5.2"
+    },
+    {
+      "page": 6,
+      "group": "rec_ret",
+      "indicator": 19,
+      "sourceSerial": 19,
+      "phrases": 2,
+      "legacyCode": "4.5.4"
+    },
+    {
+      "page": 6,
+      "group": "rec_ret",
+      "indicator": 20,
+      "sourceSerial": 20,
+      "phrases": 1,
+      "legacyCode": "4.5.6"
+    },
+    {
+      "page": 6,
+      "group": "rec_ret",
+      "indicator": 21,
+      "sourceSerial": 21,
+      "phrases": 2,
+      "legacyCode": "4.5.8"
+    },
+    {
+      "page": 6,
+      "group": "rec_desc",
+      "indicator": 22,
+      "sourceSerial": 22,
+      "phrases": 2,
+      "legacyCode": "4.5.3"
+    },
+    {
+      "page": 6,
+      "group": "rec_desc",
+      "indicator": 20,
+      "sourceSerial": 23,
+      "phrases": 1,
+      "legacyCode": "4.5.6"
+    },
+    {
+      "page": 6,
+      "group": "rec_desc",
+      "indicator": 21,
+      "sourceSerial": 24,
+      "phrases": 2,
+      "legacyCode": "4.5.8"
+    },
+    {
+      "page": 6,
+      "group": "rec_rot",
+      "indicator": 22,
+      "sourceSerial": 25,
+      "phrases": 2,
+      "legacyCode": "4.5.3"
+    },
+    {
+      "page": 6,
+      "group": "rec_rot",
+      "indicator": 20,
+      "sourceSerial": 26,
+      "phrases": 1,
+      "legacyCode": "4.5.6"
+    },
+    {
+      "page": 6,
+      "group": "rec_rot",
+      "indicator": 21,
+      "sourceSerial": 27,
+      "phrases": 2,
+      "legacyCode": "4.5.8"
+    },
+    {
+      "page": 6,
+      "group": "rec_san",
+      "indicator": 22,
+      "sourceSerial": 28,
+      "phrases": 3,
+      "legacyCode": "4.5.3"
+    },
+    {
+      "page": 6,
+      "group": "rec_san",
+      "indicator": 20,
+      "sourceSerial": 29,
+      "phrases": 1,
+      "legacyCode": "4.5.6"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 30,
+      "sourceSerial": 30,
+      "phrases": 1,
+      "legacyCode": "4.6.3"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 31,
+      "sourceSerial": 31,
+      "phrases": 1,
+      "legacyCode": "4.6.4"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 32,
+      "sourceSerial": 32,
+      "phrases": 1,
+      "legacyCode": "4.6.5"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 33,
+      "sourceSerial": 33,
+      "phrases": 2,
+      "legacyCode": "4.6.6"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 34,
+      "sourceSerial": 34,
+      "phrases": 1,
+      "legacyCode": "4.6.7"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 35,
+      "sourceSerial": 35,
+      "phrases": 3,
+      "legacyCode": "4.6.9"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 36,
+      "sourceSerial": 36,
+      "phrases": 2,
+      "legacyCode": "4.6.10"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 37,
+      "sourceSerial": 37,
+      "phrases": 1,
+      "legacyCode": "4.6.11"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 38,
+      "sourceSerial": 38,
+      "phrases": 2,
+      "legacyCode": "4.6.12"
+    },
+    {
+      "page": 7,
+      "group": "h_ret",
+      "indicator": 39,
+      "sourceSerial": 39,
+      "phrases": 2,
+      "legacyCode": null
+    },
+    {
+      "page": 7,
+      "group": "t_ret",
+      "indicator": 40,
+      "sourceSerial": 40,
+      "phrases": 5,
+      "legacyCode": "4.6.8"
+    },
+    {
+      "page": 7,
+      "group": "t_ret",
+      "indicator": 37,
+      "sourceSerial": 41,
+      "phrases": 1,
+      "legacyCode": "4.6.11"
+    },
+    {
+      "page": 7,
+      "group": "t_ret",
+      "indicator": 38,
+      "sourceSerial": 42,
+      "phrases": 2,
+      "legacyCode": "4.6.12"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 43,
+      "sourceSerial": 43,
+      "phrases": 1,
+      "legacyCode": "4.6.3"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 44,
+      "sourceSerial": 44,
+      "phrases": 1,
+      "legacyCode": "4.6.4"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 45,
+      "sourceSerial": 45,
+      "phrases": 1,
+      "legacyCode": "4.6.7"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 46,
+      "sourceSerial": 46,
+      "phrases": 2,
+      "legacyCode": "4.6.9"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 47,
+      "sourceSerial": 47,
+      "phrases": 1,
+      "legacyCode": "4.6.9"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 48,
+      "sourceSerial": 48,
+      "phrases": 2,
+      "legacyCode": "4.6.10"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 49,
+      "sourceSerial": 49,
+      "phrases": 1,
+      "legacyCode": "4.6.11"
+    },
+    {
+      "page": 8,
+      "group": "h_desc",
+      "indicator": 50,
+      "sourceSerial": 50,
+      "phrases": 2,
+      "legacyCode": "4.6.12"
+    },
+    {
+      "page": 8,
+      "group": "t_desc",
+      "indicator": 51,
+      "sourceSerial": 51,
+      "phrases": 5,
+      "legacyCode": "4.6.8"
+    },
+    {
+      "page": 8,
+      "group": "t_desc",
+      "indicator": 49,
+      "sourceSerial": 52,
+      "phrases": 1,
+      "legacyCode": "4.6.11"
+    },
+    {
+      "page": 8,
+      "group": "t_desc",
+      "indicator": 50,
+      "sourceSerial": 53,
+      "phrases": 2,
+      "legacyCode": "4.6.12"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 54,
+      "sourceSerial": 54,
+      "phrases": 2,
+      "legacyCode": "4.7.1"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 55,
+      "sourceSerial": 55,
+      "phrases": 7,
+      "legacyCode": "4.7.2"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 56,
+      "sourceSerial": 56,
+      "phrases": 2,
+      "legacyCode": "4.7.4"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 57,
+      "sourceSerial": 57,
+      "phrases": 2,
+      "legacyCode": "4.7.5"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 58,
+      "sourceSerial": 58,
+      "phrases": 1,
+      "legacyCode": "4.7.6"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 59,
+      "sourceSerial": 59,
+      "phrases": 2,
+      "legacyCode": "4.7.8"
+    },
+    {
+      "page": 9,
+      "group": "e_ret",
+      "indicator": 60,
+      "sourceSerial": 60,
+      "phrases": 3,
+      "legacyCode": null
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 61,
+      "sourceSerial": 61,
+      "phrases": 2,
+      "legacyCode": "4.7.1"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 62,
+      "sourceSerial": 62,
+      "phrases": 7,
+      "legacyCode": "4.7.2"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 63,
+      "sourceSerial": 63,
+      "phrases": 1,
+      "legacyCode": "4.7.3"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 64,
+      "sourceSerial": 64,
+      "phrases": 2,
+      "legacyCode": "4.7.4"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 65,
+      "sourceSerial": 65,
+      "phrases": 2,
+      "legacyCode": "4.7.5"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 66,
+      "sourceSerial": 66,
+      "phrases": 1,
+      "legacyCode": "4.7.6"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 67,
+      "sourceSerial": 67,
+      "phrases": 2,
+      "legacyCode": "4.7.8"
+    },
+    {
+      "page": 10,
+      "group": "e_desc",
+      "indicator": 68,
+      "sourceSerial": 68,
+      "phrases": 3,
+      "legacyCode": null
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 69,
+      "sourceSerial": 69,
+      "phrases": 1,
+      "legacyCode": "4.10.1"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 70,
+      "sourceSerial": 70,
+      "phrases": 1,
+      "legacyCode": "4.10.2"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 71,
+      "sourceSerial": 71,
+      "phrases": 1,
+      "legacyCode": "4.10.3"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 72,
+      "sourceSerial": 72,
+      "phrases": 3,
+      "legacyCode": "4.10.4"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 73,
+      "sourceSerial": 73,
+      "phrases": 1,
+      "legacyCode": "4.10.5"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 74,
+      "sourceSerial": 74,
+      "phrases": 1,
+      "legacyCode": "4.10.6"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 75,
+      "sourceSerial": 75,
+      "phrases": 1,
+      "legacyCode": "4.12.6"
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 76,
+      "sourceSerial": 76,
+      "phrases": 1,
+      "legacyCode": null
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 77,
+      "sourceSerial": 77,
+      "phrases": 1,
+      "legacyCode": null
+    },
+    {
+      "page": 11,
+      "group": "cq",
+      "indicator": 78,
+      "sourceSerial": 78,
+      "phrases": 1,
+      "legacyCode": null
+    },
+    {
+      "page": 12,
+      "group": "resp",
+      "indicator": 79,
+      "sourceSerial": 79,
+      "phrases": 1,
+      "legacyCode": "4.11.1"
+    },
+    {
+      "page": 12,
+      "group": "resp",
+      "indicator": 80,
+      "sourceSerial": 80,
+      "phrases": 3,
+      "legacyCode": "4.11.2"
+    },
+    {
+      "page": 12,
+      "group": "resp",
+      "indicator": 81,
+      "sourceSerial": 81,
+      "phrases": 2,
+      "legacyCode": "4.11.3"
+    },
+    {
+      "page": 12,
+      "group": "resp",
+      "indicator": 82,
+      "sourceSerial": 82,
+      "phrases": 1,
+      "legacyCode": "4.11.4"
+    }
+  ],
+  "items": 274,
+  "phraseInstances": 644,
+  "distinctIndicators": 71
+}
