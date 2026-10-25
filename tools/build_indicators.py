@@ -44,9 +44,9 @@ def text(pg,rect,value,size=7,bold=False,align=0,color=(0,0,0)):
 def cell(pg,rect,value='',size=7,bold=False,fill=None,align=0):
  pg.draw_rect(rect,color=LINE,fill=fill,width=.45)
  if value:text(pg,rect,value,size,bold,align)
-def widget(pg,name,rect,value='',ro=False,multi=False,button=False,label='',script=''):
+def widget(pg,name,rect,value='',ro=False,multi=False,button=False,label='',script='',font=None):
  w=fitz.Widget();w.field_name=name;w.rect=fitz.Rect(rect);w.field_type=fitz.PDF_WIDGET_TYPE_BUTTON if button else fitz.PDF_WIDGET_TYPE_TEXT
- w.field_value=value;w.field_label=label;w.text_font='Helv';w.text_fontsize=6.6 if not multi else 7
+ w.field_value=value;w.field_label=label;w.text_font='Helv';w.text_fontsize=font if font is not None else (6.6 if not multi else 7)
  w.text_color=(0,0,0);w.fill_color=(1,1,1);w.border_width=0
  if button:w.field_flags=fitz.PDF_BTN_FIELD_IS_PUSHBUTTON;w.button_caption=label or value;w.script=script
  else:w.field_flags=(fitz.PDF_FIELD_IS_READ_ONLY if ro else 0)|(fitz.PDF_TX_FIELD_IS_MULTILINE if multi else 0)
@@ -132,13 +132,16 @@ for page in range(13):
    cell(pg,(174,y,510,y+rowheight));mid=342;pg.draw_line((mid,y),(mid,y+rowheight),color=LINE,width=.4)
    widget(pg,f'obs_p{pnum}_{code}',(175,y+1,341,y+rowheight-1),multi=True)
    widget(pg,f'obs_p{pnum}_{code}_col2',(343,y+1,509,y+rowheight-1),multi=True)
-   key=next(k for k,c in entries.items() if c['code']==str(code))
-   button_top=y+(rowheight-16)/2
-   widget(pg,f'b_{key}_F',(512,button_top,532,button_top+16),label='F',button=True,script=f'abrirFrases.call(this,{json.dumps(key)});')
+   key=next(k for k,c in entries.items() if c['code']==str(code));c=entries[key]
+   choices=['S','N']+(['A'] if c['allowNA'] else [])+(['F'] if len(c['frases'])>1 else [])
+   button_top=y+rowheight/2-13;cw=71/len(choices)
+   for j,ch in enumerate(choices):
+    rect=(510+j*cw+.7,button_top,510+(j+1)*cw-.7,button_top+12)
+    widget(pg,f'b_{key}_{ch}',rect,label={'S':'Sim','N':'Não','A':'NA','F':'F'}[ch],button=True,script=f'abrirFrases.call(this,{json.dumps(key)});' if ch=='F' else f'marcarItem.call(this,{json.dumps(key)},{json.dumps(ch)});',font=5.4 if len(choices)==4 else 6.6)
   cell(pg,(510,y,581,y+rowheight))
-  result_top=y+(rowheight-14)/2 if page>=11 else y+1
+  result_top=y+rowheight/2+2 if page>=11 else y+1
   result_bottom=result_top+14 if page>=11 else y+rowheight-1
-  widget(pg,f'res_p{pnum}_{code}',(533 if page>=11 else 511,result_top,580,result_bottom),ro=True)
+  widget(pg,f'res_p{pnum}_{code}',(511,result_top,580,result_bottom),ro=True)
   y+=rowheight
  for mode,label in [('pct','% ATENDIDO'),('risk','RISCO')]:
   cell(pg,(14,y,174,y+14),label,7,True,BLUE,1)
@@ -226,14 +229,14 @@ for i,pg in enumerate(pdf):
   typ={fitz.PDF_WIDGET_TYPE_TEXT:'/Tx',fitz.PDF_WIDGET_TYPE_BUTTON:'/Btn',fitz.PDF_WIDGET_TYPE_CHECKBOX:'/Btn',fitz.PDF_WIDGET_TYPE_COMBOBOX:'/Ch'}.get(w.field_type,'/Tx')
   r=w.rect
   fields.append({'n':w.field_name,'type':typ,'x':r.x0,'y':r.y0,'w':r.width,'h':r.height,'ro':bool(w.field_flags&1),'multi':bool(w.field_flags&4096),'push':bool(w.field_flags&65536),'v':w.field_value or '', 'options':w.choice_values or [],'label':w.button_caption or w.field_label or '', 'font':w.text_fontsize or 7})
- name=f'paginas/layout-v4-{i+1:02d}.webp'
+ name=f'paginas/layout-v5-{i+1:02d}.webp'
  pix=pg.get_pixmap(matrix=fitz.Matrix(1.6,1.6),annots=False)
  from PIL import Image
  Image.frombytes('RGB',[pix.width,pix.height],pix.samples).save(ROOT/name,'WEBP',quality=92)
  paper.append({'width':pg.rect.width,'height':pg.rect.height,'fields':fields,'image':name})
 (ROOT/'paper-data.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
-(ROOT/'paper-data-layout-v4.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
-shutil.copyfile(out,ROOT/'Guia_APPCC_BPF_Layout_v4.pdf')
+(ROOT/'paper-data-layout-v5.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
+shutil.copyfile(out,ROOT/'Guia_APPCC_BPF_Layout_v5.pdf')
 # Integrity: canonical fields and widget tree must both include every phrase.
 check=PdfReader(out);fields=check.get_fields();expected={f'{prefix}_{k}_{j}' for k,c in CFG['itens'].items() for j,f in enumerate(c['frases']) for prefix in ('ans','cat','note')}
 assert expected<=fields.keys(),expected-fields.keys()
