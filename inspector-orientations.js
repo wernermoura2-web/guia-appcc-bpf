@@ -8,7 +8,7 @@
  const byId=new Map();
  for(const [key,c]of Object.entries(CFG.itens))c.frases.forEach((f,i)=>{
   const id=idFor(c,i);let row=byId.get(id);
-  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),title:c.title||'',requirement:f.texto,base:f.orientacao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
+  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),processId:c.processId||'',title:c.title||'',requirement:f.texto,base:f.orientacao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
   if(!row.phraseLabels.includes('F'+(i+1)))row.phraseLabels.push('F'+(i+1));
   if(f.ref&&!row.references.includes(f.ref))row.references.push(f.ref);
   if(f.sourceTexto&&!row.sourceTexts.includes(f.sourceTexto))row.sourceTexts.push(f.sourceTexto);

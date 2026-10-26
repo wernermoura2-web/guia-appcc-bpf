@@ -21,7 +21,7 @@ def appearance(writer,obj,label,push=False,font_size=None):
  else:obj[NameObject('/AP')]=DictionaryObject({NameObject('/N'):DictionaryObject({NameObject('/Off'):stream(),NameObject('/Yes'):stream(True)})})
 
 def patch(path):
- cfg=json.loads((ROOT/'config.js').read_text().strip()[10:-1]);reader=PdfReader(path);writer=PdfWriter();writer.clone_document_from_reader(reader)
+ cfg=json.loads((ROOT/'config.js').read_text().strip()[10:-1]);from process_metadata import apply;apply(cfg,ROOT);reader=PdfReader(path);writer=PdfWriter();writer.clone_document_from_reader(reader)
  scripts=writer.root_object['/Names']['/JavaScript']['/Names'];found=False
  for index in range(1,len(scripts),2):
   obj=scripts[index].get_object();raw=obj['/JS'];s=raw.get_object().get_data().decode() if hasattr(raw.get_object(),'get_data') else str(raw);start=s.find('var CFG=')
@@ -29,15 +29,18 @@ def patch(path):
   old,end=json.JSONDecoder().raw_decode(s[start+8:]);fallback=old['itens']['q_p3c1_4.3.2'];template,prefix=fallback['template'],fallback['editorPrefix']
   for key,c in old['itens'].items():
    target=cfg['itens'][key];assert len(c['frases'])==len(target['frases'])
-   for j,f in enumerate(c['frases']):f['orientacao']=target['frases'][j]['orientacao']
+   for j,f in enumerate(c['frases']):
+    f['orientacao']=target['frases'][j]['orientacao'];f['ref']=target['frases'][j]['ref']
+   c['processId']=target['processId'];c['title']=target['title']
    c['inspectorGuidanceEnabled']=True
    if not c.get('template'):c['template']=template;c['editorPrefix']=prefix
   old['inspectorGuidanceVersion']=cfg['inspectorGuidanceVersion']
   s=s[:start]+'var CFG='+json.dumps(old,ensure_ascii=True,separators=(',',':'))+s[start+8+end:]
   oldtext="vals['ed_text_'+i]=quebrarLinhas('F'+(i+1)+' - '+c.frases[i].texto,528,10).join('\\r');"
-  newtext="var tf=editorF.call(this,'ed_text_'+i);if(tf)tf.textSize=7.5;vals['ed_text_'+i]=quebrarLinhas('F'+(i+1)+' - '+c.frases[i].texto+'\\nOrientação ao inspetor: '+c.frases[i].orientacao,528,7.5).join('\\r');"
+  newtext="var tf=editorF.call(this,'ed_text_'+i);if(tf)tf.textSize=7.5;vals['ed_text_'+i]=quebrarLinhas('F'+(i+1)+' - '+c.frases[i].texto+'\\nReferência normativa: '+c.frases[i].ref+'\\nOrientação ao inspetor: '+c.frases[i].orientacao,528,7.5).join('\\r');"
   assert oldtext in s;s=s.replace(oldtext,newtext)
   s=s.replace("if(!c||c.frases.length<2)return;","if(!c)return;")
+  s=s.replace("f.value='Item '+c.code", "f.value=c.processId+' · Item '+c.code")
   marker="f=editorF.call(this,'ed_context');"
   visibility="for(var slot=0;slot<7;slot++){var ns=['ed_panel_'+slot,'ed_text_'+slot,'ed_cat_'+slot,'ed_nc_'+slot,'ed_p_'+slot,'ed_score_'+slot,'ed_obs_'+slot,'ed_label_'+slot+'_APPCC','ed_label_'+slot+'_NC','ed_label_'+slot+'_P','ed_label_'+slot+'_NCxP','ed_b_'+slot+'_S','ed_b_'+slot+'_N','ed_b_'+slot+'_A'];for(var ni=0;ni<ns.length;ni++){var ff=editorF.call(this,ns[ni]);if(ff)ff.display=slot<rs.length&&(!(ns[ni].slice(-2)==='_A')||c.allowNA)?0:1;}}"
   assert marker in s;s=s.replace(marker,visibility+marker,1)

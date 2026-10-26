@@ -19,7 +19,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: python -m pip install 'pypdf>=6,<7'
+      - run: python -m pip install 'pypdf>=6,<7' 'PyMuPDF==1.26.6' 'Pillow>=11,<13'
       - name: Atualizar dependências e considerações finais do PDF
         run: |
           cp tools/Guia_APPCC_BPF_Base.pdf Guia_APPCC_BPF.pdf
@@ -28,12 +28,14 @@ jobs:
           python tools/pcc_final_pdf.py Guia_APPCC_BPF.pdf
           python tools/inspector_guidance.py Guia_APPCC_BPF.pdf
           python tools/vertical_answers.py Guia_APPCC_BPF.pdf
+          python tools/process_overviews.py Guia_APPCC_BPF.pdf
           node --check app.js
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js
           node tools/test_orientation_review.cjs
           node tools/test_guidance_annex.cjs
+          node tools/test_process_display.cjs
       - name: Preparar somente o guia APPCC anterior
         run: |
           python - <<'PY'

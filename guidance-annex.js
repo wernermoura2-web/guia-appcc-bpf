@@ -16,7 +16,7 @@
   }return table;
  }
  function articleFor(row,instances){
-  const item=make('article');item.className='annex-row';item.append(make('h3',row.process+' · '+(api.guide==='original'?'Item ':'Indicador ')+row.code+' · '+row.phraseLabels.join(' / ')),make('p',row.requirement));
+  const item=make('article');item.className='annex-row';item.append(make('h3',row.process+' · '+(row.processId?row.processId+' · ':'')+(api.guide==='original'?'Item ':'Indicador ')+row.code+' · '+row.phraseLabels.join(' / ')),make('p',row.requirement));
   if(row.references.length){const ref=make('p','Referência normativa: '+row.references.join(' · '));ref.className='annex-reference';item.appendChild(ref);}
   item.appendChild(tableFor(row,instances));return item;
  }
