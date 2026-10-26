@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -25,6 +26,9 @@ jobs:
           python tools/reception_ppro.py Guia_APPCC_BPF.pdf
           python tools/legal_documents.py Guia_APPCC_BPF.pdf
           python tools/pcc_final_pdf.py Guia_APPCC_BPF.pdf
+          python tools/inspector_guidance.py Guia_APPCC_BPF.pdf
+          node --check app.js
+          node tools/test_inspector_guidance.cjs
       - name: Preparar somente o guia APPCC anterior
         run: |
           python - <<'PY'
@@ -42,5 +46,25 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+      - name: Aguardar publicação automática da mesma revisão
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -u - <<'PYWAIT'
+          import json, os, time, urllib.request
+          url = os.environ['GITHUB_API_URL'] + '/repos/' + os.environ['GITHUB_REPOSITORY'] + '/actions/runs?head_sha=' + os.environ['GITHUB_SHA'] + '&per_page=100'
+          for attempt in range(19):
+              request = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  runs = json.load(response)['workflow_runs']
+              pending = [run for run in runs if run['id'] != int(os.environ['GITHUB_RUN_ID']) and run['name'] == 'pages build and deployment' and run['status'] != 'completed']
+              if not pending:
+                  print('Publicação automática concluída; publicar agora o PDF e as páginas gerados.')
+                  break
+              if attempt == 18:
+                  raise SystemExit('Publicação automática ainda em execução; não disputar a implantação.')
+              print('Aguardando publicação automática para evitar sobrescrita do PDF gerado.')
+              time.sleep(10)
+          PYWAIT
       - uses: actions/deploy-pages@v4
         id: deployment
