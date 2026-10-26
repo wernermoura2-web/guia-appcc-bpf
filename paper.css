@@ -12,7 +12,7 @@
 #guidance-annex{display:none}.guidance-print-option{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:14px}.guidance-print-option input{width:20px;height:20px;min-height:20px;margin:0;flex:none}
 #guidance-annex.annex-measuring{display:block!important;position:absolute!important;left:-20000px!important;top:0!important;visibility:hidden!important}
 #guidance-annex{color:black;font:9pt/1.18 Arial;box-sizing:border-box}
-#guidance-annex .annex-page{position:relative;box-sizing:border-box;width:182mm;height:268mm;margin:0;padding:0;overflow:hidden}
+#guidance-annex .annex-page{position:relative;box-sizing:border-box;width:210mm;height:297mm;margin:0;padding:0;overflow:hidden}
 #guidance-annex .annex-page-content{position:absolute;left:0;top:0;transform-origin:top left;box-sizing:border-box;display:flow-root;break-inside:avoid}
 #guidance-annex h1{font:700 13pt/1.15 Arial;margin:0 0 2mm;display:block}
 #guidance-annex h3{font:700 9pt/1.18 Arial;margin:0 0 1mm;color:#075a9c}
@@ -23,8 +23,12 @@
 #guidance-annex .annex-metrics{border-collapse:collapse;table-layout:fixed;width:100%;margin:1mm 0 0;font:8pt/1.18 Arial}
 #guidance-annex .annex-metrics th,#guidance-annex .annex-metrics td{padding:.7mm .6mm;border:.5pt solid #a9bac8;min-width:0;text-align:center;vertical-align:top;white-space:normal;overflow-wrap:anywhere;font:8pt/1.18 Arial;color:black;background:white}
 #guidance-annex .annex-metrics th{font-weight:bold;background:#edf3f7}
-#guidance-annex .annex-metrics th:nth-child(1){width:15%}#guidance-annex .annex-metrics th:nth-child(2){width:7%}#guidance-annex .annex-metrics th:nth-child(3){width:7%}#guidance-annex .annex-metrics th:nth-child(4),#guidance-annex .annex-metrics th:nth-child(5){width:3%}#guidance-annex .annex-metrics th:nth-child(6){width:6%}#guidance-annex .annex-metrics th:nth-child(7){width:6%}#guidance-annex .annex-metrics th:nth-child(8){width:53%}
+#guidance-annex .annex-metrics th:nth-child(1){width:18%}#guidance-annex .annex-metrics th:nth-child(2){width:9%}#guidance-annex .annex-metrics th:nth-child(3){width:8%}#guidance-annex .annex-metrics th:nth-child(4),#guidance-annex .annex-metrics th:nth-child(5){width:3%}#guidance-annex .annex-metrics th:nth-child(6){width:7%}#guidance-annex .annex-metrics th:nth-child(7){width:9%}#guidance-annex .annex-metrics th:nth-child(8){width:43%}
+#guidance-annex .annex-metrics th{overflow-wrap:normal;word-break:normal;white-space:nowrap;vertical-align:middle}#guidance-annex .annex-metrics th:nth-child(7),#guidance-annex .annex-metrics th:last-child{white-space:normal}#guidance-annex .annex-metrics th:nth-child(7) span{display:block;white-space:nowrap}#guidance-annex .annex-metrics td:not(:first-child):not(:last-child){white-space:nowrap;overflow-wrap:normal;word-break:normal;vertical-align:middle}#guidance-annex .annex-metrics td:first-child{white-space:pre-line;overflow-wrap:normal;word-break:normal}#guidance-annex .annex-metrics td:first-child .annex-unit{overflow-wrap:anywhere}
 #guidance-annex .annex-metrics td:first-child,#guidance-annex .annex-metrics td:last-child{text-align:left}#guidance-annex .annex-observation div{white-space:pre-wrap;overflow-wrap:anywhere}#guidance-annex .annex-write-line{height:1.5mm;border-bottom:.4pt solid #b1c0cb}
-#guidance-annex .annex-footer{position:absolute;bottom:0;right:0;font:8pt Arial;color:#526a7b}
-@page guidanceAnnex{size:A4 portrait;margin:14mm;@bottom-right{content:none}}
-@media print{body.with-guidance-annex #guidance-annex{display:block!important;page:guidanceAnnex;break-before:page;width:182mm!important;max-width:182mm!important;margin:0!important;padding:0!important}#guidance-annex .annex-page{break-inside:avoid;break-after:page}#guidance-annex .annex-page:last-child{break-after:auto}}
+#guidance-annex .annex-footer{position:absolute;bottom:8mm;right:14mm;font:8pt Arial;color:#526a7b}
+@page guidanceAnnex{size:A4 portrait;margin:0;@bottom-right{content:none}}
+@media print{body.with-guidance-annex #guidance-annex{display:block!important;page:guidanceAnnex;break-before:page;width:210mm!important;max-width:210mm!important;margin:0!important;padding:0!important}#guidance-annex .annex-page{break-inside:avoid;break-after:page}#guidance-annex .annex-page:last-child{break-after:auto}}
+
+@page guideSheet{size:A4 portrait;margin:0}
+@media print{.paper-sheet,.paper-sheet[hidden]{page:guideSheet}}
