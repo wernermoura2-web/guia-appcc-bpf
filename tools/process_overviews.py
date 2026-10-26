@@ -56,6 +56,7 @@ def patch(path):
  for page in range(13):
   pg=doc[page];pix=pg.get_pixmap(matrix=fitz.Matrix(1.6,1.6),annots=False);dest=ROOT/paper[page]['image'];image=Image.frombytes('RGB',[pix.width,pix.height],pix.samples)
   image.save(dest,**({'quality':92}if dest.suffix=='.webp'else{}))
+  if page==12:image.save(dest.with_suffix('.webp'),quality=92) # Compatibility with older installed renderers.
  (ROOT/'paper-data.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
  print('PASS 22 pages, native scripts and canonical fields retained; 13 backgrounds updated')
 if __name__=='__main__':patch(Path(sys.argv[1]))

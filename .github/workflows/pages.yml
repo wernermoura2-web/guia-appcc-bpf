@@ -36,6 +36,7 @@ jobs:
           node tools/test_orientation_review.cjs
           node tools/test_guidance_annex.cjs
           node tools/test_process_display.cjs
+          node tools/test_paper_images.cjs
       - name: Preparar somente o guia APPCC anterior
         run: |
           python - <<'PY'
