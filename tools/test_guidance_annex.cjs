@@ -10,3 +10,10 @@ assert(blocks[0].textContent.includes('☒ Sim'));assert(blocks[1].textContent.i
 assert(blocks[0].textContent.includes('Nota A'));assert(!blocks[1].textContent.includes('Nota A'));assert(body.textContent.includes('Observação geral manual'));assert(body.textContent.includes('Orientação revisada'));
 const cells=blocks.map(b=>all(b).filter(e=>e.tag==='td').map(e=>e.textContent));assert.deepEqual(cells.map(c=>c.slice(1)),[['PCC','5','3','15','15'],['PPRO','4','2','8','0'],['PPR','2','1','2','0']]);assert.equal(nodes.filter(e=>e.className==='annex-write-line').length,6);assert.equal(JSON.stringify(S),unchanged);
 S.a.a.obs='Alteração antes de imprimir';events.beforeprint();assert(body.textContent.includes('Alteração antes de imprimir'));console.log('PASS anexo: respostas por unidade, APPCC/NC/P/pesos reais, observações, área manual e atualização antes de imprimir sem alterar dados');
+
+// Defaults, empty observations and whitespace must not create annex rows or headings.
+S.a={a:{a:'',cat:'PCC',P:3,obs:'   '},b:{cat:'PPRO',P:2,obs:'Somente observação'},c:{a:'A',cat:'PPR',P:1,obs:''}};S.notes={};
+events.beforeprint();let filtered=all(body).filter(e=>e.className==='annex-evaluation');assert.equal(filtered.length,2);assert(filtered[0].textContent.includes('Somente observação'));assert(filtered[1].textContent.includes('☒ NA'));assert(!filtered.some(e=>e.dataset.key==='a'));
+S.a.b.obs='';delete S.a.c.a;events.beforeprint();assert.equal(all(body).filter(e=>e.className==='annex-evaluation').length,0);assert.equal(body.children[0].children.length,0,'No empty appendix title or pages');
+S.notes[0]='Nota geral sem respostas';events.beforeprint();assert(body.textContent.includes('Nota geral sem respostas'));assert.equal(all(body).filter(e=>e.className==='annex-evaluation').length,0);
+console.log('PASS filtro: respostas Sim/Não/NA e observações, sem linhas vazias, sem anexo vazio; notas gerais preservadas');

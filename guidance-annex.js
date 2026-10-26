@@ -1,15 +1,18 @@
 (()=>{'use strict';
  const api=window.InspectorOrientations,button=document.getElementById('paper-print');if(!api||!button)return;
  const make=(tag,text)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;return el;};
- const label=make('label'),check=make('input');check.type='checkbox';check.id='paper-include-guidance';check.checked=new URLSearchParams(location.search).get('anexos')==='1';label.className='screen-only guidance-print-option';label.append(check,document.createTextNode('Incluir páginas dos F como anexo (respostas, APPCC e observações)'));button.closest('.tools').after(label);
+ const label=make('label'),check=make('input');check.type='checkbox';check.id='paper-include-guidance';check.checked=new URLSearchParams(location.search).get('anexos')==='1';label.className='screen-only guidance-print-option';label.append(check,document.createTextNode('Incluir páginas dos F como anexo (somente linhas preenchidas)'));button.closest('.tools').after(label);
  const report=make('section');report.id='guidance-annex';report.setAttribute('aria-label','Anexo dos F — orientações aos inspetores');document.body.appendChild(report);
  function prepare(){
   report.replaceChildren();document.body.classList.toggle('with-guidance-annex',check.checked);if(!check.checked)return;
+  const filledRows=api.catalog().map(row=>({...row,instances:row.instances.filter(instance=>{const r=rows(instance.key)[instance.index];return ['S','N','A'].includes(r.a)||String(r.obs||'').trim().length>0;})})).filter(row=>row.instances.length);
+  const notePages=[...new Set(Object.values(CFG.itens).map(c=>c.page))].filter(page=>String(S.notes?.[page]||'').trim());
+  if(!filledRows.length&&!notePages.length){document.body.classList.toggle('with-guidance-annex',false);return;}
   api.reload();report.append(make('h1','Anexo dos F — Orientações aos inspetores'),make('p',api.title+' · Textos vigentes neste aparelho · '+new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeZone:'America/Sao_Paulo'}).format(new Date())));
   if(S.meta?.empresa)report.appendChild(make('p','Estabelecimento: '+S.meta.empresa));
   if(S.meta?.data)report.appendChild(make('p','Data da inspeção: '+S.meta.data));
-  report.appendChild(make('p','Sim, Não e NA indicam a resposta registrada. NC = criticidade; P = probabilidade; NC × P = peso; pontos obtidos = peso das respostas Sim em unidades utilizadas. Os espaços em branco permitem complementação manual.'));
-  let proc=null,section;for(const row of api.catalog()){
+  report.appendChild(make('p','Somente linhas com resposta marcada ou observação escrita. Sim, Não e NA indicam a resposta registrada. NC = criticidade; P = probabilidade; NC × P = peso; pontos obtidos = peso das respostas Sim em unidades utilizadas. Os espaços em branco permitem complementação manual.'));
+  let proc=null,section;for(const row of filledRows){
    if(proc!==row.proc){section=make('section');section.className='annex-process';section.appendChild(make('h2',row.process));report.appendChild(section);proc=row.proc;}
    const item=make('article');item.className='annex-row';item.append(make('h3',(api.guide==='original'?'Item ':'Indicador ')+row.code+' · '+row.phraseLabels.join(' / ')),make('p',row.requirement));
    const text=make('p'),strong=make('strong','Orientação ao inspetor: ');text.append(strong,document.createTextNode(api.value(row.id)||'Orientação não preenchida.'));item.appendChild(text);
@@ -29,7 +32,6 @@
    }
    section.appendChild(item);
   }
-  const notePages=[...new Set(Object.values(CFG.itens).map(c=>c.page))];
   for(const page of notePages){if(!S.notes?.[page])continue;const note=make('section');note.className='annex-general-note';note.append(make('h2','Observações gerais — '+(PAGES[page]||'Página '+(page+1))),make('p',S.notes[page]));report.appendChild(note);}
  }
  check.addEventListener('change',prepare);window.addEventListener('beforeprint',prepare);prepare();
