@@ -8,3 +8,7 @@
 /* Keep both observation column frames visible, including empty columns. */
 .paper-field.observation-column{background:white;border:.5pt solid #7f8c95}
 @media print{.paper-field.observation-column{border:.5pt solid #7f8c95!important;background:white!important}}
+
+#guidance-annex{display:none}.guidance-print-option{display:flex;align-items:center;gap:8px;margin:12px 0;font-size:14px}.guidance-print-option input{width:20px;height:20px;min-height:20px;margin:0;flex:none}
+@page guidanceAnnex{size:A4 portrait;margin:14mm;@bottom-right{content:"Anexo F · Página " counter(page);font:8pt Arial;color:#526a7b}}
+@media print{body.with-guidance-annex #guidance-annex{display:block!important;page:guidanceAnnex;break-before:page;width:182mm!important;max-width:182mm!important;margin:0!important;padding:0!important;color:black;font:10.5pt/1.35 Arial}#guidance-annex h1{display:block!important;font-size:17pt;margin:0 0 4mm}#guidance-annex h2{font-size:14pt;border-bottom:1pt solid #075a9c;padding-bottom:2mm;break-after:avoid}#guidance-annex h3{font-size:11pt;margin:0 0 2mm}#guidance-annex p{white-space:pre-wrap;overflow-wrap:anywhere;margin:1.5mm 0}#guidance-annex .annex-process{break-before:page}#guidance-annex .annex-process:first-of-type{break-before:auto}#guidance-annex .annex-row{break-inside:avoid;padding:3mm 0;border-bottom:.5pt solid #bdcbd4}#guidance-annex .annex-reference{font-size:8.5pt;color:#444}}
