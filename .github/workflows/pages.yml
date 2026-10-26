@@ -33,6 +33,7 @@ jobs:
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js
           node tools/test_orientation_review.cjs
+          node tools/test_guidance_annex.cjs
       - name: Preparar somente o guia APPCC anterior
         run: |
           python - <<'PY'
