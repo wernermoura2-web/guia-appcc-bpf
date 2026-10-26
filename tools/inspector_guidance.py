@@ -5,17 +5,17 @@ from pypdf import PdfReader,PdfWriter
 from pypdf.generic import NameObject,TextStringObject,DictionaryObject,ArrayObject,NumberObject,FloatObject,DecodedStreamObject
 ROOT=Path(__file__).resolve().parents[1]
 
-def appearance(writer,obj,label,push=False):
- rect=obj['/Rect'];w=float(rect[2])-float(rect[0]);h=float(rect[3])-float(rect[1]);font=4.6
+def appearance(writer,obj,label,push=False,font_size=None):
+ rect=obj['/Rect'];w=float(rect[2])-float(rect[0]);h=float(rect[3])-float(rect[1]);font=font_size if font_size is not None else 4.6
  fontobj=DictionaryObject({NameObject('/Type'):NameObject('/Font'),NameObject('/Subtype'):NameObject('/Type1'),NameObject('/BaseFont'):NameObject('/Helvetica'),NameObject('/Encoding'):NameObject('/WinAnsiEncoding')});fontref=writer._add_object(fontobj)
  def stream(selected=False):
-  size=3.8;y=(h-size)/2
+  size=min(6,h*.47)if font_size is not None else 3.8;y=(h-size)/2
   commands=f'q 1 1 1 rg 0 0 {w} {h} re f 0 0 0 RG .3 w .2 .2 {w-.4} {h-.4} re S '
   if not push:
    commands+=f'1 {y} {size} {size} re S '
    if selected:commands+=f'1 {y} m {size+1} {y+size} l S 1 {y+size} m {size+1} {y} l S '
   x=(w-font*.6)/2 if push else size+2
-  commands+=f'BT /Helv {font if not push else 6} Tf 0 0 0 rg 1 0 0 1 {x} {(h-font)/2+1} Tm ({label}) Tj ET Q'
+  commands+=f'BT /Helv {font if not push or font_size is not None else 6} Tf 0 0 0 rg 1 0 0 1 {x} {(h-font)/2+1} Tm ({label}) Tj ET Q'
   s=DecodedStreamObject();s.set_data(commands.encode('cp1252'));s.update({NameObject('/Type'):NameObject('/XObject'),NameObject('/Subtype'):NameObject('/Form'),NameObject('/BBox'):ArrayObject([FloatObject(v)for v in [0,0,w,h]]),NameObject('/Resources'):DictionaryObject({NameObject('/Font'):DictionaryObject({NameObject('/Helv'):fontref})})});return writer._add_object(s)
  if push:obj[NameObject('/AP')]=DictionaryObject({NameObject('/N'):stream()})
  else:obj[NameObject('/AP')]=DictionaryObject({NameObject('/N'):DictionaryObject({NameObject('/Off'):stream(),NameObject('/Yes'):stream(True)})})
