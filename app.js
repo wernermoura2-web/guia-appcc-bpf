@@ -65,6 +65,12 @@ function migratePOPConductionState(state){
  state.popConductionVersion='pop-429-ordem-20261024';return state;
 }
 function migrateCurrentState(state){
+ state=migrateBeforeReceptionPPRO(state);
+ if(state.receptionPPROVersion==='recepcao-ppro-20261026')return state;
+ for(const [k,c] of Object.entries(CFG.itens))if(c.code==='4.5.3')c.frases.forEach((f,i)=>{if(f.texto.includes('reprovados')&&state.a?.[k]?.[i])state.a[k][i].cat='PPRO';});
+ state.receptionPPROVersion='recepcao-ppro-20261026';return state;
+}
+function migrateBeforeReceptionPPRO(state){
  state=migrateBeforeHygienePCC(state);
  if(state.hygienePCCVersion==='pcc-limpeza-465-f1-20261025')return state;
  state.a=state.a||{};

@@ -22,6 +22,7 @@ jobs:
       - name: Atualizar dependências e considerações finais do PDF
         run: |
           cp tools/Guia_APPCC_BPF_Base.pdf Guia_APPCC_BPF.pdf
+          python tools/reception_ppro.py Guia_APPCC_BPF.pdf
           python tools/legal_documents.py Guia_APPCC_BPF.pdf
           python tools/pcc_final_pdf.py Guia_APPCC_BPF.pdf
       - name: Preparar somente o guia APPCC anterior
