@@ -1,0 +1,18 @@
+const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert');
+const root=path.join(__dirname,'..'),source=fs.readFileSync(path.join(root,'inspector-orientations.js'),'utf8'),config=fs.readFileSync(path.join(root,'config.js'),'utf8');
+const values=new Map(),storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,String(v)),removeItem:k=>values.delete(k)};
+const make=()=>{const ctx=vm.createContext({window:{APPCC_PAPER:true,addEventListener(){}},localStorage:storage,console});vm.runInContext(config+'\n'+source,ctx);return ctx;};
+let ctx=make(),api=ctx.window.InspectorOrientations,rows=api.catalog(),row=rows[0];
+assert(rows.length>0);assert.equal(new Set(rows.map(r=>r.proc)).size,8);
+const inspectionKey=api.guide==='original'?'guia-appcc-bpf-v1':'guia-appcc-revisao-legislativa-v1';storage.setItem(inspectionKey,JSON.stringify({meta:{empresa:'Teste'},a:{},notes:{0:'Não alterar inspeção'}}));const inspection=storage.getItem(inspectionKey);
+api.set(row.id,'Orientação revisada pelo inspetor.');assert(api.changed(row.id));assert.equal(api.value(row.id),'Orientação revisada pelo inspetor.');
+ctx=make();api=ctx.window.InspectorOrientations;assert.equal(api.value(row.id),'Orientação revisada pelo inspetor.');
+api.restore(row.id);assert.equal(api.value(row.id),row.base);assert(api.hasRecovery());api.undoRecovery();assert.equal(api.value(row.id),'Orientação revisada pelo inspetor.');
+const snapshot=api.snapshot();api.restoreAll();assert.equal(api.count(),0);api.importData(snapshot);assert.equal(api.value(row.id),'Orientação revisada pelo inspetor.');
+const other={...snapshot,guide:api.guide==='original'?'revision':'original'};assert.throws(()=>api.importData(other));assert.equal(api.value(row.id),'Orientação revisada pelo inspetor.');
+assert.equal(storage.getItem(inspectionKey),inspection);
+const foreignKey='guia-appcc-'+(api.guide==='original'?'revision':'original')+'-orientacoes-v1';storage.setItem(foreignKey,'outra revisão');api.restoreAll();assert.equal(storage.getItem(foreignKey),'outra revisão');api.importData(snapshot);
+vm.runInContext(fs.readFileSync(path.join(root,'app.js'),'utf8'),ctx);
+ctx.selected=row.instances[0];vm.runInContext("if(rows(selected.key)[selected.index].orientacao!=='Orientação revisada pelo inspetor.')throw Error('F não usa revisão');",ctx);
+const before=vm.runInContext('JSON.stringify(score(selected.key))',ctx);api.set(row.id,'Outra orientação.');assert.equal(vm.runInContext('JSON.stringify(score(selected.key))',ctx),before);
+console.log('PASS: edição persistente, recuperação, desfazer, cópia, isolamento dos guias, respostas preservadas e orientação revisada no F sem alterar cálculo.');

@@ -30,6 +30,9 @@ jobs:
           python tools/vertical_answers.py Guia_APPCC_BPF.pdf
           node --check app.js
           node tools/test_inspector_guidance.cjs
+          node --check inspector-orientations.js
+          node --check orientacoes-inspetores.js
+          node tools/test_orientation_review.cjs
       - name: Preparar somente o guia APPCC anterior
         run: |
           python - <<'PY'

@@ -138,7 +138,7 @@ S=migrateCurrentState(S);
 try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));document.getElementById('saved').textContent='Salvo neste aparelho.';}catch(e){document.getElementById('saved').textContent='Não foi possível salvar neste aparelho. Use Salvar JSON.';}}
-function rows(k){const c=CFG.itens[k];return c.frases.map((f,i)=>({...f,...(S.a[k]?.[i]||{}),texto:f.texto,orientacao:f.orientacao,codigo:'F'+(i+1)}));}
+function rows(k){const c=CFG.itens[k];return c.frases.map((f,i)=>({...f,...(S.a[k]?.[i]||{}),texto:f.texto,orientacao:(window.InspectorOrientations?window.InspectorOrientations.get(c,i):f.orientacao),codigo:'F'+(i+1)}));}
 function score(k){
  const c=CFG.itens[k],rr=rows(k);if(S.units['p'+c.page+'c'+c.col]===false)return {active:false,earned:0,maximum:0,w:0};
  const applicable=rr.filter(r=>r.a!=='A'),earned=applicable.filter(r=>r.a==='S').reduce((sum,r)=>sum+CFG.pesos[r.cat]*r.P,0),maximum=applicable.reduce((sum,r)=>sum+CFG.pesos[r.cat]*r.P,0);
@@ -171,3 +171,5 @@ function singleCell(k){let r=rows(k)[0];return '<strong>'+r.codigo+' - '+esc(r.t
 
 
 
+
+window.addEventListener?.('inspector-orientations-change',()=>{if(editing)renderPhrases();});
