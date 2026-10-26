@@ -32,3 +32,7 @@
 
 @page guideSheet{size:A4 portrait;margin:0}
 @media print{.paper-sheet,.paper-sheet[hidden]{page:guideSheet}}
+
+/* Keep the responsible-person frames visible even when the fields are blank. */
+.paper-field.responsible-frame{background:white;border:.5pt solid #7f8c95}
+@media print{.paper-field.responsible-frame{border:.5pt solid #7f8c95!important;background:white!important}}
