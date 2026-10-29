@@ -1,5 +1,5 @@
 'use strict';
-function paperImageSource(page,index){return (index>=13?page.image.replace('.png','.webp'):page.image)+'?v=logo-ses-20261029-v4';}
+function paperImageSource(page,index){return (index>=13?page.image.replace('.png','.webp'):page.image)+'?v=pop-20261029-v5';}
 let paperPage=0,paperNotePage=null,paperPhotoField=null;const fieldNodes=[],fieldDefaults={};
 S.fields=S.fields||{};S.images=S.images||{};
 const CAP_FIELDS={campo_p1_3:1,campo_p1_9:2,campo_p1_4:3,campo_p1_10:4},BRAND_FIELDS={campo_p1_5:1,campo_p1_11:2,campo_p1_6:3,campo_p1_12:4},FLOW_FIELDS={campo_p1_13:1,campo_p1_15:2,campo_p1_14:3,campo_p1_16:4};

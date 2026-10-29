@@ -21,7 +21,9 @@ jobs:
       - uses: actions/checkout@v4
       - run: python -m pip install 'pypdf>=6,<7' 'PyMuPDF==1.26.6' 'Pillow>=11,<13' 'reportlab>=4,<5'
       - name: Aplicar layout revisado às observações e rodapés
-        run: python tools/page8_notes_and_footers.py
+        run: |
+          python tools/page8_notes_and_footers.py
+          python tools/pop_labels.py
       # Os arquivos PDF, imagens e posições dos campos são revisados e versionados juntos.
       # Não recriar as páginas usando o modelo legado durante a publicação.
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
