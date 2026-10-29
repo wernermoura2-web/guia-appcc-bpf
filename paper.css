@@ -36,3 +36,6 @@
 /* Keep the responsible-person frames visible even when the fields are blank. */
 .paper-field.responsible-frame{background:white;border:.5pt solid #7f8c95}
 @media print{.paper-field.responsible-frame{border:.5pt solid #7f8c95!important;background:white!important}}
+
+/* Second line is a read-only APPCC simulation, without changing official risk colors. */
+.paper-field.simulation-result textarea,.paper-field.simulation-result .print-value{font-size:5.2pt!important;line-height:1.02!important;text-align:center;white-space:pre;overflow:hidden;padding:0!important}
