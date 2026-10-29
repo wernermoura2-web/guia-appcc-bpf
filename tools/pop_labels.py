@@ -14,7 +14,10 @@ for obj in writer._objects:
   obj[NameObject('/Opt')]=ArrayObject([TextStringObject('POP')if str(value)=='PPO'else value for value in obj['/Opt']])
  if '/JS'in obj:
   value=obj['/JS'].get_object();text=value.get_data().decode()if hasattr(value,'get_data')else str(value)
-  if 'PPO'in text:obj[NameObject('/JS')]=TextStringObject(text.replace('PPO','POP'))
+  if 'PPO'in text:
+   text=text.replace('PPO','POP').replace("/PPHO/g,'POP'","/PPHO|PPO/g,'POP'")
+   text=text.replace('CFG.pesos.POP=CFG.pesos.PPHO;', 'CFG.pesos.POP=CFG.pesos.PPHO;CFG.pesos.PPO=CFG.pesos.PPHO;')
+   obj[NameObject('/JS')]=TextStringObject(text)
 tmp=path.with_suffix('.pop.pdf');writer.write(tmp);tmp.replace(path)
 doc=fitz.open(path)
 # Change appearance text as well as the logical choice values, including hidden F templates.
