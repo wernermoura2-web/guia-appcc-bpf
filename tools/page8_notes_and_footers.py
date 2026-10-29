@@ -4,6 +4,8 @@ from PIL import Image
 from pypdf import PdfReader
 from reportlab.lib.utils import simpleSplit
 R=Path(__file__).resolve().parents[1];path=R/'Guia_APPCC_BPF.pdf';paper=json.loads((R/'paper-data.js').read_text().split('=',1)[1].strip().rstrip(';'));cfg=json.loads((R/'config.js').read_text().split('=',1)[1].strip().rstrip(';'));metadata=json.loads((R/'process-display-data.json').read_text());before=PdfReader(path);signature={k:(v.get('/FT'),v.get('/V'))for k,v in before.get_fields().items()};doc=fitz.open(path)
+logo_xref=next(image[0] for image in doc[0].get_images(full=True) if image[2:4]==(183,35))
+logo_bytes=doc.extract_image(logo_xref)['image']
 # Remove instructional footer text and the old printed button captions; keep page numbers and branding.
 for page in doc:
  for b in page.get_text('dict')['blocks']:
@@ -33,6 +35,9 @@ for i,model in enumerate(paper):
 for i,page in enumerate(doc):
  page.add_redact_annot((498,814,581,835),fill=(1,1,1));page.apply_redactions(images=0,graphics=0,text=0)
  assert page.insert_textbox((498,817,581,833),'Página '+str(i+1)+' de '+str(len(doc)),fontsize=7.5,fontname='helv',align=2)>=0
+ # Repaint the complete official SES logo last so no footer mask can cover it.
+ page.draw_rect((245,813,351,835),color=None,fill=(1,1,1))
+ page.insert_image((246,815,350.5,834.98),stream=logo_bytes,keep_proportion=True,overlay=True)
 tmp=path.with_suffix('.layout.pdf');doc.save(tmp,garbage=0,deflate=True);doc.close();tmp.replace(path);(R/'paper-data.js').write_text('const PAPER='+json.dumps(paper,ensure_ascii=False,separators=(',',':'))+';\n')
 check=PdfReader(path);assert signature=={k:(v.get('/FT'),v.get('/V'))for k,v in check.get_fields().items()};assert len(check.pages)==22
 for f in notes:assert f['h']==old_height*1.5
