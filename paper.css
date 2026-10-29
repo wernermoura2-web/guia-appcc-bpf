@@ -39,3 +39,5 @@
 
 /* Second line is a read-only APPCC simulation, without changing official risk colors. */
 .paper-field.simulation-result textarea,.paper-field.simulation-result .print-value{font-size:5.2pt!important;line-height:1.02!important;text-align:center;white-space:pre;overflow:hidden;padding:0!important}
+#extra-documents-print{display:none}@media print{#extra-documents-print:not(:empty){display:block!important;break-before:page;padding:12mm;box-sizing:border-box;width:210mm}#extra-documents-print table{width:100%;table-layout:fixed;font-size:9pt;border-collapse:collapse}#extra-documents-print th,#extra-documents-print td{border:.5pt solid #7f8c95;padding:4pt;white-space:pre-wrap;overflow-wrap:anywhere}#extra-documents-print tr{break-inside:avoid}#extra-documents-print thead{display:table-header-group}}
+#notes-continuation-remainder{display:none}@media print{#notes-continuation-remainder:not(:empty){display:block!important;break-before:page;padding:12mm;white-space:pre-wrap;column-count:2;column-gap:8mm;font-size:9pt}}
