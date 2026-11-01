@@ -147,7 +147,7 @@ const itemLabel=c=>c.processId||c.code;
 const esc=v=>String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));document.getElementById('saved').textContent='Salvo neste aparelho.';}catch(e){document.getElementById('saved').textContent='Não foi possível salvar neste aparelho. Use Salvar JSON.';}}
 function rows(k){const c=CFG.itens[k];return c.frases.map((f,i)=>{
- const r={...f,...(S.a[k]?.[i]||{}),texto:f.texto,P:f.P,fundamento:f.fundamento||f.consideracao,orientacao:(window.InspectorOrientations?window.InspectorOrientations.get(c,i):f.orientacao),codigo:'F'+(i+1)};
+ const r={...f,...(S.a[k]?.[i]||{}),texto:f.texto,P:f.P,fundamento:(window.InspectorOrientations?.basisGet?window.InspectorOrientations.basisGet(c,i):f.fundamento||f.consideracao),orientacao:(window.InspectorOrientations?window.InspectorOrientations.get(c,i):f.orientacao),codigo:'F'+(i+1)};
  if(window.APPCC_ORIGINAL_ITEMS){const custom=S.appccOverrides?.[k]?.[i]||{};r.cat=custom.cat||f.cat;r.P=custom.P??f.P;r.NC=custom.NC??CFG.pesos[r.cat];}
  else r.NC=CFG.pesos[r.cat];return r;
  });}
@@ -207,5 +207,6 @@ function appccNumbers(k,i,r){
  if(!window.APPCC_ORIGINAL_ITEMS)return '<span>NC '+r.NC+' × P '+r.P+' = '+(r.NC*r.P)+'</span>';
  return ['NC','P'].map(name=>'<label>'+name+'<input type="number" min="1" max="5" step="1" value="'+r[name]+'" '+(appccEditable()?'':'disabled')+' onchange="editField(\''+k+'\','+i+',\''+name+'\',this.value)"></label>').join('')+'<span>Pontos informativos: '+(r.NC*r.P)+'</span>';
 }
+
 
 
