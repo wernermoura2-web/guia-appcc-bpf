@@ -8,39 +8,41 @@
  const byId=new Map();
  for(const [key,c]of Object.entries(CFG.itens))c.frases.forEach((f,i)=>{
   const id=idFor(c,i);let row=byId.get(id);
-  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),processId:c.processId||'',title:c.title||'',requirement:f.texto,base:f.orientacao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
+  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),processId:c.processId||'',title:c.title||'',requirement:f.texto,base:f.orientacao||'',baseBasis:f.fundamento||f.consideracao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
   if(!row.phraseLabels.includes('F'+(i+1)))row.phraseLabels.push('F'+(i+1));
   if(f.ref&&!row.references.includes(f.ref))row.references.push(f.ref);
   if(f.sourceTexto&&!row.sourceTexts.includes(f.sourceTexto))row.sourceTexts.push(f.sourceTexto);
   row.instances.push({key,index:i});
  });
  const catalog=[...byId.values()].sort((a,b)=>a.page-b.page||a.code.localeCompare(b.code,'pt-BR',{numeric:true})||a.index-b.index);
- const empty=()=>({schema,guide,updatedAt:null,overrides:{}});
+ const empty=()=>({schema,guide,updatedAt:null,overrides:{},foundations:{}});
  function validate(data){
   if(!data||data.schema!==schema||data.guide!==guide||!data.overrides||typeof data.overrides!=='object'||Array.isArray(data.overrides))throw Error('Esta cópia não pertence às orientações deste guia.');
   const overrides=Object.create(null);
   for(const [id,value]of Object.entries(data.overrides)){if(typeof value!=='string')throw Error('Há uma orientação inválida nesta cópia.');overrides[id]=value;}
-  return {schema,guide,updatedAt:typeof data.updatedAt==='string'?data.updatedAt:null,overrides};
+  const foundations=Object.create(null);for(const [id,value]of Object.entries(data.foundations||{})){if(typeof value!=='string')throw Error('Fundamento inválido.');foundations[id]=value;}return {schema,guide,updatedAt:typeof data.updatedAt==='string'?data.updatedAt:null,overrides,foundations};
  }
  function read(key){try{const raw=localStorage.getItem(key);return raw?validate(JSON.parse(raw)):null;}catch{return null;}}
  let state=read(storageKey)||empty();
  const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
  function emit(){if(typeof window.dispatchEvent==='function'&&typeof Event==='function')window.dispatchEvent(new Event('inspector-orientations-change'));}
- function write(overrides){const next={schema,guide,updatedAt:new Date().toISOString(),overrides};localStorage.setItem(storageKey,JSON.stringify(next));state=next;emit();return next;}
+ function write(overrides,foundations=state.foundations||{}){const next={schema,guide,updatedAt:new Date().toISOString(),overrides,foundations};localStorage.setItem(storageKey,JSON.stringify(next));state=next;emit();return next;}
  function backup(){localStorage.setItem(backupKey,JSON.stringify(state));}
  function value(id){const row=byId.get(id);return own(state.overrides,id)?state.overrides[id]:(row?.base||'');}
+ function basisValue(id){return own(state.foundations||{},id)?state.foundations[id]:(byId.get(id)?.baseBasis||'');}
  const api={guide,storageKey,title:guide==='original'?'Guia original':'Guia de revisão',catalog:()=>catalog,
-  get:(c,i)=>value(idFor(c,i)),value,
-  changed:id=>own(state.overrides,id),count:()=>catalog.filter(r=>own(state.overrides,r.id)).length,
+  get:(c,i)=>value(idFor(c,i)),value,basisGet:(c,i)=>basisValue(idFor(c,i)),basisValue,setBasis(id,text){if(!byId.has(id)||typeof text!=='string')throw Error('Fundamento não encontrado.');const next={...(state.foundations||{})};if(text===byId.get(id).baseBasis)delete next[id];else next[id]=text;return write(state.overrides,next);},
+  changed:id=>own(state.overrides,id)||own(state.foundations||{},id),count:()=>catalog.filter(r=>own(state.overrides,r.id)||own(state.foundations||{},r.id)).length,
   set(id,text){if(!byId.has(id)||typeof text!=='string')throw Error('Orientação não encontrada.');const next={...state.overrides};if(text===byId.get(id).base)delete next[id];else next[id]=text;return write(next);},
-  restore(id){if(!byId.has(id))throw Error('Orientação não encontrada.');backup();const next={...state.overrides};delete next[id];return write(next);},
-  restoreAll(){backup();return write({});},hasRecovery:()=>!!read(backupKey),
-  undoRecovery(){const previous=read(backupKey);if(!previous)throw Error('Não há recuperação para desfazer.');write(previous.overrides);localStorage.removeItem(backupKey);emit();},
+  restore(id){if(!byId.has(id))throw Error('Orientação não encontrada.');backup();const next={...state.overrides};delete next[id];const bases={...(state.foundations||{})};delete bases[id];return write(next,bases);},
+  restoreAll(){backup();return write({},{});},hasRecovery:()=>!!read(backupKey),
+  undoRecovery(){const previous=read(backupKey);if(!previous)throw Error('Não há recuperação para desfazer.');write(previous.overrides,previous.foundations);localStorage.removeItem(backupKey);emit();},
   snapshot:()=>JSON.parse(JSON.stringify(state)),
-  importData(data){const valid=validate(data);backup();return write(valid.overrides);},
+  importData(data){const valid=validate(data);backup();return write(valid.overrides,valid.foundations);},
   reload(){state=read(storageKey)||empty();emit();}
  };
  window.InspectorOrientations=api;
  window.addEventListener?.('storage',e=>{if(e.key===storageKey||e.key===null){state=read(storageKey)||empty();emit();}});
  window.addEventListener?.('pageshow',()=>{state=read(storageKey)||empty();});
 })();
+
