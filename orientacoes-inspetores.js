@@ -7,7 +7,7 @@
  function recover(action,success){try{action();render();message(success);}catch(error){message('Não foi possível recuperar o texto: '+error.message,true);}}
  function render(){
   const proc=$('process-filter').value,query=$('search').value.trim().toLocaleLowerCase('pt-BR');
-  const rows=catalog.filter(row=>(!proc||row.proc===proc)&&(!query||[row.code,row.process,row.requirement,api.value(row.id)].join(' ').toLocaleLowerCase('pt-BR').includes(query)));
+  const rows=catalog.filter(row=>(!proc||row.proc===proc)&&(!query||[row.code,row.process,row.requirement,api.value(row.id),api.basisValue(row.id)].join(' ').toLocaleLowerCase('pt-BR').includes(query)));
   const fragment=document.createDocumentFragment();let current=null;
   rows.forEach((row,n)=>{
    if(row.proc!==current){fragment.appendChild(create('h2','process-title',row.process));current=row.proc;}
@@ -15,6 +15,7 @@
    card.appendChild(create('p','requirement',row.requirement));if(row.references.length)card.appendChild(create('p','reference','Referência normativa: '+row.references.join(' · ')));
    if(row.references.length||row.sourceTexts.length){const details=create('details','reference');details.appendChild(create('summary','','Referências e texto de origem'));for(const text of [...row.sourceTexts,...row.references])details.appendChild(create('p','',text));card.appendChild(details);}
    const label=create('label','','Orientação ao inspetor'),textarea=create('textarea');textarea.id='orientacao-'+n;textarea.value=api.value(row.id);label.htmlFor=textarea.id;card.append(label,textarea);
+   const basisLabel=create('label','','Fundamento da classificação'),basis=create('textarea');basis.id='fundamento-'+n;basis.value=api.basisValue(row.id);basisLabel.htmlFor=basis.id;card.append(basisLabel,basis);basis.addEventListener('input',()=>{try{api.setBasis(row.id,basis.value);badge.hidden=!api.changed(row.id);restore.disabled=!api.changed(row.id);updateSummary();message('Fundamento salvo neste aparelho e disponível no F.');}catch(e){message(e.message,true);}});
    const footer=create('div','card-footer'),restore=create('button','','Recuperar original');restore.type='button';restore.disabled=!api.changed(row.id);restore.onclick=()=>recover(()=>api.restore(row.id),'Texto original recuperado. Você pode desfazer a recuperação.');footer.append(restore,create('small','','O requisito acima não é alterado pela revisão.'));card.appendChild(footer);
    textarea.addEventListener('input',()=>{try{api.set(row.id,textarea.value);badge.hidden=!api.changed(row.id);restore.disabled=!api.changed(row.id);updateSummary();message('Orientação salva neste aparelho. A revisão já está disponível no F do guia online.');}catch(error){message('Não foi possível salvar a orientação: '+error.message,true);}});
    fragment.appendChild(card);
@@ -27,7 +28,7 @@
   let proc=null,section;
   for(const row of catalog){
    if(proc!==row.proc){section=create('section','report-process');section.appendChild(create('h2','',row.process));fragment.appendChild(section);proc=row.proc;}
-   const article=create('article','report-row');article.appendChild(create('h3','',`${row.processId?row.processId+' · ':''}${api.guide==='original'?'Item':'Indicador'} ${row.code} · ${row.phraseLabels.join(' / ')}`));article.appendChild(create('p','',row.requirement));const p=create('p','guidance-text');p.append(create('strong','','Orientação ao inspetor: '),document.createTextNode(api.value(row.id)||'Orientação não preenchida.'));article.appendChild(p);if(row.references.length)article.appendChild(create('p','report-reference',row.references.join(' · ')));section.appendChild(article);
+   const article=create('article','report-row');article.appendChild(create('h3','',`${row.processId?row.processId+' · ':''}${api.guide==='original'?'Item':'Indicador'} ${row.code} · ${row.phraseLabels.join(' / ')}`));article.appendChild(create('p','',row.requirement));const p=create('p','guidance-text');p.append(create('strong','','Orientação ao inspetor: '),document.createTextNode(api.value(row.id)||'Orientação não preenchida.'));article.appendChild(p);article.appendChild(create('p','guidance-text','Fundamento da classificação: '+api.basisValue(row.id)));if(row.references.length)article.appendChild(create('p','report-reference',row.references.join(' · ')));section.appendChild(article);
   }
   report.replaceChildren(fragment);
  }
@@ -42,3 +43,4 @@
  window.addEventListener('storage',e=>{if(e.key===api.storageKey||e.key===null)render();});window.addEventListener('pageshow',()=>{api.reload();render();});
  render();
 })();
+
