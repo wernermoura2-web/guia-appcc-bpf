@@ -1,0 +1,931 @@
+window.DOCUMENT_CHECKLIST_GROUPS=[
+  {
+    "title": "01 | Captação",
+    "bpf": [
+      {
+        "code": "CAP01",
+        "ref": "4.1.1",
+        "text": "POP de limpeza que inclua a área externa; registros de limpeza, inspeção e correção de focos de insalubridade.",
+        "id": "0-0"
+      },
+      {
+        "code": "CAP01 / CAP02",
+        "ref": "4.1.1 / 4.1.2",
+        "text": "Registros de manutenção e correção de falhas de pavimentação, drenagem, infiltrações e conservação da casa de proteção, quando realizadas.",
+        "id": "0-1"
+      },
+      {
+        "code": "CAP02",
+        "ref": "4.1.2",
+        "text": "Procedimento de coleta e registros de conservação e higienização da torneira de amostragem.",
+        "id": "0-2"
+      },
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "POP de higienização da captação: método, produtos, concentração, contato, temperatura aplicável, frequência, responsáveis e resposta aos desvios.",
+        "id": "0-3"
+      },
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "Registros de limpeza e desinfecção, com data, identificação da captação, parâmetros executados e responsável.",
+        "id": "0-4"
+      },
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "Certificados ou registros de capacitação dos executores da higienização.",
+        "id": "0-5"
+      },
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "Registros de eficácia da limpeza e desinfecção e de correção das falhas, conforme o POP implantado.",
+        "id": "0-base-0"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "Protocolo de avaliação e liberação pós-higienização, com pontos de coleta, testes, critérios de aceitação e responsável pela autorização.",
+        "id": "0-6"
+      },
+      {
+        "code": "CAP03 / CQ04",
+        "ref": "4.1.3 / 4.10.4",
+        "text": "Resultados microbiológicos e/ou ATP previstos para a liberação; registros da decisão de liberação e das correções ou novas higienizações.",
+        "id": "0-7"
+      },
+      {
+        "code": "CAP03",
+        "ref": "4.1.3",
+        "text": "Filtros de ar microbiológicos na cabeça dos poços e sistemas de drenagem das surgências: especificações, critérios de integridade e registros de troca, quando aplicáveis.",
+        "id": "0-8"
+      }
+    ]
+  },
+  {
+    "title": "02 | Condução",
+    "bpf": [
+      {
+        "code": "CON01",
+        "ref": "4.2.2",
+        "text": "Fichas técnicas, declarações ou certificados de adequação ao contato com alimentos dos tubos, conexões e vedações.",
+        "id": "1-0"
+      },
+      {
+        "code": "CON01",
+        "ref": "4.2.2",
+        "text": "Registros de inspeção, manutenção, reparo e substituição de trechos ou componentes.",
+        "id": "1-1"
+      },
+      {
+        "code": "CON02",
+        "ref": "4.2.7",
+        "text": "Registros de higienização por circuito ou trecho, com data, parâmetros e responsável.",
+        "id": "1-2"
+      },
+      {
+        "code": "CON02",
+        "ref": "4.2.7",
+        "text": "Certificados ou registros de capacitação dos executores da higienização.",
+        "id": "1-3"
+      },
+      {
+        "code": "CON03",
+        "ref": "4.2.8",
+        "text": "Procedimento e frequência de desmonte; registros de desmontagem e remontagem, desincrustação e passivação, quando aplicáveis.",
+        "id": "1-7"
+      },
+      {
+        "code": "CON03",
+        "ref": "4.2.8",
+        "text": "Registros de incrustações e alterações, bloqueio do circuito, reparos, revisão da higienização e nova liberação.",
+        "id": "1-8"
+      },
+      {
+        "code": "CON04",
+        "ref": "4.2.9",
+        "text": "POP vigente de higienização da canalização, com superfícies, métodos, produtos, concentração, contato, temperatura e frequência.",
+        "id": "1-9"
+      },
+      {
+        "code": "CON01 / CON03",
+        "ref": "4.2.2 / 4.2.8",
+        "text": "Especificações e registros de verificação e troca dos filtros da condução, quando existentes; complemento documental do sistema.",
+        "id": "1-10"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "CON02 / CON04",
+        "ref": "4.2.7 / 4.2.9",
+        "text": "Evidências de eficácia da higienização e fundamentação dos parâmetros usados no circuito.",
+        "id": "1-4"
+      },
+      {
+        "code": "CON02 / CON04",
+        "ref": "4.2.7 / 4.2.9",
+        "text": "Protocolo de liberação: pontos críticos e saída do circuito, métodos microbiológicos e/ou ATP, critérios e responsável.",
+        "id": "1-5"
+      },
+      {
+        "code": "CON02 / CQ04",
+        "ref": "4.2.7 / 4.10.4",
+        "text": "Resultados de microbiologia e/ou ATP e registros da autorização de uso após higienização.",
+        "id": "1-6"
+      }
+    ]
+  },
+  {
+    "title": "03 | Reservatórios",
+    "bpf": [
+      {
+        "code": "RES01",
+        "ref": "4.3.2",
+        "text": "Fichas técnicas, declarações ou certificados de adequação ao contato com alimentos do reservatório, revestimentos e acessórios.",
+        "id": "2-0"
+      },
+      {
+        "code": "RES01",
+        "ref": "4.3.2",
+        "text": "Registros de manutenção, reparos e substituição de componentes ou revestimentos.",
+        "id": "2-1"
+      },
+      {
+        "code": "RES02",
+        "ref": "4.3.3",
+        "text": "Especificações e evidências de retenção microbiológica do filtro de ar; critérios de integridade, verificação e substituição.",
+        "id": "2-2"
+      },
+      {
+        "code": "RES02",
+        "ref": "4.3.3",
+        "text": "Registros de inspeção, manutenção e troca dos elementos filtrantes, identificados por reservatório.",
+        "id": "2-3"
+      },
+      {
+        "code": "RES02",
+        "ref": "4.3.3",
+        "text": "Registros de funcionamento e correção das proteções do extravasor, retenção/fecho hídrico, drenagem e ponto de amostragem, quando realizados.",
+        "id": "2-4"
+      },
+      {
+        "code": "RES03",
+        "ref": "4.3.4",
+        "text": "Programa/frequência e registros de inspeção visual interna; achados de incrustação, alterações e correções.",
+        "id": "2-5"
+      },
+      {
+        "code": "RES03",
+        "ref": "4.3.4",
+        "text": "Registros de revisão da higienização, avaliação da água afetada, bloqueio e nova liberação após falha.",
+        "id": "2-6"
+      },
+      {
+        "code": "RES04",
+        "ref": "4.3.5",
+        "text": "Registros de higienização por reservatório, com data, parâmetros executados e responsável.",
+        "id": "2-7"
+      },
+      {
+        "code": "RES04",
+        "ref": "4.3.5",
+        "text": "Certificados ou registros de capacitação dos executores da higienização.",
+        "id": "2-8"
+      },
+      {
+        "code": "RES05",
+        "ref": "4.3.6",
+        "text": "POP vigente e disponível de higienização: superfícies, métodos, produtos, concentração, contato, temperatura e frequência.",
+        "id": "2-11"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "RES04 / RES05",
+        "ref": "4.3.5 / 4.3.6",
+        "text": "Protocolo e evidências de eficácia da higienização; pontos, métodos e critérios de liberação de cada reservatório.",
+        "id": "2-9"
+      },
+      {
+        "code": "RES04 / CQ04",
+        "ref": "4.3.5 / 4.10.4",
+        "text": "Resultados de microbiologia e/ou ATP previstos e autorização individual de liberação após higienização.",
+        "id": "2-10"
+      }
+    ]
+  },
+  {
+    "title": "04 | Recepção e armazenamento de insumos",
+    "bpf": [
+      {
+        "code": "REC01",
+        "ref": "4.5.2",
+        "text": "Fluxo ou procedimento de recepção/armazenamento, quando documentado, identificando a separação de retornáveis e demais insumos.",
+        "id": "3-0"
+      },
+      {
+        "code": "REC02",
+        "ref": "4.5.3",
+        "text": "Especificações de aceitação e registros da inspeção de embalagens, tampas, rótulos e saneantes no recebimento.",
+        "id": "3-1"
+      },
+      {
+        "code": "REC02",
+        "ref": "4.5.3",
+        "text": "Últimas notas fiscais de embalagens, tampas, rótulos e saneantes; identificação de fornecedores e lotes.",
+        "id": "3-2"
+      },
+      {
+        "code": "REC02",
+        "ref": "4.5.3",
+        "text": "Fichas técnicas de embalagens e tampas; laudos de migração e comprovação de adequação ao contato com alimentos, conforme material e aplicação.",
+        "id": "3-3"
+      },
+      {
+        "code": "REC02",
+        "ref": "4.5.3",
+        "text": "Comprovação de regularização, ficha técnica, rotulagem, validade e indicação de uso dos saneantes.",
+        "id": "3-4"
+      },
+      {
+        "code": "REC02 / REC04",
+        "ref": "4.5.3 / 4.5.6",
+        "text": "Registros de reprovação, bloqueio e destino de saneantes, rótulos e demais insumos não conformes.",
+        "id": "3-5"
+      },
+      {
+        "code": "REC03",
+        "ref": "4.5.4",
+        "text": "Critérios e registros da avaliação individual de retornáveis: aspecto interno/externo, resíduos, odor, cor e integridade.",
+        "id": "3-6"
+      },
+      {
+        "code": "REC03 / REC04",
+        "ref": "4.5.4 / 4.5.6",
+        "text": "Registros de rejeição, identificação, segregação e impedimento de uso de embalagens danificadas ou contaminadas.",
+        "id": "3-7"
+      },
+      {
+        "code": "REC04",
+        "ref": "4.5.6",
+        "text": "Comprovantes de devolução ou destinação dos insumos reprovados, com identificação, quantidade, data, destino e assinatura do responsável.",
+        "id": "3-8"
+      },
+      {
+        "code": "REC05",
+        "ref": "4.5.8",
+        "text": "POP de recepção de embalagens, com inspeção individual, critérios de aceitação/reprovação e destino das reprovadas.",
+        "id": "3-9"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "REC03",
+        "ref": "4.5.4",
+        "Evidência": "",
+        "text": "Validação/verificação adicional da eficácia da seleção individual, critérios operacionais de ação e monitoramento específico do PPRO, quando adotado.",
+        "id": "3-extra"
+      }
+    ]
+  },
+  {
+    "title": "05 | Higienização de retornáveis e tampas",
+    "bpf": [
+      {
+        "code": "HR02",
+        "ref": "4.6.4",
+        "text": "Procedimento de pré-lavagem e registros previstos de remoção de rótulos, adesivos e sujidades; correções de falhas.",
+        "id": "4-2"
+      },
+      {
+        "code": "HR04",
+        "ref": "4.6.6",
+        "text": "Procedimento, limites de aceitação e registros dos testes de resíduos químicos; método, sensibilidade, reagentes, pontos e frequência.",
+        "id": "4-6"
+      },
+      {
+        "code": "HR05",
+        "ref": "4.6.7",
+        "text": "Registros e laudos da qualidade da água do enxágue final; identificação da origem/circuito e inspeção/manutenção dos bicos.",
+        "id": "4-7"
+      },
+      {
+        "code": "HR06",
+        "ref": "4.6.8",
+        "text": "Especificações e declarações dos fornecedores sobre a sanitização das tampas, quando realizada; identificação e rastreabilidade dos lotes.",
+        "id": "4-8"
+      },
+      {
+        "code": "HR07 / HR08",
+        "ref": "4.6.9 / 4.6.10",
+        "text": "Procedimento de transporte, espera e paradas; registros previstos de exposição, proteção e nova higienização das embalagens.",
+        "id": "4-10"
+      },
+      {
+        "code": "HR09",
+        "ref": "4.6.11",
+        "text": "Registros de limpeza/desinfecção das embalagens e certificados de capacitação dos executores.",
+        "id": "4-11"
+      },
+      {
+        "code": "HR10",
+        "ref": "4.6.12",
+        "text": "POP vigente e disponível de higienização de retornáveis, com métodos, produtos, concentração, contato e temperatura.",
+        "id": "4-12"
+      },
+      {
+        "code": "HR01 / HR03",
+        "ref": "4.6.3 / 4.6.5",
+        "text": "Procedimento e registros da limpeza/desinfecção automática das embalagens; comprovação da eficácia do processo e avaliação das condições da lavadora.",
+        "id": "4-base-0"
+      },
+      {
+        "code": "HR06",
+        "ref": "4.6.8",
+        "text": "Procedimento e comprovação da proteção sanitária das tampas, com evidências do fornecedor ou do processo utilizado.",
+        "id": "4-base-1"
+      },
+      {
+        "code": "HR08",
+        "ref": "4.6.10",
+        "text": "Se houver lâmpadas UV na passagem: manutenção, limpeza e registros de troca; monitoramento microbiológico previsto no procedimento.",
+        "id": "4-uv"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "HR01",
+        "ref": "4.6.3",
+        "text": "Para embalagens de primeiro uso adquiridas: validação APPCC do enxágue desinfetante e limites de concentração, contato e temperatura aplicáveis.",
+        "id": "4-0"
+      },
+      {
+        "code": "HR01",
+        "ref": "4.6.3",
+        "text": "Registros de parâmetros e monitoramento do enxágue de primeiro uso, inspeção dos bicos e tratamento de falhas, quando aplicável.",
+        "id": "4-1"
+      },
+      {
+        "code": "HR03",
+        "ref": "4.6.5",
+        "text": "Relatório de avaliação/validação da limpeza e desinfecção da lavadora nas condições reais de operação; parâmetros e limites fundamentados.",
+        "id": "4-3"
+      },
+      {
+        "code": "HR03",
+        "ref": "4.6.5",
+        "text": "Registros de concentração, contato, temperatura, velocidade da lavadora e inspeção dos bicos, conforme o processo.",
+        "id": "4-4"
+      },
+      {
+        "code": "HR03 / HR04",
+        "ref": "4.6.5 / 4.6.6",
+        "text": "Certificados de calibração ou verificação dos instrumentos usados nos controles; registros de manutenção do maquinário.",
+        "id": "4-5"
+      },
+      {
+        "code": "HR06",
+        "ref": "4.6.8",
+        "text": "Procedimento e evidências de eficácia da higienização/proteção das tampas; registros de monitoramento e liberação previstos.",
+        "id": "4-9"
+      },
+      {
+        "code": "HR01 / HR03 / HR04 / HR06",
+        "ref": "4.6.3 / 4.6.5 / 4.6.6 / 4.6.8",
+        "text": "Registros de desvios, bloqueio, rastreabilidade, reprocessamento ou descarte de embalagens/tampas e avaliação do produto afetado; autorização de retomada.",
+        "id": "4-13"
+      },
+      {
+        "code": "HR06",
+        "ref": "4.6.8",
+        "text": "PCC das tampas: validação, limites críticos, monitoramento operacional e microbiológico, liberação de lotes e controle ambiental de ozônio, quando utilizado.",
+        "id": "4-pcc"
+      }
+    ]
+  },
+  {
+    "title": "06 | Higienização de descartáveis e tampas",
+    "bpf": [
+      {
+        "code": "HD02",
+        "ref": "4.6.7",
+        "text": "Registros e laudos da qualidade da água do enxágue final; origem/circuito, condições dos bicos e correções.",
+        "id": "5-2"
+      },
+      {
+        "code": "HD03",
+        "ref": "4.6.8",
+        "text": "Especificações e declarações dos fornecedores sobre a sanitização das tampas, quando realizada; identificação e rastreabilidade dos lotes.",
+        "id": "5-6"
+      },
+      {
+        "code": "HD04 / HD05",
+        "ref": "4.6.9 / 4.6.10",
+        "text": "Procedimento de transporte, espera e paradas; registros previstos de proteção, exposição e destino das embalagens.",
+        "id": "5-8"
+      },
+      {
+        "code": "HD06",
+        "ref": "4.6.11",
+        "text": "Registros da higienização de descartáveis e certificados de capacitação dos executores.",
+        "id": "5-9"
+      },
+      {
+        "code": "HD07",
+        "ref": "4.6.12",
+        "text": "POP vigente e disponível de higienização de descartáveis e tampas, com métodos, produtos, concentração, contato e temperatura.",
+        "id": "5-10"
+      },
+      {
+        "code": "HD01",
+        "ref": "4.6.3",
+        "text": "Procedimento e registros do enxágue desinfetante de embalagens adquiridas, com comprovação da eficácia, respeitadas as exceções.",
+        "id": "5-base-0"
+      },
+      {
+        "code": "HD03",
+        "ref": "4.6.8",
+        "text": "Procedimento e comprovação da proteção sanitária das tampas, com evidências do fornecedor ou do processo utilizado.",
+        "id": "5-base-1"
+      },
+      {
+        "code": "HD05",
+        "ref": "4.6.10",
+        "text": "Se houver lâmpadas UV na passagem: manutenção, limpeza e registros de troca; monitoramento microbiológico previsto no procedimento.",
+        "id": "5-uv"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "HD01",
+        "ref": "4.6.3",
+        "text": "Validação APPCC e limites críticos do enxágue desinfetante de embalagens de primeiro uso não fabricadas na unidade, exceto copos.",
+        "id": "5-0"
+      },
+      {
+        "code": "HD01",
+        "ref": "4.6.3",
+        "text": "Registros de concentração, contato, temperatura aplicável e monitoramento do enxágue; inspeção/manutenção dos bicos e calibração/verificação dos instrumentos.",
+        "id": "5-1"
+      },
+      {
+        "code": "HD02",
+        "ref": "4.6.7; complemento 4.6.1",
+        "text": "Nas sopradoras internas: especificação e desempenho do filtro microbiológico final do ar comprimido; critérios de integridade e substituição.",
+        "id": "5-3"
+      },
+      {
+        "code": "HD02",
+        "ref": "4.6.7; complemento 4.6.1",
+        "text": "Registros de integridade, manutenção, higienização e troca do filtro, tratamento do ar e proteção do trecho após a filtração.",
+        "id": "5-4"
+      },
+      {
+        "code": "HD02 / CQ04",
+        "ref": "4.6.7 / 4.10.4",
+        "text": "Plano, critérios e laudos microbiológicos do ar no ponto de uso e das embalagens sopradas; registros de bloqueio, correção e retomada.",
+        "id": "5-5"
+      },
+      {
+        "code": "HD03",
+        "ref": "4.6.8",
+        "text": "Procedimento e evidências de eficácia da higienização/proteção das tampas; registros de monitoramento e liberação previstos.",
+        "id": "5-7"
+      },
+      {
+        "code": "HD01 / HD02 / HD03",
+        "ref": "4.6.3 / 4.6.7 / 4.6.8",
+        "text": "Registros de desvios, bloqueio e destino das embalagens/tampas e do produto afetado; autorização de retomada.",
+        "id": "5-11"
+      },
+      {
+        "code": "HD03",
+        "ref": "4.6.8",
+        "text": "PCC das tampas: validação, limites críticos, monitoramento operacional e microbiológico, liberação de lotes e controle ambiental de ozônio, quando utilizado.",
+        "id": "5-pcc"
+      }
+    ]
+  },
+  {
+    "title": "07 | Envase e fechamento - retornáveis",
+    "bpf": [
+      {
+        "code": "ER01",
+        "ref": "4.7.1",
+        "text": "Registros previstos de inspeção/manutenção dos equipamentos automáticos de envase e fechamento.",
+        "id": "6-0"
+      },
+      {
+        "code": "ER01",
+        "ref": "4.7.1",
+        "text": "Critérios e registros dos testes de vedação/fechamento e vazamento, com frequência, responsável e tratamento das falhas.",
+        "id": "6-1"
+      },
+      {
+        "code": "ER02",
+        "ref": "4.7.2",
+        "text": "Rotina/POP e registros de limpeza e conservação da sala, porta e revestimentos; registros de reparos quando realizados.",
+        "id": "6-2"
+      },
+      {
+        "code": "ER03",
+        "ref": "4.7.3",
+        "text": "Documentação e registros previstos de manutenção do sistema fechado de adição de CO2, quando houver gaseificação.",
+        "id": "6-3"
+      },
+      {
+        "code": "ER04",
+        "ref": "4.7.4",
+        "text": "PMOC, quando aplicável, cronograma e registros de limpeza/manutenção de filtros e aparelhos de ar condicionado, conforme o plano.",
+        "id": "6-4"
+      },
+      {
+        "code": "ER04",
+        "ref": "4.7.4",
+        "text": "Critérios e registros de inspeção da ventilação e condensação, controle ambiental e correções.",
+        "id": "6-5"
+      },
+      {
+        "code": "ER05",
+        "ref": "4.7.5",
+        "text": "Procedimento e registros previstos de supervisão da higiene das mãos, acesso restrito e reposição dos insumos da antessala.",
+        "id": "6-6"
+      },
+      {
+        "code": "ER06",
+        "ref": "4.7.6",
+        "text": "Rotina de troca diária, higienização e uso exclusivo dos uniformes; registros previstos de supervisão.",
+        "id": "6-7"
+      },
+      {
+        "code": "ER07",
+        "ref": "4.7.8",
+        "text": "POP de higienização da sala e dos equipamentos, incluindo bicos, vedações e reservatório pulmão; parâmetros e frequência de desmonte.",
+        "id": "6-8"
+      },
+      {
+        "code": "ER07",
+        "ref": "4.7.8",
+        "text": "Registros de higienização, desmontagem/remontagem e manutenção da envasadora; capacitação dos executores.",
+        "id": "6-9"
+      },
+      {
+        "code": "ER07",
+        "ref": "4.7.8",
+        "text": "Registros de eficácia da higienização da sala e dos equipamentos e de correção das falhas, conforme o POP.",
+        "id": "6-base-0"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "ER07",
+        "ref": "4.7.8",
+        "text": "Protocolo de liberação com pontos, métodos microbiológicos e/ou ATP aplicáveis, critérios, responsável e resposta aos desvios.",
+        "id": "6-10"
+      },
+      {
+        "code": "ER07 / CQ04",
+        "ref": "4.7.8 / 4.10.4",
+        "text": "Resultados de microbiologia do ambiente, superfícies e água conforme o protocolo; ATP nos pontos aplicáveis e autorização de liberação.",
+        "id": "6-11"
+      },
+      {
+        "code": "ER01 / ER07",
+        "ref": "4.7.1 / 4.7.8",
+        "text": "Registros de bloqueio, correções, avaliação e destino do produto afetado e autorização de retomada.",
+        "id": "6-12"
+      }
+    ]
+  },
+  {
+    "title": "08 | Envase e fechamento - descartáveis",
+    "bpf": [
+      {
+        "code": "ED01",
+        "ref": "4.7.1",
+        "text": "Registros previstos de inspeção/manutenção dos equipamentos automáticos de envase e fechamento.",
+        "id": "7-0"
+      },
+      {
+        "code": "ED01",
+        "ref": "4.7.1",
+        "text": "Critérios e registros dos testes de vedação/fechamento e vazamento, com frequência, responsável e tratamento das falhas.",
+        "id": "7-1"
+      },
+      {
+        "code": "ED02",
+        "ref": "4.7.2",
+        "text": "Rotina/POP e registros de limpeza e conservação da sala, porta e revestimentos; registros de reparos quando realizados.",
+        "id": "7-2"
+      },
+      {
+        "code": "ED03",
+        "ref": "4.7.3",
+        "text": "Documentação e registros previstos de manutenção do sistema fechado de adição de CO2, quando houver gaseificação.",
+        "id": "7-3"
+      },
+      {
+        "code": "ED04",
+        "ref": "4.7.4",
+        "text": "PMOC, quando aplicável, cronograma e registros de limpeza/manutenção de filtros e aparelhos de ar condicionado, conforme o plano.",
+        "id": "7-4"
+      },
+      {
+        "code": "ED04",
+        "ref": "4.7.4",
+        "text": "Critérios e registros de inspeção da ventilação e condensação, controle ambiental e correções.",
+        "id": "7-5"
+      },
+      {
+        "code": "ED05",
+        "ref": "4.7.5",
+        "text": "Procedimento e registros previstos de supervisão da higiene das mãos, acesso restrito e reposição dos insumos da antessala.",
+        "id": "7-6"
+      },
+      {
+        "code": "ED06",
+        "ref": "4.7.6",
+        "text": "Rotina de troca diária, higienização e uso exclusivo dos uniformes; registros previstos de supervisão.",
+        "id": "7-7"
+      },
+      {
+        "code": "ED07",
+        "ref": "4.7.8",
+        "text": "POP de higienização da sala e dos equipamentos, incluindo bicos, vedações e reservatório pulmão; parâmetros e frequência de desmonte.",
+        "id": "7-8"
+      },
+      {
+        "code": "ED07",
+        "ref": "4.7.8",
+        "text": "Registros de higienização, desmontagem/remontagem e manutenção da envasadora; capacitação dos executores.",
+        "id": "7-9"
+      },
+      {
+        "code": "ED07",
+        "ref": "4.7.8",
+        "text": "Registros de eficácia da higienização da sala e dos equipamentos e de correção das falhas, conforme o POP.",
+        "id": "7-base-0"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "ED07",
+        "ref": "4.7.8",
+        "text": "Protocolo de liberação com pontos, métodos microbiológicos e/ou ATP aplicáveis, critérios, responsável e resposta aos desvios.",
+        "id": "7-10"
+      },
+      {
+        "code": "ED07 / CQ04",
+        "ref": "4.7.8 / 4.10.4",
+        "text": "Resultados de microbiologia do ambiente, superfícies e água conforme o protocolo; ATP nos pontos aplicáveis e autorização de liberação.",
+        "id": "7-11"
+      },
+      {
+        "code": "ED01 / ED07",
+        "ref": "4.7.1 / 4.7.8",
+        "text": "Registros de bloqueio, correções, avaliação e destino do produto afetado e autorização de retomada.",
+        "id": "7-12"
+      }
+    ]
+  },
+  {
+    "title": "09 | Controle de qualidade",
+    "bpf": [
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Programa de controle de qualidade e Manual do Laboratório/POPs: responsabilidades, BPL, segurança, métodos e higienização.",
+        "id": "8-0"
+      },
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Relação dos equipamentos e instrumentos do laboratório; registros de manutenção e verificação de funcionamento.",
+        "id": "8-1"
+      },
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Certificados de calibração de balanças, termômetros, pHmetros, condutivímetros e instrumentos aplicáveis; identificação dos padrões.",
+        "id": "8-2"
+      },
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Relatórios de qualificação de autoclaves e estufas, distribuição térmica em condições aplicáveis e registros de ciclos e temperaturas.",
+        "id": "8-3"
+      },
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Certificados ou registros de esterilidade e fertilidade dos lotes de meios/placas em uso, adquiridos ou preparados internamente.",
+        "id": "8-4"
+      },
+      {
+        "code": "CQ01 / CQ04",
+        "ref": "4.10.1 / 4.10.4",
+        "text": "Notas fiscais, lotes, preparação e consumo de meios/placas; registros de entrada e retirada das estufas e rastreabilidade dos ensaios.",
+        "id": "8-5"
+      },
+      {
+        "code": "CQ01",
+        "ref": "4.10.1",
+        "text": "Métodos analíticos microbiológicos e físico-químicos e evidências de adequação/validação, conforme método e aplicação.",
+        "id": "8-6"
+      },
+      {
+        "code": "CQ02",
+        "ref": "4.10.2",
+        "text": "Contrato vigente de análises terceirizadas e escopo contratado; evidências de capacidade e rastreabilidade do laboratório. Orçamento não substitui o contrato.",
+        "id": "8-7"
+      },
+      {
+        "code": "CQ03",
+        "ref": "4.10.3",
+        "text": "Laudos microbiológicos e de contaminantes químicos, com amostra, ponto/lote, data, método, resultado e critérios aplicáveis.",
+        "id": "8-8"
+      },
+      {
+        "code": "CQ03 / CQ04",
+        "ref": "4.10.3 / 4.10.4",
+        "text": "Laudos físico-químicos e registros de avaliação dos resultados do laboratório próprio ou terceirizado.",
+        "id": "8-9"
+      },
+      {
+        "code": "CQ04",
+        "ref": "4.10.4",
+        "text": "Plano de amostragem vigente: pontos, número de amostras, parâmetros, métodos, frequência e limites de aceitação, conforme requisitos aplicáveis.",
+        "id": "8-10"
+      },
+      {
+        "code": "CQ04",
+        "ref": "4.10.4",
+        "text": "Cronograma e registros das coletas/ensaios executados, por captação, circuito, reservatório, linha e lote.",
+        "id": "8-11"
+      },
+      {
+        "code": "CQ05",
+        "ref": "4.10.5",
+        "text": "Último laudo oficial de referência da fonte/poço (LAMIN ou órgão competente), com identificação da captação.",
+        "id": "8-14"
+      },
+      {
+        "code": "CQ05",
+        "ref": "4.10.5",
+        "text": "Laudos da água envasada e comparação com a composição da respectiva fonte/poço; investigação de diferenças.",
+        "id": "8-15"
+      },
+      {
+        "code": "CQ06",
+        "ref": "4.10.6",
+        "text": "POP de desvios e ações corretivas, com investigação de causas, bloqueio, destino dos lotes e critérios de retomada/liberação.",
+        "id": "8-16"
+      },
+      {
+        "code": "CQ06",
+        "ref": "4.10.6",
+        "text": "POP de recolhimento/recall e registros de reclamações, devoluções e ações decorrentes, quando existentes.",
+        "id": "8-17"
+      },
+      {
+        "code": "CQ06",
+        "ref": "4.10.6",
+        "text": "Registros dos desvios, responsáveis, prazos, medidas adotadas e verificação da eficácia.",
+        "id": "8-18"
+      },
+      {
+        "code": "CQ07",
+        "ref": "4.12.6",
+        "text": "Certificados de qualidade de cada carga de CO2, especificações, fornecedor e vínculo com recebimento, tanque e lotes produzidos.",
+        "id": "8-19"
+      },
+      {
+        "code": "CQ04",
+        "ref": "4.10.4",
+        "text": "Registros de execução do plano de amostragem, limites de aceitação e avaliação dos resultados das amostras.",
+        "id": "8-base-0"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "CQ04",
+        "ref": "4.10.4",
+        "text": "Protocolos de liberação pós-higienização; critérios microbiológicos e/ou ATP, pontos de avaliação, frequência e autorização.",
+        "id": "8-12"
+      },
+      {
+        "code": "CQ04",
+        "ref": "4.10.4",
+        "text": "PCC de retenção/liberação: bloqueio efetivo dos lotes, rastreabilidade, laudos vinculados, critérios e autorização documentada de liberação; registros dos desvios.",
+        "id": "8-13"
+      }
+    ]
+  },
+  {
+    "title": "10 | Responsáveis e manipuladores",
+    "bpf": [
+      {
+        "code": "RM01",
+        "ref": "4.11.1",
+        "text": "Programa e registros de supervisão e capacitação periódica dos manipuladores em higiene pessoal, manipulação higiênica e doenças transmitidas por alimentos.",
+        "id": "9-0"
+      },
+      {
+        "code": "RM02",
+        "ref": "4.11.2",
+        "text": "Identificação/designação do responsável pela industrialização, atribuições e comprovação do exercício da função.",
+        "id": "9-1"
+      },
+      {
+        "code": "RM02",
+        "ref": "4.11.2",
+        "text": "Documentação do responsável técnico, conforme a atividade: nomeação, habilitação, registro profissional, termo de responsabilidade e registro/anotação no conselho, quando exigíveis.",
+        "id": "9-2"
+      },
+      {
+        "code": "RM03",
+        "ref": "4.11.3",
+        "text": "Certificado de capacitação do responsável pela industrialização, mínimo de 40 horas e conteúdo programático previsto, incluindo BPF/APPCC.",
+        "id": "9-3"
+      },
+      {
+        "code": "RM04",
+        "ref": "4.11.4",
+        "text": "Certificados dos manipuladores e do responsável pela industrialização, com identificação, data, carga horária e conteúdo programático.",
+        "id": "9-4"
+      },
+      {
+        "code": "RM01 / RM04",
+        "ref": "4.11.1 / 4.11.4",
+        "text": "Registros da capacitação específica dos executores dos POPs e da resposta a falhas; vincular às funções e aos processos.",
+        "id": "9-5"
+      }
+    ],
+    "appcc": []
+  },
+  {
+    "title": "11 | Documentos legais e regulatórios",
+    "bpf": [
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Licença sanitária vigente do estabelecimento.",
+        "id": "10-0"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Licenças sanitárias dos veículos da envasadora, quando exigíveis.",
+        "id": "10-1"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Licença ambiental/de operação aplicável ao estabelecimento.",
+        "id": "10-2"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Portaria de lavra ou título autorizativo pertinente da ANM; documentos de identificação e classificação das fontes utilizadas.",
+        "id": "10-3"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Outorga do poço/água de serviço, quando aplicável, e último laudo de potabilidade dessa água.",
+        "id": "10-4"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Documento aplicável de regularização/comunicação de fabricação do produto perante a autoridade sanitária.",
+        "id": "10-5"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Rótulos em uso; registro de marca no INPI, se disponível como documento complementar.",
+        "id": "10-6"
+      },
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Manual de Boas Práticas de Fabricação vigente.",
+        "id": "10-7"
+      }
+    ],
+    "appcc": [
+      {
+        "code": "Geral",
+        "ref": "Sem código de processo",
+        "text": "Plano BPF/APPCC da unidade: análise de perigos, justificativas de classificação, controles, responsáveis e registros, quando adotado.",
+        "id": "10-8"
+      }
+    ]
+  }
+];
