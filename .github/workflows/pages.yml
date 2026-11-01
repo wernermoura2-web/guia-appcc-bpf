@@ -26,6 +26,8 @@ jobs:
       # Não recriar as páginas usando o modelo legado durante a publicação.
       - name: Sincronizar classificações e fundamentos no PDF editável
         run: python tools/sync_pdf_classification.py
+      - name: Atualizar materiais de revisão BPF e APPCC
+        run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
         run: |
           node --check app.js
