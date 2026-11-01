@@ -24,6 +24,8 @@ jobs:
       # Publicar os arquivos versionados sem reaplicar a migração legada de 22 páginas.
       # Os arquivos PDF, imagens e posições dos campos são revisados e versionados juntos.
       # Não recriar as páginas usando o modelo legado durante a publicação.
+      - name: Sincronizar classificações e fundamentos no PDF editável
+        run: python tools/sync_pdf_classification.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
         run: |
           node --check app.js
@@ -53,3 +55,4 @@ jobs:
           path: _site
       - uses: actions/deploy-pages@v4
         id: deployment
+
