@@ -54,3 +54,11 @@
 /* Valores de NC, P e NC×P centralizados nas novas larguras. */
 .paper-field.appcc-metric input{padding:0!important;text-align:center!important}
 @media print{.paper-field.appcc-metric .print-value{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0!important}}
+
+.guide-controls .guide-intro{display:flex;align-items:start;justify-content:space-between;gap:16px}.guide-intro h2{margin:0}.guide-intro p{margin:8px 0 0}.guide-intro>a{white-space:nowrap}
+.guide-control-group{border-top:1px solid #d2dee8;margin-top:22px;padding-top:18px}.guide-control-group h3{margin:0 0 12px;font-size:18px;color:#164e78}.guide-control-group p{margin:10px 0}.guide-control-group .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.guide-identity-grid{display:grid;grid-template-columns:1.25fr 1.7fr 190px;gap:12px;margin-bottom:12px}.guide-identity-grid label{display:flex;flex-direction:column;gap:6px;font-weight:600}.guide-identity-grid input{width:100%;box-sizing:border-box;font-weight:400}
+.guide-controls .guide-secondary{background:#edf3f8;color:#174c76;border:1px solid #aac0d1}
+.guide-controls .doc-append-toggle,.guide-controls .guidance-print-option{display:flex!important;align-items:center;gap:9px;margin:12px 0!important;font-size:14px}.guide-controls .doc-append-toggle input,.guide-controls .guidance-print-option input{width:19px!important;height:19px!important;min-height:19px!important;margin:0!important;flex:none}
+.guide-advanced{border-top:1px solid #d2dee8;margin-top:20px;padding-top:16px}.guide-advanced summary,.guide-backups summary{cursor:pointer;font-weight:600;color:#164e78}.guide-advanced[open] summary{margin-bottom:16px}.guide-backups .backup-panel{margin:14px 0 0;padding:0;box-shadow:none;border:0}.guide-backups .backup-panel h2{display:none}
+@media(max-width:760px){.guide-identity-grid{grid-template-columns:1fr}.guide-controls .guide-intro{display:block}.guide-intro>a{display:inline-block;margin-top:12px}.guide-controls .tools>*{max-width:100%}}
