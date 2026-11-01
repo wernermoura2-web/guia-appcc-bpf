@@ -25,8 +25,8 @@
  const fill=group('2. Avaliação dos processos');fill.append(pick('paper-risk'));
  const hint=document.createElement('p');hint.textContent='Use F para consultar frases, orientações e fundamentos e registrar as respostas. Uma resposta Não torna o item Não; Sim exige todas as frases aplicáveis atendidas.';fill.append(hint);
  const finalButton=old.flatMap(el=>[...el.querySelectorAll('button')]).find(el=>/Revisar considerações/.test(el.textContent));if(finalButton)tools(fill).append(finalButton);
- const output=group('3. Documentos e impressão'),outTools=tools(output);
- for(const el of old.flatMap(el=>[...el.querySelectorAll('a,button')]).filter(el=>el.id==='paper-print'||el.getAttribute('href')==='documentos.html'||el.hasAttribute('download')))outTools.append(el);
+ const output=group('3. Impressão'),outTools=tools(output);
+ for(const el of old.flatMap(el=>[...el.querySelectorAll('a,button')]).filter(el=>el.id==='paper-print'))outTools.append(el);
  for(const el of old.filter(el=>el.classList.contains('doc-append-toggle')||el.querySelector('#include-document-checklist')||el.querySelector('#include-guidance-annex')))output.append(el);
  // The guidance script may use a different identifier; retain its labelled toggle.
  for(const el of old.filter(el=>el.classList.contains('guidance-print-option')))if(!card.contains(el))output.append(el);
@@ -35,7 +35,6 @@
  const importLabel=pick('paper-import').closest('label');fileTools.insertBefore(importLabel,pick('paper-new'));files.append(pick('saved'));
  const advanced=document.createElement('details');advanced.className='guide-advanced';advanced.innerHTML='<summary>Configurações de BPF/APPCC e critérios de cálculo</summary>';card.append(advanced);
  const advancedTools=tools(advanced);advancedTools.append(pick('appcc-edit-mode'),pick('appcc-restore'));
- const editor=old.flatMap(el=>[...el.querySelectorAll('a')]).find(el=>el.getAttribute('href')?.startsWith('orientacoes-inspetores'));if(editor)advancedTools.append(editor);
  advanced.append(pick('appcc-mode-status'));
  const explanation=document.createElement('p');explanation.className='muted';explanation.textContent='Atendimento = itens Sim ÷ itens aplicáveis × 100. Sim vale 1, Não vale 0 e NA fica fora da conta. BPF/APPCC, NC, P e pontos são informativos e não alteram a média oficial.';advanced.append(explanation);
  card.append(pick('paper-status'));
