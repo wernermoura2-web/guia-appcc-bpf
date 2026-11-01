@@ -2,7 +2,7 @@
 (()=>{
  const host=document.querySelector('.paper-workspace'),card=host?.querySelector('.card.screen-only');
  if(!card)return;
- const old=[...card.children],pick=id=>document.getElementById(id);
+ const old=[...card.children],oldIds=new Map([...card.querySelectorAll('[id]')].map(el=>[el.id,el])),pick=id=>document.getElementById(id)||oldIds.get(id);
  card.classList.add('guide-controls');
  card.replaceChildren();
  const intro=document.createElement('div');intro.className='guide-intro';
