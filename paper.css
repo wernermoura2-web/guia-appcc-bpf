@@ -41,3 +41,8 @@
 .paper-field.simulation-result textarea,.paper-field.simulation-result .print-value{font-size:5.2pt!important;line-height:1.02!important;text-align:center;white-space:pre;overflow:hidden;padding:0!important}
 #extra-documents-print{display:none}@media print{#extra-documents-print:not(:empty){display:block!important;break-before:page;padding:12mm;box-sizing:border-box;width:210mm}#extra-documents-print table{width:100%;table-layout:fixed;font-size:9pt;border-collapse:collapse}#extra-documents-print th,#extra-documents-print td{border:.5pt solid #7f8c95;padding:4pt;white-space:pre-wrap;overflow-wrap:anywhere}#extra-documents-print tr{break-inside:avoid}#extra-documents-print thead{display:table-header-group}}
 #notes-continuation-remainder{display:none}@media print{#notes-continuation-remainder:not(:empty){display:block!important;break-before:page;padding:12mm;white-space:pre-wrap;column-count:2;column-gap:8mm;font-size:9pt}}
+
+/* Centralização dos identificadores e das categorias APPCC. */
+.paper-item-code{margin:0!important;padding:0!important;text-align:center!important;line-height:1!important;align-items:center!important;justify-content:center!important}
+.paper-field.appcc-class select{text-align:center!important;text-align-last:center!important;padding:0!important;margin:0!important}
+@media print{.paper-field.appcc-class .print-value{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0!important;margin:0!important}}
