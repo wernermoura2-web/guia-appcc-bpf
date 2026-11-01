@@ -26,7 +26,7 @@
  const hint=document.createElement('p');hint.textContent='Use F para consultar frases, orientações e fundamentos e registrar as respostas. Uma resposta Não torna o item Não; Sim exige todas as frases aplicáveis atendidas.';fill.append(hint);
  const finalButton=old.flatMap(el=>[...el.querySelectorAll('button')]).find(el=>/Revisar considerações/.test(el.textContent));if(finalButton)tools(fill).append(finalButton);
  const output=group('3. Impressão'),outTools=tools(output);
- for(const el of old.flatMap(el=>[...el.querySelectorAll('a,button')]).filter(el=>el.id==='paper-print'))outTools.append(el);
+ for(const el of old.flatMap(el=>[...el.querySelectorAll('a,button')]).filter(el=>el.id==='paper-print'||el.hasAttribute('download')))outTools.append(el);
  for(const el of old.filter(el=>el.classList.contains('doc-append-toggle')||el.querySelector('#include-document-checklist')||el.querySelector('#include-guidance-annex')))output.append(el);
  // The guidance script may use a different identifier; retain its labelled toggle.
  for(const el of old.filter(el=>el.classList.contains('guidance-print-option')))if(!card.contains(el))output.append(el);
