@@ -1,9 +1,9 @@
 /* Team menu: common inspection file, selective imports and local audit. */
-(()=>{'use strict';if(!window.APPCC_TEAM)return;
+(()=>{'use strict';if(!window.APPCC_TEAM&&!window.APPCC_GROUP)return;
 const core=window.APPCC_TEAM_CORE,clone=x=>JSON.parse(JSON.stringify(x));
 S.team=S.team||{};S.team.id=S.team.id||crypto.randomUUID();S.team.imports=S.team.imports||[];save();
 const host=document.querySelector('.paper-workspace'),panel=document.createElement('section');
-panel.className='card screen-only team-panel';panel.innerHTML='<h2>Trabalho em grupo — BPF/APPCC</h2><p>Compartilhe o mesmo JSON inicial. Cada fiscal preenche seus processos e envia o arquivo ao responsável pela consolidação.</p><div class="tools" id="team-tools"></div><p id="team-status" role="status"></p>';
+panel.className='card screen-only team-panel';panel.innerHTML='<h2>Trabalho em grupo</h2><p>Compartilhe o mesmo JSON inicial. Cada fiscal preenche seus processos e envia o arquivo ao responsável pela consolidação.</p><div class="tools" id="team-tools"></div><p id="team-status" role="status"></p>';
 host.prepend(panel);const toolsBox=panel.querySelector('.tools');
 function button(label,fn){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=fn;return b;}
 const dialog=document.createElement('dialog');dialog.className='team-dialog';dialog.setAttribute('aria-label','Trabalho em equipe');document.body.append(dialog);
@@ -14,7 +14,7 @@ function showTeam(){
  dialog.replaceChildren();const h=document.createElement('h2');h.textContent='Trabalho em equipe — BPF/APPCC';dialog.append(h);
  const code=document.createElement('p');code.textContent='Código comum: '+S.team.id;dialog.append(code);
  const list=document.createElement('ol');
- for(const text of ['Preencha Envasadora, Endereço e Data no guia.','Gere o arquivo inicial e envie o MESMO JSON a todos os integrantes.','Cada colega abre Trabalho em grupo e usa Abrir preenchimento para carregar esse JSON.','Você continua neste guia: gerar o JSON inicial não apaga seu trabalho.','Pessoa 1: captação, condução e reservatórios. Pessoa 2 (consolidação): controle de qualidade, responsáveis e dados gerais. Pessoa 3: recepção, higienização e envase. A equipe pode combinar outra divisão.','Cada colega usa Salvar arquivo e envia seu JSON ao responsável.','O responsável usa Importar processos e marca somente os processos recebidos. Pode selecionar vários JSONs de uma vez.','Depois completa fotos, rótulos, observações, medidas e responsáveis e salva o arquivo consolidado.']){const li=document.createElement('li');li.textContent=text;list.append(li);}dialog.append(list);
+ for(const text of ['Preencha Envasadora, Endereço e Data no guia.','Gere o arquivo inicial e envie o MESMO JSON a todos os integrantes.','Cada colega abre este mesmo guia de inspeção e usa Abrir preenchimento para carregar esse JSON.','Você continua neste guia: gerar o JSON inicial não apaga seu trabalho.','Pessoa 1: captação, condução e reservatórios. Pessoa 2 (consolidação): controle de qualidade, responsáveis e dados gerais. Pessoa 3: recepção, higienização e envase. A equipe pode combinar outra divisão.','Cada colega usa Salvar arquivo e envia seu JSON ao responsável.','O responsável usa Importar processos e marca somente os processos recebidos. Pode selecionar vários JSONs de uma vez.','Depois completa fotos, rótulos, observações, medidas e responsáveis e salva o arquivo consolidado.']){const li=document.createElement('li');li.textContent=text;list.append(li);}dialog.append(list);
  const note=document.createElement('p');note.textContent='Abrir preenchimento restaura o guia inteiro. Importar processos substitui apenas os processos escolhidos. Não use Novo / limpar tudo depois de abrir o JSON inicial.';dialog.append(note);
  const actions=document.createElement('div');actions.className='tools';actions.append(button('Gerar arquivo inicial da equipe',()=>{if(!S.meta.empresa?.trim()||!S.meta.endereco?.trim()||!S.meta.data?.trim()){alert('Preencha envasadora, endereço e data antes de gerar o arquivo inicial.');return;}download('Guia_APPCC_Equipe_Inicial.json');}),button('Importar processos',()=>{dialog.close();picker.click();}),button('Fechar',()=>dialog.close()));dialog.append(actions);
  const heading=document.createElement('h3');heading.textContent='Arquivos incorporados';dialog.append(heading);
@@ -26,12 +26,12 @@ const oldFiles=document.getElementById('paper-export').closest('.guide-control-g
 const saveButton=document.getElementById('paper-export');saveButton.textContent='Salvar arquivo';saveButton.onclick=()=>download('Guia_APPCC_Equipe.json');
 const label=document.getElementById('paper-import').closest('label');label.firstChild.textContent='Abrir preenchimento';
 const print=document.getElementById('paper-print');print.textContent='Imprimir / PDF';
-const fresh=document.getElementById('paper-new');fresh.textContent='Novo / limpar tudo';fresh.onclick=()=>{if(confirm('Limpar o preenchimento do trabalho em grupo? Salve o JSON antes.')){localStorage.removeItem(KEY);location.reload();}};
+const fresh=document.getElementById('paper-new');fresh.textContent='Novo / limpar tudo';fresh.onclick=()=>{if(confirm('Limpar o preenchimento deste guia? Salve o JSON antes.')){localStorage.removeItem(KEY);location.reload();}};
 toolsBox.append(saveButton,label,print,fresh);
 if(oldFiles){panel.append(document.getElementById('saved'));oldFiles.remove();}
-document.querySelector('header h1').textContent='Guia BPF/APPCC — Trabalho em grupo';
+document.querySelector('header h1').textContent='Guia de inspeção — BPF/APPCC';
 const fileInput=document.getElementById('paper-import'),originalOpen=fileInput.onchange;
-fileInput.onchange=async event=>{const file=event.target.files?.[0];if(!file)return;try{const state=JSON.parse(await file.text());core.validate(state,CFG);if(!state.team?.id)throw Error('Use o JSON inicial gerado no menu Trabalho em equipe.');await originalOpen(event);}catch(e){alert(e.message);fileInput.value='';}};
+fileInput.onchange=async event=>{const file=event.target.files?.[0];if(!file)return;try{const state=JSON.parse(await file.text());core.validate(state,CFG);await originalOpen(event);}catch(e){alert(e.message);fileInput.value='';}};
 async function checkpoint(state){return new Promise((resolve,reject)=>{const req=indexedDB.open('guia-appcc-equipe-importacoes-v1',1);req.onupgradeneeded=()=>req.result.createObjectStore('copies',{autoIncrement:true});req.onerror=()=>reject(Error('Não foi possível guardar a cópia anterior. A importação não foi aplicada.'));req.onsuccess=()=>{const db=req.result,tx=db.transaction('copies','readwrite'),store=tx.objectStore('copies');store.add({date:new Date().toISOString(),state:clone(state)});const keys=store.getAllKeys();keys.onsuccess=()=>keys.result.slice(0,-5).forEach(k=>store.delete(k));tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(Error('Não foi possível guardar a cópia anterior. A importação não foi aplicada.'));};};});}
 picker.onchange=async()=>{
  if(!picker.files.length)return;
