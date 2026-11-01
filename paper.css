@@ -50,3 +50,7 @@
 /* Contorno fino dos identificadores dos itens, na tela e na impressão. */
 .paper-item-code{border:.5pt solid #8398a7!important;box-sizing:border-box!important}
 @media print{.paper-item-code{border:.5pt solid #8398a7!important}}
+
+/* Valores de NC, P e NC×P centralizados nas novas larguras. */
+.paper-field.appcc-metric input{padding:0!important;text-align:center!important}
+@media print{.paper-field.appcc-metric .print-value{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0!important}}
