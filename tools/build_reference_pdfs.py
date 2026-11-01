@@ -26,33 +26,10 @@ small=ParagraphStyle('small',parent=style,fontSize=8,leading=10)
 h2=ParagraphStyle('h2',parent=style,fontName='Helvetica-Bold',fontSize=12,leading=16,textColor=blue,spaceBefore=10)
 def para(text,sty=style):return Paragraph(escape(text).replace('\n','<br/>'),sty)
 
-path=out/'Tabela_Revisao_APPCC_IA_Probabilidade_Editavel.pdf'
-c=canvas.Canvas(str(path),pagesize=A4);c.setTitle('Tabela de revisão BPF/APPCC - 01/11/2026')
-W,H=A4;M=32;body=W-2*M
-def text(text,x,y,width,sty=style):
-    p=para(text,sty);_,hh=p.wrap(width,H);p.drawOn(c,x,y-hh);return hh
-def field(name,label,x,y,w,h=24,multi=False):
-    c.setFont('Helvetica',8);c.setFillColor(gray);c.drawString(x,y,label)
-    c.acroForm.textfield(name=name,tooltip=label,x=x,y=y-h-5,width=w,height=h,value='',fontName='Helvetica',fontSize=9,borderColor=border,fillColor=white,textColor=HexColor('#193244'),borderWidth=.6,forceBorder=True,fieldFlags='multiline' if multi else '')
-for page in range(math.ceil(len(rows)/2)):
-    c.setFillColor(blue);c.setFont('Helvetica-Bold',14);c.drawString(M,H-35,'Tabela de revisão BPF/APPCC')
-    text('Base do guia: 01/11/2026. PPR=1; POP=2; PC=3; PPRO=4; PCC=5. Campos de sugestão em branco.',M,H-47,body,small)
-    field('revisor_'+str(page),'Revisor',M,H-77,body*.72,20)
-    field('data_'+str(page),'Data',M+body*.75,H-77,body*.25,20)
-    for j,(item,idx,f) in enumerate(rows[page*2:page*2+2]):
-        top=H-123-j*326
-        c.setStrokeColor(border);c.rect(M,top-311,body,311,fill=0)
-        c.setFillColor(blue);c.setFont('Helvetica-Bold',10);c.drawString(M+10,top-18,f"Item {item['code']} - F{idx} | Atual: {f['cat'].replace('PPHO','POP')} | P={f['P']} | NC x P={cfg['pesos'][f['cat']]*f['P']}")
-        hh=text(f['texto'],M+10,top-29,body-20,small)
-        assert hh<95,(item['code'],hh)
-        field(f'categoria_{page}_{j}','Categoria sugerida',M+10,top-129,body*.39,22)
-        field(f'probabilidade_{page}_{j}','P sugerida (1 a 5)',M+body*.43,top-129,body*.25,22)
-        field(f'perigo_medida_{page}_{j}','Perigo e medida de controle',M+10,top-170,body-20,37,True)
-        field(f'fundamento_{page}_{j}','Fundamento da sugestão',M+10,top-223,body-20,30,True)
-        field(f'inspetor_{page}_{j}','Frase ao inspetor',M+10,top-269,body-20,25,True)
-    c.setFont('Helvetica',8);c.setFillColor(gray);c.drawRightString(W-M,20,f'01/11/2026 | Página {page+1} de 38');c.showPage()
-c.save()
+from review_table_pdf import build_review_table
+build_review_table(out/'Tabela_Revisao_APPCC_IA_Probabilidade_Editavel.pdf',rows,cfg['pesos'])
 
+W,H=A4;M=32
 pcc=[r for r in rows if r[2]['cat']=='PCC'];assert len(pcc)==5
 story=[para('Avaliação preliminar dos PCC',ParagraphStyle('title',parent=h2,fontSize=18,leading=22)),para('Revisão de 01/11/2026 - alinhada às classificações adotadas no guia atual.'),para('O guia adota cinco frases únicas como PCC. As mesmas frases podem aparecer em mais de uma linha de produção. A classificação deve ser confirmada para o processo real, com perigo, medida de controle, limite crítico validado, monitoramento, correção, destino do produto e registros definidos.'),para('As orientações e os fundamentos abaixo são os vigentes no guia. Não se atribui um limite numérico sem a validação específica do processo.')]
 for item,i,f in pcc:
