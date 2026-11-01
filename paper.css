@@ -46,3 +46,7 @@
 .paper-item-code{margin:0!important;padding:0!important;text-align:center!important;line-height:1!important;align-items:center!important;justify-content:center!important}
 .paper-field.appcc-class select{text-align:center!important;text-align-last:center!important;padding:0!important;margin:0!important}
 @media print{.paper-field.appcc-class .print-value{display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;padding:0!important;margin:0!important}}
+
+/* Contorno fino dos identificadores dos itens, na tela e na impressão. */
+.paper-item-code{border:.5pt solid #8398a7!important;box-sizing:border-box!important}
+@media print{.paper-item-code{border:.5pt solid #8398a7!important}}
