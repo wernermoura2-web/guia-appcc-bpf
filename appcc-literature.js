@@ -8,7 +8,7 @@
  const refs=create('article');refs.className='appcc-protocol-page';refs.append(create('h2','Literatura e referências técnicas'));for(const [title,url]of data.references){const p=create('p',title+' '),a=create('a',url);a.href=url;a.target='_blank';a.rel='noopener';p.append(a);refs.append(p);}report.append(refs);document.body.append(report);
  const panel=create('section');panel.className='screen-only appcc-literature-screen';panel.append(create('h2','Protocolos e literatura técnica'));
  const link=create('a','Abrir protocolos e referências');link.href='./appcc-literatura.html?v='+data.version;link.target='_blank';link.rel='noopener';panel.append(link);
- if(typeof CFG!=='undefined'){const label=create('label'),check=create('input');check.type='checkbox';check.checked=true;check.id='include-appcc-literature';check.style.cssText='width:18px;min-height:18px;margin-right:8px';label.style.cssText='display:block;margin-top:12px';label.append(check,document.createTextNode('Incluir protocolos Protocolo 1–Protocolo 4 e literatura na impressão'));panel.append(label);const sync=()=>document.body.classList.toggle('appcc-print-literature',check.checked);check.onchange=sync;sync();}
+ if(typeof CFG!=='undefined'){document.body.classList.remove('appcc-print-literature');}
  else{document.body.classList.add('appcc-print-literature');}
  const host=document.querySelector('.paper-workspace,.workspace,main');(host||document.body).append(panel);
  window.APPCC_LITERATURE_API={protocols:data.protocols,report};
