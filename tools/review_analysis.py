@@ -64,7 +64,7 @@ def assessment(item,index,f):
     if code=='4.10.4' and index==1:hazard='B/Q: amostragem insuficiente ou não representativa impede sustentar a decisão de retenção/liberação.'
     if code=='4.3.3' and index==2:hazard='B: estagnação, dificuldade de higienização e amostragem não representativa por dispositivos inadequados.'
     support='Capacitação e registros dão suporte à execução; não são uma etapa de eliminação do perigo.' if 'capacita' in f['texto'].lower() or 'registra' in f['texto'].lower() else 'A frase estabelece condição ou controle de suporte; não define isoladamente uma etapa de redução do perigo.'
-    measure=f['orientacao']
+    measure='Deve existir: '+PROCEDURES[code]+'. '+f['texto']
     if code in ('4.1.3','4.2.7','4.3.5','4.7.8') and significant:measure+=' Definir liberação após higienização por microbiologia e/ou ATP, conforme aplicação; ATP não equivale a ensaio microbiológico.'
     special=code=='4.6.8';release=code=='4.10.4' and index==2
     triage={
