@@ -196,7 +196,7 @@ function initInteractive(){const scale=document.getElementById('nc-scale');if(sc
 if(!window.APPCC_PAPER)initInteractive();
 function printGuide(){save();let w=window.open('./html.appcc.pdf.html?print=1','_blank');if(!w)location.href='./html.appcc.pdf.html?print=1';}
 
-function singleCell(k){let r=rows(k)[0];return '<strong>'+r.codigo+' - '+esc(r.texto)+'</strong><label>BPF/APPCC<select '+(window.APPCC_ORIGINAL_ITEMS&&!appccEditable()?'disabled aria-label="BPF/APPCC — somente consulta" ':'')+'onchange="editField(\''+k+'\',0,\'cat\',this.value)">'+CATS.map(cat=>'<option value="'+cat+'" '+(cat===r.cat?'selected':'')+'>'+appccLabel(cat)+'</option>').join('')+'</select></label><span class="weight">NC '+CFG.pesos[r.cat]+' × P '+r.P+' = '+r.NC*r.P+'</span>'+answerButtons(k,0)+'<button type="button" onclick="openPhrases(\''+k+'\')">F</button><textarea aria-label="Observação do item" onchange="editField(\''+k+'\',0,\'obs\',this.value)">'+esc(r.obs||'')+'</textarea>';}
+function singleCell(k){let r=rows(k)[0];return '<strong>'+r.codigo+' - '+esc(r.texto)+'</strong><label>BPF/APPCC<select '+(window.APPCC_ORIGINAL_ITEMS&&!appccEditable()?'disabled aria-label="BPF/APPCC — somente consulta" ':'')+'onchange="editField(\''+k+'\',0,\'cat\',this.value)">'+CATS.map(cat=>'<option value="'+cat+'" '+(cat===r.cat?'selected':'')+'>'+appccLabel(cat)+'</option>').join('')+'</select></label><span class="weight">NC '+CFG.pesos[r.cat]+' × P '+r.P+' = '+r.NC*r.P+'</span>'+answerButtons(k,0,true)+'<button type="button" onclick="openPhrases(\''+k+'\')">F</button><textarea aria-label="Observação do item" onchange="editField(\''+k+'\',0,\'obs\',this.value)">'+esc(r.obs||'')+'</textarea>';}
 
 
 
