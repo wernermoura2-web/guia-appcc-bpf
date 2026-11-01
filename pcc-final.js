@@ -30,8 +30,12 @@ var PCCFinal=(function(){
  function statement(c,r,i,unit,process){
   var label=/^\d+$/.test(c.code)?'indicador ':'item ';
   var text='Considerando que a frase '+(i+1)+', do '+label+c.code+', do processo '+process+', na unidade '+unit+', classificada como PCC, apresentou resultado insatisfatório.';
+  var phrase=c.frases&&c.frases[i]||{};
+  if(phrase.consideracao)text+=' Foco: '+phrase.consideracao;
   if(r.obs)text+=' Constatação: '+r.obs;
+  if(phrase.providencia)text+=' Providência: '+phrase.providencia;
   return text;
  }
  return {synchronize:synchronize,statement:statement};
 })();
+

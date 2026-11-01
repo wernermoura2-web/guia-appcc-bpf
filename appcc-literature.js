@@ -1,0 +1,15 @@
+/* Protocolos técnicos e referências disponíveis na tela e na impressão. */
+(()=>{'use strict';
+ const data=window.APPCC_LITERATURE;if(!data)return;
+ const create=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
+ const style=create('style');style.textContent=`#appcc-literature-print{display:none}.appcc-literature-screen{margin:16px auto;max-width:1068px;padding:16px;background:white;border:1px solid #b9ceda;border-radius:9px}.appcc-literature-screen a{color:#075a9c}.appcc-protocol-page{font:10pt/1.4 Arial;color:#193244;overflow-wrap:anywhere}.appcc-protocol-page h2{font-size:15pt}.appcc-protocol-page h3{font-size:11pt;margin-bottom:3pt}.appcc-protocol-page p{margin:0 0 9pt}.appcc-protocol-page a{color:#075a9c}@page appccProtocol{size:A4 portrait;margin:0}@media print{body.appcc-print-literature #appcc-literature-print{display:block!important;width:210mm!important;margin:0!important;padding:0!important}#appcc-literature-print .appcc-protocol-page{page:appccProtocol;display:block!important;box-sizing:border-box;width:210mm;min-height:297mm;padding:13mm;break-before:page;break-after:page;break-inside:avoid}#appcc-literature-print .appcc-protocol-page:last-child{break-after:auto}.appcc-literature-screen{display:none!important}}`;document.head.append(style);
+ const report=create('section');report.id='appcc-literature-print';
+ for(const item of data.protocols){const page=create('article');page.className='appcc-protocol-page';page.id='protocolo-'+item.id;page.append(create('h2',item.id+' | '+item.title));if(item.intro)page.append(create('p',item.intro));for(const [title,text]of item.entries){page.append(create('h3',title),create('p',text));}report.append(page);}
+ const refs=create('article');refs.className='appcc-protocol-page';refs.append(create('h2','Literatura e referências técnicas'));for(const [title,url]of data.references){const p=create('p',title+' '),a=create('a',url);a.href=url;a.target='_blank';a.rel='noopener';p.append(a);refs.append(p);}report.append(refs);document.body.append(report);
+ const panel=create('section');panel.className='screen-only appcc-literature-screen';panel.append(create('h2','Protocolos L e literatura técnica'));
+ const link=create('a','Abrir protocolos e referências');link.href='./appcc-literatura.html?v='+data.version;link.target='_blank';link.rel='noopener';panel.append(link);
+ if(typeof CFG!=='undefined'){const label=create('label'),check=create('input');check.type='checkbox';check.checked=true;check.id='include-appcc-literature';check.style.cssText='width:18px;min-height:18px;margin-right:8px';label.style.cssText='display:block;margin-top:12px';label.append(check,document.createTextNode('Incluir protocolos L1–L4 e literatura na impressão'));panel.append(label);const sync=()=>document.body.classList.toggle('appcc-print-literature',check.checked);check.onchange=sync;sync();}
+ else{document.body.classList.add('appcc-print-literature');}
+ const host=document.querySelector('.paper-workspace,.workspace,main');(host||document.body).append(panel);
+ window.APPCC_LITERATURE_API={protocols:data.protocols,report};
+})();
