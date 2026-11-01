@@ -1,6 +1,6 @@
 /* Checkpoints stay in this browser; inspection contents are never uploaded. */
 (()=>{'use strict';
-const DB='guia-appcc-bpf-backups-v1', SETTING='guia-appcc-bpf-backup-minutes', LIMIT=30;
+const DB=window.APPCC_TEAM?'guia-appcc-bpf-equipe-backups-v1':'guia-appcc-bpf-backups-v1', SETTING=window.APPCC_TEAM?'guia-appcc-bpf-equipe-backup-minutes':'guia-appcc-bpf-backup-minutes', LIMIT=30;
 let db, timer, busy=false, last='', minutes=5;
 try{const n=Number(localStorage.getItem(SETTING));if(n>=0.25&&n<=10080)minutes=n;}catch{}
 const panel=document.createElement('section');panel.className='card screen-only backup-panel';
