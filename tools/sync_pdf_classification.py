@@ -21,6 +21,10 @@ for i in range(1,len(names),2):
   s=s.replace(needle,"+'\\nBPF/APPCC: '+String(c.frases[i].cat).replace('PPHO','POP')+'\\nFundamento da classificação: '+(c.frases[i].fundamento||c.frases[i].consideracao||'')"+needle)
  obj[NameObject('/JS')]=TextStringObject(s);count+=1
 assert count==1
+# Remove the protocol/literature appendix; preserve the 22 inspection pages.
+if len(writer.pages)>22:
+ assert any('Protocolo' in (pg.extract_text() or '') or 'Literatura' in (pg.extract_text() or '') for pg in writer.pages[22:])
+ for i in range(len(writer.pages)-1,21,-1):writer.remove_page(i)
 fields=writer.get_fields();values={}
 for cf in {c['classField'] for c in cfg['itens'].values()}:
  c=next(c for c in cfg['itens'].values() if c['classField']==cf);fs=c['frases'];unique=lambda xs:list(dict.fromkeys(xs))
@@ -37,7 +41,8 @@ for pg in writer.pages:
  relevant={str(a.get_object().get('/T','')):values[str(a.get_object().get('/T',''))] for a in pg.get('/Annots',[]) if str(a.get_object().get('/T','')) in values}
  if relevant:writer.update_page_form_field_values(pg,relevant,auto_regenerate=False)
 with path.open('wb') as f:writer.write(f)
-result=PdfReader(path);assert len(result.pages)==len(reader.pages)
+result=PdfReader(path);assert len(result.pages)==22
 actual=result.get_fields();assert len(actual)==len(fields)
 for k,v in values.items():assert str(actual[k]['/V'])==v
 print('PDF sincronizado:',len(result.pages),'páginas;',len(actual),'campos preservados.')
+
