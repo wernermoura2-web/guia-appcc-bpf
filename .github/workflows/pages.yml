@@ -25,12 +25,15 @@ jobs:
       # Os arquivos PDF, imagens e posições dos campos são revisados e versionados juntos.
       # Não recriar as páginas usando o modelo legado durante a publicação.
       - name: Sincronizar classificações e fundamentos no PDF editável
-        run: python tools/sync_pdf_classification.py
+        run: |
+          python tools/sync_pdf_classification.py
+          python tools/sync_cap_records_pdf.py
       - name: Atualizar materiais de revisão BPF e APPCC
         run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
         run: |
           node --check app.js
+          node tools/test_cap_records.cjs
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js

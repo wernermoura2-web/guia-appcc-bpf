@@ -58,6 +58,8 @@ HAZARDS={
 def assessment(item,index,f):
     code=item['code'];cat=f['cat'].replace('PPHO','POP');significant=cat in ('PPRO','PCC');pcc=cat=='PCC'
     hazard=HAZARDS[code]
+    if code=='4.1.3' and index==2:hazard='B/Q: execução incorreta da higienização por pessoal sem capacitação demonstrada.'
+    if code=='4.1.3' and index==3:hazard='B/Q: falhas de execução não rastreáveis; ausência de evidência dos parâmetros aplicados na higienização.'
     if code=='4.5.3' and index==3:hazard='Q/B: saneante sem regularização ou uso inadequado; eficácia insuficiente e resíduos na água ou embalagem.'
     if code=='4.6.5':hazard=('B/F: sujidade e matéria orgânica na embalagem que impedem a desinfecção eficaz.' if index==1 else 'B: sobrevivência de microrganismos após desinfecção insuficiente da embalagem retornável.')
     if code=='4.6.6' and index==2:hazard='Q: resíduo de saneante não detectado por teste de sensibilidade ou execução inadequadas.'
@@ -65,6 +67,8 @@ def assessment(item,index,f):
     if code=='4.3.3' and index==2:hazard='B: estagnação, dificuldade de higienização e amostragem não representativa por dispositivos inadequados.'
     support='Capacitação e registros dão suporte à execução; não são uma etapa de eliminação do perigo.' if 'capacita' in f['texto'].lower() or 'registra' in f['texto'].lower() else 'A frase estabelece condição ou controle de suporte; não define isoladamente uma etapa de redução do perigo.'
     measure='Deve existir: '+PROCEDURES[code]+'. '+f['texto']
+    if code=='4.1.3' and index==2:measure='Capacitação comprovada dos executores da limpeza e desinfecção; conferir certificados, conteúdo e identificação dos funcionários.'
+    if code=='4.1.3' and index==3:measure='Manter registros datados da limpeza e desinfecção, identificando captação, parâmetros executados e responsável; confrontar com o POP.'
     if code in ('4.1.3','4.2.7','4.3.5','4.7.8') and significant:measure+=' Definir liberação após higienização por microbiologia e/ou ATP, conforme aplicação; ATP não equivale a ensaio microbiológico.'
     special=code=='4.6.8';release=code=='4.10.4' and index==2
     triage={

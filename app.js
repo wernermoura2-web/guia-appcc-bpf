@@ -16,7 +16,7 @@ function migrateState(state){
   if(c.proc!=='4.1'||!state.a[k])continue;
   const old=state.a[k];state.legacyCaptacao[k]=JSON.parse(JSON.stringify(old));let next=old;
   if(c.code==='4.1.2'&&old[2]!==undefined)next={0:merge([old[0],old[1]]),1:{...old[2]}};
-  if(c.code==='4.1.3'&&old[2]!==undefined)next={0:{...old[0]},1:merge([old[1],old[2]])};
+  if(c.code==='4.1.3'&&old[2]!==undefined)next={0:{...old[0]},1:{...old[1]},2:{...old[2]}};
   state.a[k]=next;for(let i=0;i<c.frases.length;i++)if(next[i])next[i].cat=c.frases[i].cat;
  }
  state.configurationVersion=CONFIG_VERSION;return state;
@@ -64,7 +64,22 @@ function migratePOPConductionState(state){
  for(const[k,c]of Object.entries(CFG.itens))if(c.code==='4.2.9'&&state.a[k]){const old=state.a[k];state.legacyPOPConducao[k]=JSON.parse(JSON.stringify(old));const next={};if(old[1])next[0]={...old[1]};if(old[0])next[1]={...old[0]};state.a[k]=next;}
  state.popConductionVersion='pop-429-ordem-20261024';return state;
 }
+function migrateCapRecords(state){
+ if(state.capRecordsVersion==='captacao-registros-f3-20261101')return state;
+ state.legacyCapRecords=state.legacyCapRecords||{};
+ for(const [key,c]of Object.entries(CFG.itens)){
+  if(c.code!=='4.1.3'||!state.a?.[key])continue;
+  const answers=state.a[key];
+  if(answers[2])continue;
+  if(answers[1]){state.legacyCapRecords[key]=JSON.parse(JSON.stringify(answers[1]));
+   const pending={cat:'PPR',obs:'Revisar F2 e F3 após separação de capacitação e registros. Resposta conjunta anterior: '+(answers[1].a||'Pendente')+(answers[1].obs?' — '+answers[1].obs:'')};
+   state.a[key]={...answers,1:{...pending},2:{cat:'PPR',obs:'Confirmar os registros de limpeza e desinfecção separadamente da capacitação (F2).'}};
+  }
+ }
+ state.capRecordsVersion='captacao-registros-f3-20261101';return state;
+}
 function migrateCurrentState(state){
+ state=migrateCapRecords(state);
  state=migrateBeforeReceptionPPRO(state);
  if(state.receptionPPROVersion==='recepcao-ppro-20261026')return state;
  for(const [k,c] of Object.entries(CFG.itens))if(c.code==='4.5.3')c.frases.forEach((f,i)=>{if(f.texto.includes('reprovados')&&state.a?.[k]?.[i])state.a[k][i].cat='PPRO';});

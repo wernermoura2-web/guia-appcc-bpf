@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const nodes={};const ctx=vm.createContext({window:{APPCC_PAPER:true},document:{getElementById:id=>nodes[id]||(nodes[id]={})},localStorage:{getItem:()=>null,setItem(){}},console});
+for(const f of ['config.js','app.js'])vm.runInContext(fs.readFileSync(f,'utf8'),ctx);
+const run=s=>vm.runInContext(s,ctx);
+run("oldState={configurationVersion:CONFIG_VERSION,a:{'q_p1c1_4.1.3':{0:{a:'S'},1:{a:'N',obs:'Registro ausente'}}}};next=migrateCurrentState(oldState)");
+assert.equal(run("next.a['q_p1c1_4.1.3'][0].a"),'S');
+assert.equal(run("next.a['q_p1c1_4.1.3'][1].a"),undefined);
+assert.equal(run("next.a['q_p1c1_4.1.3'][2].a"),undefined);
+assert.equal(run("next.legacyCapRecords['q_p1c1_4.1.3'].a"),'N');
+assert.equal(run("next.legacyCapRecords['q_p1c1_4.1.3'].obs"),'Registro ausente');
+assert.equal(run('JSON.stringify(migrateCurrentState(next))'),run('JSON.stringify(next)'));
+run("explicit={a:{'q_p1c1_4.1.3':{0:{a:'S'},1:{a:'S'},2:{a:'N'}}}};migrateCurrentState(explicit)");
+assert.equal(run("explicit.a['q_p1c1_4.1.3'][1].a"),'S');assert.equal(run("explicit.a['q_p1c1_4.1.3'][2].a"),'N');
+run("S={meta:{},a:{'q_p1c1_4.1.3':{0:{a:'S'},1:{a:'S'},2:{a:'N'}}},units:{}};");
+assert.equal(run("score('q_p1c1_4.1.3').a"),'N');
+console.log('PASS: registros F3 separados, migração conservadora, histórico preservado e qualquer Não torna o item Não.');

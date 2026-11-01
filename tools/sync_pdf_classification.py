@@ -11,14 +11,16 @@ for i in range(1,len(names),2):
  if 'var CFG=' not in s:continue
  start=s.index('var CFG=')+8;old,end=json.JSONDecoder().raw_decode(s[start:])
  for key,c in old['itens'].items():
-  for j,f in enumerate(c['frases']):
-   src=cfg['itens'][key]['frases'][j]
-   for prop in ['cat','orientacao','consideracao','fundamento','providencia']:f[prop]=src.get(prop,'')
+  c['frases']=cfg['itens'][key]['frases']
  old['classificationRevision']=cfg['classificationRevision'];old['inspectorGuidanceVersion']=cfg['inspectorGuidanceVersion']
  s=s[:start]+json.dumps(old,ensure_ascii=True,separators=(',',':'))+s[start+end:]
  needle="+'\\nOrientação: '+c.frases[i].orientacao"
  if 'Fundamento da classificação:' not in s:
   s=s.replace(needle,"+'\\nBPF/APPCC: '+String(c.frases[i].cat).replace('PPHO','POP')+'\\nFundamento da classificação: '+(c.frases[i].fundamento||c.frases[i].consideracao||'')"+needle)
+ if 'function migrarRegistrosCaptacao' not in s:
+  migration="""function migrarRegistrosCaptacao(){var d=dados.call(this);if(d.capRecordsVersion==='captacao-registros-f3-20261101')return;d.legacyCapRecords=d.legacyCapRecords||{};for(var key in CFG.itens){if(CFG.itens[key].code!=='4.1.3'||!d.u[key])continue;var rs=d.u[key];if(!rs[2]&&rs[1]){d.legacyCapRecords[key]=JSON.parse(JSON.stringify(rs[1]));rs[1]={c:'PPR',a:'',o:'Revisar capacitação e registros separadamente; resposta conjunta anterior preservada no histórico.'};rs[2]={c:'PPR',a:'',o:'Confirmar registros de limpeza e desinfecção da captação.'};}}d.capRecordsVersion='captacao-registros-f3-20261101';gravar.call(this,d);}
+"""
+  s=s.replace('function iniciar(){try{',migration+'function iniciar(){try{migrarRegistrosCaptacao.call(this);')
  obj[NameObject('/JS')]=TextStringObject(s);count+=1
 assert count==1
 # Remove the protocol/literature appendix; preserve the 22 inspection pages.

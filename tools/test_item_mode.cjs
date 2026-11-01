@@ -11,7 +11,7 @@ run("editField('q_p1c1_4.1.1',0,'P',5)");assert.equal(run("rows('q_p1c1_4.1.1')[
 run("S.selfInspectionEditing=true;editField('q_p1c1_4.1.1',0,'cat','PCC');editField('q_p1c1_4.1.1',0,'NC',2);editField('q_p1c1_4.1.1',0,'P',5)");assert.equal(run("rows('q_p1c1_4.1.1')[0].NC"),2);assert.equal(run("rows('q_p1c1_4.1.1')[0].P"),5);assert.equal(run('pageResult(0,1)'),run('constOriginal'));assert(nodes['phrase-body'].innerHTML.includes('type="number"'));
 run("editField('q_p1c1_4.1.1',0,'P',6)");assert.equal(run("rows('q_p1c1_4.1.1')[0].P"),5);
 const saved=run('JSON.stringify(S)');run('S=JSON.parse('+JSON.stringify(saved)+')');assert.equal(run("rows('q_p1c1_4.1.1')[0].P"),5);
-run('S.appccOverrides={};S.selfInspectionEditing=false');assert.equal(run("rows('q_p1c1_4.1.1')[0].P"),3);assert.equal(run("rows('q_p1c1_4.1.1')[0].cat"),'PPRO');assert.equal(run("S.a['q_p1c1_4.1.1'][0].a"),'N');
+run('S.appccOverrides={};S.selfInspectionEditing=false');assert.equal(run("rows('q_p1c1_4.1.1')[0].P"),3);assert.equal(run("rows('q_p1c1_4.1.1')[0].cat"),'PPR');assert.equal(run("S.a['q_p1c1_4.1.1'][0].a"),'N');
 // Other guide entry points keep their existing APPCC calculation.
 run('window.APPCC_ORIGINAL_ITEMS=false');assert.equal(run('pageResult(0,1)'),run('appccSimulation(0,1)'));
 console.log('OK: item aggregation, original attendance, informative simulation, lock/unlock, NC/P 1–5, restore, JSON persistence, other guide unchanged.');

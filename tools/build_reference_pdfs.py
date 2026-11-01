@@ -19,7 +19,7 @@ out.mkdir(parents=True,exist_ok=True)
 items={}
 for c in cfg['itens'].values():items.setdefault(c['code'],c)
 rows=[(c,i+1,f) for c in items.values() for i,f in enumerate(c['frases'])]
-assert len(rows)==76
+assert len(rows)==77
 blue=HexColor('#075a9c'); gray=HexColor('#526b7c'); border=HexColor('#aabfcc')
 style=ParagraphStyle('text',fontName='Helvetica',fontSize=9,leading=12,textColor=HexColor('#193244'),spaceAfter=7)
 small=ParagraphStyle('small',parent=style,fontSize=8,leading=10)
@@ -66,3 +66,6 @@ for name in ['Arvore_Decisao_APPCC.pdf','APPCC_Fluxogramas_Passos_1_2_3.pdf']:
     if changed:
         temp=target.with_suffix('.new.pdf');doc.save(temp,garbage=4,deflate=True);doc.close();temp.replace(target)
     else:doc.close()
+
+from current_materials import build
+build(out,cfg,rows)
