@@ -71,3 +71,21 @@ for flow in story:
 if block:grouped.append(KeepTogether(block))
 SimpleDocTemplate(str(out/'Avaliacao_Preliminar_PCC_Guia_Estadual.pdf'),pagesize=A4,rightMargin=M,leftMargin=M,topMargin=30,bottomMargin=40).build(grouped,onFirstPage=footer,onLaterPages=footer)
 print(json.dumps({'phrases':len(rows),'pcc':len(pcc),'output':str(out)}))
+
+# Keep the terminology consistent in the existing decision-tree handouts.
+import fitz
+for name in ['Arvore_Decisao_APPCC.pdf','APPCC_Fluxogramas_Passos_1_2_3.pdf']:
+    target=out/name
+    if not target.exists():continue
+    doc=fitz.open(target);changed=False
+    for page in doc:
+        hits=page.search_for('PPHO')
+        if not hits:continue
+        for rect in hits:page.add_redact_annot(rect,fill=(1,1,1))
+        page.apply_redactions(images=0,graphics=0)
+        for rect in hits:
+            page.insert_text((rect.x0,rect.y1-rect.height*.19),'POP',fontsize=rect.height*.7,fontname='helv',color=(0,0,0))
+        changed=True
+    if changed:
+        temp=target.with_suffix('.new.pdf');doc.save(temp,garbage=4,deflate=True);doc.close();temp.replace(target)
+    else:doc.close()
