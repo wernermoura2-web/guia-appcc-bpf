@@ -1,0 +1,13 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const ctx=vm.createContext({window:{APPCC_PAPER:true},document:{getElementById:()=>({})},localStorage:{getItem:()=>null,setItem(){}},console});
+for(const f of ['config.js','app.js'])vm.runInContext(fs.readFileSync(f,'utf8'),ctx);
+const run=s=>vm.runInContext(s,ctx);
+assert.equal(run("Object.values(CFG.itens).filter(c=>c.code==='4.3.3').every(c=>c.frases.length===6)"),true);
+run("key=Object.keys(CFG.itens).find(k=>CFG.itens[k].code==='4.3.3');old={a:{[key]:{0:{a:'N',obs:'Filtro ausente'},1:{a:'S'},2:{a:'N',obs:'Sem registro de troca'}}}};next=migrateReservoirSplit(old)");
+assert.equal(run('next.a[key][2].a'),'N');assert.equal(run('next.a[key][2].obs'),'Sem registro de troca');
+for(const i of [0,1,3,4,5])assert.equal(run('next.a[key]['+i+'].a'),undefined);
+assert.equal(run('next.legacyReservoirSplit[key][0].a'),'N');
+assert.equal(run('JSON.stringify(migrateReservoirSplit(next))'),run('JSON.stringify(next)'));
+run("S={meta:{},a:{[key]:Object.fromEntries(Array.from({length:6},(_,i)=>[i,{a:'S'}]))},units:{}};S.a[key][5].a='N'");
+assert.equal(run('score(key).a'),'N');
+console.log('PASS: seis frases em todos os reservatórios, F3 preservado, respostas conjuntas arquivadas e F6 participa da avaliação.');

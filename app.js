@@ -78,9 +78,23 @@ function migrateCapRecords(state){
  }
  state.capRecordsVersion='captacao-registros-f3-20261101';return state;
 }
+function migrateReservoirSplit(state){
+ if(state.reservoirSplitVersion==='reservatorio-f4-f5-f6-20261101')return state;
+ state.legacyReservoirSplit=state.legacyReservoirSplit||{};
+ for(const [key,c]of Object.entries(CFG.itens)){
+  if(c.code!=='4.3.3'||!state.a?.[key])continue;
+  const old=state.a[key];if(old[5])continue;
+  state.legacyReservoirSplit[key]=JSON.parse(JSON.stringify(old));
+  const next={};if(old[2])next[2]={...old[2]};
+  for(const i of [0,1,3,4,5])next[i]={cat:c.frases[i].cat,obs:'Revisar após separar extravasor, drenagem, filtro de ar (F4), retenção (F5) e torneira (F6). Respostas anteriores preservadas no histórico.'};
+  state.a[key]=next;
+ }
+ state.reservoirSplitVersion='reservatorio-f4-f5-f6-20261101';return state;
+}
 function migrateCurrentState(state){
  state=migrateCapRecords(state);
  state=migrateBeforeReceptionPPRO(state);
+ state=migrateReservoirSplit(state);
  if(state.receptionPPROVersion==='recepcao-ppro-20261026')return state;
  for(const [k,c] of Object.entries(CFG.itens))if(c.code==='4.5.3')c.frases.forEach((f,i)=>{if(f.texto.includes('reprovados')&&state.a?.[k]?.[i])state.a[k][i].cat='PPRO';});
  state.receptionPPROVersion='recepcao-ppro-20261026';return state;

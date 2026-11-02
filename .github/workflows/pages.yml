@@ -28,12 +28,14 @@ jobs:
         run: |
           python tools/sync_pdf_classification.py
           python tools/sync_cap_records_pdf.py
+          python tools/sync_reservoir_split_pdf.py
       - name: Atualizar materiais de revisão BPF e APPCC
         run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
         run: |
           node --check app.js
           node tools/test_cap_records.cjs
+          node tools/test_reservoir_split.cjs
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js

@@ -19,7 +19,7 @@ out.mkdir(parents=True,exist_ok=True)
 items={}
 for c in cfg['itens'].values():items.setdefault(c['code'],c)
 rows=[(c,i+1,f) for c in items.values() for i,f in enumerate(c['frases'])]
-assert len(rows)==77
+assert len(rows)==80
 blue=HexColor('#075a9c'); gray=HexColor('#526b7c'); border=HexColor('#aabfcc')
 style=ParagraphStyle('text',fontName='Helvetica',fontSize=9,leading=12,textColor=HexColor('#193244'),spaceAfter=7)
 small=ParagraphStyle('small',parent=style,fontSize=8,leading=10)

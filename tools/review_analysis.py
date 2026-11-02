@@ -58,13 +58,13 @@ HAZARDS={
 def assessment(item,index,f):
     code=item['code'];cat=f['cat'].replace('PPHO','POP');significant=cat in ('PPRO','PCC');pcc=cat=='PCC'
     hazard=HAZARDS[code]
+    if code=='4.3.3':hazard={1:'B/F: ingresso de contaminantes por extravasor desprotegido.',2:'B: estagnação e higienização incompleta por drenagem inadequada.',3:'B: filtros deteriorados ou fora da frequência de verificação e troca.',4:'B: ingresso de microrganismos pelo ar sem barreira microbiológica íntegra.',5:'B: retorno de contaminantes por falha da retenção ou fecho hídrico.',6:'B: amostra contaminada ou não representativa por ponto de coleta inadequado.'}[index]
     if code=='4.1.3' and index==2:hazard='B/Q: execução incorreta da higienização por pessoal sem capacitação demonstrada.'
     if code=='4.1.3' and index==3:hazard='B/Q: falhas de execução não rastreáveis; ausência de evidência dos parâmetros aplicados na higienização.'
     if code=='4.5.3' and index==3:hazard='Q/B: saneante sem regularização ou uso inadequado; eficácia insuficiente e resíduos na água ou embalagem.'
     if code=='4.6.5':hazard=('B/F: sujidade e matéria orgânica na embalagem que impedem a desinfecção eficaz.' if index==1 else 'B: sobrevivência de microrganismos após desinfecção insuficiente da embalagem retornável.')
     if code=='4.6.6' and index==2:hazard='Q: resíduo de saneante não detectado por teste de sensibilidade ou execução inadequadas.'
     if code=='4.10.4' and index==1:hazard='B/Q: amostragem insuficiente ou não representativa impede sustentar a decisão de retenção/liberação.'
-    if code=='4.3.3' and index==2:hazard='B: estagnação, dificuldade de higienização e amostragem não representativa por dispositivos inadequados.'
     support='Capacitação e registros dão suporte à execução; não são uma etapa de eliminação do perigo.' if 'capacita' in f['texto'].lower() or 'registra' in f['texto'].lower() else 'A frase estabelece condição ou controle de suporte; não define isoladamente uma etapa de redução do perigo.'
     measure='Deve existir: '+PROCEDURES[code]+'. '+f['texto']
     if code=='4.1.3' and index==2:measure='Capacitação comprovada dos executores da limpeza e desinfecção; conferir certificados, conteúdo e identificação dos funcionários.'
