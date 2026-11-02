@@ -44,7 +44,7 @@ async function appendReports(pdf){
   }}
  }
  const guidance=document.getElementById('paper-include-guidance')?.checked;
- if(guidance){newPage('Anexo dos F - Respostas e observações');
+ if(guidance&&document.querySelectorAll('#guidance-annex .annex-intro, #guidance-annex .annex-row, #guidance-annex .annex-general-note').length){newPage('Anexo dos F - Respostas e observações');
   for(const node of document.querySelectorAll('#guidance-annex .annex-intro, #guidance-annex .annex-row, #guidance-annex .annex-general-note')){
    for(const child of node.children){if(child.tagName==='H1')continue;if(child.tagName==='H3')text(child.textContent,10,true);else if(child.tagName==='P')text(child.textContent);else if(child.tagName==='TABLE'){
     const vals=[...child.querySelectorAll('tr')].map(tr=>[...tr.children].map(td=>td.innerText));
