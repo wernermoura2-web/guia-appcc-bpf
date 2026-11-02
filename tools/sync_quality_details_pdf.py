@@ -10,7 +10,7 @@ R=Path(__file__).resolve().parents[1];path=R/'Guia_APPCC_BPF.pdf';cfg=json.loads
 r=PdfReader(path);w=PdfWriter();w.clone_document_from_reader(r);before=set(w.get_fields());templates=w.root_object['/Names']['/Templates']['/Names'];form=w.root_object['/AcroForm']['/Fields']
 base=next(templates[i+1].get_object()for i in range(0,len(templates),2)if templates[i]=='Frases_4_7_5_S');baseprefix='F_4_7_5_S_ed_'
 basefields={str(ref.get_object().get('/T','')).removeprefix(baseprefix):ref.get_object()for ref in base['/Annots']};pattern=re.compile(r'(panel|text|label|cat|nc|p|score|b|obs)_1(.*)$')
-for code in ['4.10.2','4.10.3','4.11.2']:
+for code in ['4.10.2','4.10.3','4.10.5','4.11.2']:
  c=next(c for c in cfg['itens'].values()if c['code']==code);name=c['template'];prefix=c['editorPrefix']+'ed_';existing=next((templates[i+1].get_object()for i in range(0,len(templates),2)if templates[i]==name),None)
  page=existing or DictionaryObject({k:v for k,v in base.items()if k!='/Annots'});annots=ArrayObject();values={}
  if existing:
@@ -29,9 +29,9 @@ for code in ['4.10.2','4.10.3','4.11.2']:
   if label is not None:appearance(w,o,label,push=bool(o.get('/Ff',0)&65536),font_size=5)
   annots.append(ref);return o
  for key in ['title','context','resumo','voltar','guardar']:
-  src=basefields[key];v=('Item '+code+' - AVALIAÇÃO DAS FRASES')if key=='title'else ('F1-F3: funções alternativas; ao menos uma aplicável. F4-F6: conselhos conforme atividade e atribuição legal. Justificar NA.'if code=='4.11.2'else 'BPF/APPCC informativo. Avaliar cada parâmetro e frequência; NA somente no laboratório próprio não utilizado.')if key=='context'else 'Item pendente: avaliar todas as frases aplicáveis.'if key=='resumo'else None
+  src=basefields[key];v=('Item '+code+' - AVALIAÇÃO DAS FRASES')if key=='title'else ('F1-F3: funções alternativas; ao menos uma aplicável. F4-F6: conselhos conforme atividade e atribuição legal. Justificar NA.'if code=='4.11.2'else 'Laudos apresentados: conferir cobertura de todos os produtos e captações, sem copiar a resposta geral para os novos requisitos.'if code=='4.10.5'else 'BPF/APPCC informativo. Avaliar cada parâmetro e frequência; NA somente no laboratório próprio não utilizado.')if key=='context'else 'Item pendente: avaliar todas as frases aplicáveis.'if key=='resumo'else None
   add(key,src,list(map(float,src['/Rect'])),v)
- count=len(c['frases']);cols=1 if count<=3 or code=='4.11.2'else 2;rows=(count+cols-1)//cols;height=88 if code=='4.11.2'else 174 if cols==1 else 64;gap=12 if code=='4.11.2'else 16 if cols==1 else 2
+ count=len(c['frases']);cols=1 if count<=3 or code in ['4.10.5','4.11.2']else 2;rows=(count+cols-1)//cols;height=126 if code=='4.10.5'else 88 if code=='4.11.2'else 174 if cols==1 else 64;gap=14 if code=='4.10.5'else 12 if code=='4.11.2'else 16 if cols==1 else 2
  for i,f in enumerate(c['frases']):
   col=i//rows;row=i%rows;left=23+col*278;top=724-row*(height+gap);width=549 if cols==1 else 271
   if cols==1:
@@ -65,6 +65,10 @@ for i in range(1,len(scripts),2):
  if 'var CFG='not in s:continue
  s=s.replace("if(a==='A'&&!c.allowNA)a='';","if(a==='A'&&!(c.frases[i].allowNA===undefined?c.allowNA:c.frases[i].allowNA))a='';").replace("if(a==='A'&&!c.allowNA)return;","if(a==='A'&&!(c.frases[i].allowNA===undefined?c.allowNA:c.frases[i].allowNA))return;").replace("aa!=='A'||c.allowNA","aa!=='A'||(c.frases[i].allowNA===undefined?c.allowNA:c.frases[i].allowNA)")
  s=s.replace('guideField.textSize=6;','guideField.textSize=c.code==="4.10.3"?5.2:6;').replace('quebrarLinhas(guideText,528,6)','quebrarLinhas(guideText,c.code==="4.10.3"?264:528,c.code==="4.10.3"?5.2:6)')
+ if 'function migrarLaudosCQ05'not in s:
+  fn="""function migrarLaudosCQ05(){var d=dados.call(this);if(d.qualityReportsVersion==='laudos-cq05-20261102')return;for(var key in CFG.itens){var c=CFG.itens[key];if(c.code!=='4.10.5'||!d.u[key])continue;for(var j=1;j<c.frases.length;j++)if(!d.u[key][j])d.u[key][j]={c:c.frases[j].cat,a:'',o:''};}d.qualityReportsVersion='laudos-cq05-20261102';gravar.call(this,d);}
+"""
+  s=s.replace('function iniciar(){try{',fn+'function iniciar(){try{migrarLaudosCQ05.call(this);')
  if 'function migrarDetalhesResponsavel'not in s:
   fn="""function migrarDetalhesResponsavel(){var d=dados.call(this);if(d.responsibleDetailsVersion==='responsabilidade-conselhos-20261101')return;d.legacyResponsibleDetails=d.legacyResponsibleDetails||{};for(var key in CFG.itens){var c=CFG.itens[key];if(c.code!=='4.11.2'||!d.u[key])continue;var old=d.u[key];if(old[5])continue;d.legacyResponsibleDetails[key]=JSON.parse(JSON.stringify(old));d.u[key]=[];for(var j=0;j<c.frases.length;j++)d.u[key][j]={c:c.frases[j].cat,a:'',o:'Revisar função e conselhos aplicáveis; resposta anterior preservada no histórico.'};}d.responsibleDetailsVersion='responsabilidade-conselhos-20261101';gravar.call(this,d);}
 """

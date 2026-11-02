@@ -45,6 +45,7 @@ jobs:
           node tools/test_hygiene_records.cjs
           node tools/test_individual_phrases.cjs
           node tools/test_quality_details.cjs
+          node tools/test_quality_reports.cjs
           node tools/test_responsible_details.cjs
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js

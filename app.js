@@ -136,7 +136,15 @@ function clearMigrationNotes(state){
  }
  return state;
 }
+function migrateQualityReports(state){
+ if(state.qualityReportsVersion==='laudos-cq05-20261102')return state;
+ for(const [key,c]of Object.entries(CFG.itens))if(c.code==='4.10.5'&&state.a?.[key]){
+  const rows=state.a[key];for(let i=1;i<c.frases.length;i++)if(!rows[i])rows[i]={cat:c.frases[i].cat,obs:''};
+ }
+ state.qualityReportsVersion='laudos-cq05-20261102';return state;
+}
 function migrateCurrentState(state){
+ state=migrateQualityReports(state);
  state=migrateCapRecords(state);
  state=migrateBeforeReceptionPPRO(state);
  state=migrateResponsibleDetails(state);
