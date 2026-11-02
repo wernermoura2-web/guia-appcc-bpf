@@ -58,6 +58,8 @@ HAZARDS={
 def assessment(item,index,f):
     code=item['code'];cat=f['cat'].replace('PPHO','POP');significant=cat in ('PPRO','PCC');pcc=cat=='PCC'
     hazard=HAZARDS[code]
+    if code=='4.6.11' and index==2:hazard='B/Q: falhas de execução não rastreáveis por ausência de registros da limpeza e desinfecção.'
+    if code=='4.6.11' and index==3:hazard='B/Q: execução incorreta por pessoal sem capacitação demonstrada.'
     if code=='4.3.3':hazard={1:'B/F: ingresso de contaminantes por extravasor desprotegido.',2:'B: estagnação e higienização incompleta por drenagem inadequada.',3:'B: filtros deteriorados ou fora da frequência de verificação e troca.',4:'B: ingresso de microrganismos pelo ar sem barreira microbiológica íntegra.',5:'B: retorno de contaminantes por falha da retenção ou fecho hídrico.',6:'B: amostra contaminada ou não representativa por ponto de coleta inadequado.'}[index]
     if code=='4.1.3' and index==2:hazard='B/Q: execução incorreta da higienização por pessoal sem capacitação demonstrada.'
     if code=='4.1.3' and index==3:hazard='B/Q: falhas de execução não rastreáveis; ausência de evidência dos parâmetros aplicados na higienização.'
@@ -67,6 +69,8 @@ def assessment(item,index,f):
     if code=='4.10.4' and index==1:hazard='B/Q: amostragem insuficiente ou não representativa impede sustentar a decisão de retenção/liberação.'
     support='Capacitação e registros dão suporte à execução; não são uma etapa de eliminação do perigo.' if 'capacita' in f['texto'].lower() or 'registra' in f['texto'].lower() else 'A frase estabelece condição ou controle de suporte; não define isoladamente uma etapa de redução do perigo.'
     measure='Deve existir: '+PROCEDURES[code]+'. '+f['texto']
+    if code=='4.6.11' and index==2:measure='Manter registros datados da limpeza e desinfecção das embalagens, identificando linha, parâmetros executados e responsável.'
+    if code=='4.6.11' and index==3:measure='Comprovar a capacitação dos executores e a compreensão dos procedimentos de limpeza, desinfecção e resposta aos desvios.'
     if code=='4.1.3' and index==2:measure='Capacitação comprovada dos executores da limpeza e desinfecção; conferir certificados, conteúdo e identificação dos funcionários.'
     if code=='4.1.3' and index==3:measure='Manter registros datados da limpeza e desinfecção, identificando captação, parâmetros executados e responsável; confrontar com o POP.'
     if code in ('4.1.3','4.2.7','4.3.5','4.7.8') and significant:measure+=' Definir liberação após higienização por microbiologia e/ou ATP, conforme aplicação; ATP não equivale a ensaio microbiológico.'
@@ -97,4 +101,6 @@ def assessment(item,index,f):
     if significant:foundation+=' Classificação adotada no guia; confirmação definitiva depende da demonstração na unidade. Q2/Q4=ND não constituem aprovação.'
     notes='Pré-análise documental, sem nova inspeção. Respostas S descrevem o desenho necessário do controle; ND exige comprovação. P='+str(f['P'])+' é ordinal e mantido do guia, não frequência estatística. NA na árvore não dispensa requisito aplicável.'
     evidence='Exigir registros e documentos indicados na orientação vigente, identificados por data, responsável, processo e lote. Não foram presumidos resultados satisfatórios de uma empresa.'
-    return dict(procedure=PROCEDURES[code],hazard=hazard,measure=measure,triage=triage,typeq=typeq,decision=decision,validation=vals,foundation=foundation,notes=notes,evidence=evidence,cat=cat,p=f['P'])
+    procedure=PROCEDURES[code]
+    if code=='4.6.11':procedure={1:'Execução da limpeza e desinfecção das embalagens',2:'Registros de limpeza e desinfecção das embalagens',3:'Capacitação dos executores da higienização das embalagens'}[index]
+    return dict(procedure=procedure,hazard=hazard,measure=measure,triage=triage,typeq=typeq,decision=decision,validation=vals,foundation=foundation,notes=notes,evidence=evidence,cat=cat,p=f['P'])

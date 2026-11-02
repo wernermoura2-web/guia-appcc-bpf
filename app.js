@@ -91,9 +91,22 @@ function migrateReservoirSplit(state){
  }
  state.reservoirSplitVersion='reservatorio-f4-f5-f6-20261101';return state;
 }
+function migrateHygieneRecords(state){
+ if(state.hygieneRecordsVersion==='higienizacao-registros-f2-20261101')return state;
+ state.legacyHygieneRecords=state.legacyHygieneRecords||{};
+ for(const [key,c]of Object.entries(CFG.itens)){
+  if(c.code!=='4.6.11'||!state.a?.[key])continue;
+  const old=state.a[key];if(old[2])continue;
+  state.legacyHygieneRecords[key]=JSON.parse(JSON.stringify(old));
+  const next={};if(old[0])next[0]={...old[0]};if(old[1])next[2]={...old[1]};
+  next[1]={cat:'PPR',obs:'Confirmar os registros de limpeza e desinfecção das embalagens na nova F2. A resposta de capacitação foi transferida para F3.'};state.a[key]=next;
+ }
+ state.hygieneRecordsVersion='higienizacao-registros-f2-20261101';return state;
+}
 function migrateCurrentState(state){
  state=migrateCapRecords(state);
  state=migrateBeforeReceptionPPRO(state);
+ state=migrateHygieneRecords(state);
  state=migrateReservoirSplit(state);
  if(state.receptionPPROVersion==='recepcao-ppro-20261026')return state;
  for(const [k,c] of Object.entries(CFG.itens))if(c.code==='4.5.3')c.frases.forEach((f,i)=>{if(f.texto.includes('reprovados')&&state.a?.[k]?.[i])state.a[k][i].cat='PPRO';});
