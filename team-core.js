@@ -3,7 +3,7 @@
 const clone=x=>JSON.parse(JSON.stringify(x));
 function validate(state,cfg){
  if(!state||state.schema!=='appcc-bpf-1'||!state.a||typeof state.a!=='object'||!state.meta)throw Error('Arquivo incompatível com o guia BPF/APPCC.');
- for(const [key,answers]of Object.entries(state.a)){const c=cfg.itens[key];if(!c)throw Error('O arquivo contém item desconhecido: '+key);for(const [i,r]of Object.entries(answers)){if(!c.frases[i]||!r||r.a&&!['S','N','A'].includes(r.a)||r.a==='A'&&!(c.frases[i].allowNA===undefined?c.allowNA:c.frases[i].allowNA))throw Error('Resposta inválida no item '+c.code);}}
+ for(const [key,answers]of Object.entries(state.a)){const c=cfg.itens[key];if(!c)throw Error('O arquivo contém item desconhecido: '+key);if(c.roleAlternatives?.every(i=>answers[i]?.a==='A'))throw Error('Ao menos uma função responsável deve ser aplicável no item 4.11.2.');for(const [i,r]of Object.entries(answers)){if(!c.frases[i]||!r||r.a&&!['S','N','A'].includes(r.a)||r.a==='A'&&!(c.frases[i].allowNA===undefined?c.allowNA:c.frases[i].allowNA))throw Error('Resposta inválida no item '+c.code);}}
  return true;
 }
 function merge(target,source,selected,cfg,paper){

@@ -107,6 +107,7 @@ def assessment(item,index,f):
     notes='Pré-análise documental, sem nova inspeção. Respostas S descrevem o desenho necessário do controle; ND exige comprovação. P='+str(f['P'])+' é ordinal e mantido do guia, não frequência estatística. NA na árvore não dispensa requisito aplicável.'
     evidence='Exigir registros e documentos indicados na orientação vigente, identificados por data, responsável, processo e lote. Não foram presumidos resultados satisfatórios de uma empresa.'
     procedure=PROCEDURES[code]
+    if code=='4.11.2':procedure={1:'Responsável técnico pela industrialização',2:'Responsável legal pela industrialização',3:'Proprietário responsável pela industrialização',4:'Habilitação e responsabilidade no CRQ',5:'Habilitação e responsabilidade no CRBio',6:'Habilitação e responsabilidade em outro conselho'}[index]
     if code=='4.10.2':procedure={1:'Capacidade e rastreabilidade do laboratório próprio',2:'Qualificação do laboratório externo',3:'Contrato de análises terceirizadas'}[index]
     if code=='4.10.3':procedure=(f['parameter']+' — '+f['monitoringPoint'])if f.get('parameter')else {15:'Análise anual das substâncias do Anexo I da RDC 717/2022',16:'Análise microbiológica externa mensal de um lote',17:'Controle microbiológico de todos os lotes em cinco unidades'}[index]
     if code in ['4.2.7','4.3.5']:procedure={1:'Higienização e liberação',2:'Registros de higienização',3:'Capacitação dos executores'}[index]+(' da canalização' if code=='4.2.7' else ' do reservatório')

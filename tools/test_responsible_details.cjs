@@ -1,0 +1,12 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');let alerts=0;const ctx=vm.createContext({window:{APPCC_PAPER:true},document:{getElementById:()=>({})},localStorage:{getItem:()=>null,setItem(){}},console,refreshPaper(){},alert(){alerts++}});for(const f of ['config.js','app.js'])vm.runInContext(fs.readFileSync(f,'utf8'),ctx);const run=s=>vm.runInContext(s,ctx);
+assert.equal(run("Object.values(CFG.itens).find(c=>c.code==='4.11.2').frases.length"),6);
+run("k=Object.keys(CFG.itens).find(k=>CFG.itens[k].code==='4.11.2');S={meta:{},a:{},units:{}};answer(k,0,'A');answer(k,1,'A');answer(k,2,'A')");assert.equal(alerts,1);assert.equal(run('S.a[k][2]?.a'),undefined);
+run("answer(k,2,'S');for(let i=3;i<6;i++)answer(k,i,'A')");assert.equal(run('score(k).a'),'S');
+run("S.a[k][2].a='A'");assert.equal(run('score(k).a'),'N');
+run("old={a:{[k]:{0:{a:'S',obs:'Responsável anterior'}}}};next=migrateResponsibleDetails(old)");assert.equal(run('next.a[k][0].a'),undefined);assert.equal(run('next.legacyResponsibleDetails[k][0].obs'),'Responsável anterior');assert.equal(run('JSON.stringify(migrateResponsibleDetails(next))'),run('JSON.stringify(next)'));
+const core=require('../team-core.js');const cfg=run('JSON.parse(JSON.stringify(CFG))');const key=run('k');assert.throws(()=>core.validate({schema:'appcc-bpf-1',meta:{},a:{[key]:{0:{a:'A'},1:{a:'A'},2:{a:'A'}}}},cfg),/função responsável/);
+console.log('PASS: seis frases; funções alternativas exigem responsável aplicável; conselhos permitem NA justificado; histórico preservado e importação consistente.');
+
+run("notes={a:{x:{0:{obs:'Revisar após individualizar requisitos. Respostas anteriores preservadas no histórico.'},1:{obs:'Anotação do inspetor'},2:{obs:'Revisar outro requisito'}}}};clearMigrationNotes(notes)");assert.equal(run('notes.a.x[0].obs'),'');assert.equal(run('notes.a.x[1].obs'),'Anotação do inspetor');assert.equal(run('notes.a.x[2].obs'),'Revisar outro requisito');
+run("notes={legacyCapRecords:{x:{obs:'Nota original'}},a:{x:{1:{obs:'Revisar F2 e F3 após separação de capacitação e registros. Resposta conjunta anterior: S — Nota original'}}}};clearMigrationNotes(notes)");assert.equal(run('notes.a.x[1].obs'),'Nota original');
+const paper=vm.runInNewContext(fs.readFileSync('paper-data.js','utf8')+';PAPER');for(const [key,c]of Object.entries(cfg.itens))if(c.frases.length>1)assert(paper[c.page].fields.some(f=>f.n==='b_'+key+'_F'),key);console.log('PASS: botões F e limpeza seletiva de observações.');

@@ -32,6 +32,9 @@ jobs:
           python tools/sync_hygiene_records_pdf.py
           python tools/sync_individual_phrases_pdf.py
           python tools/sync_quality_details_pdf.py
+          python tools/sync_responsible_overview_pdf.py
+          python tools/sync_missing_f_pdf.py
+          python tools/clear_migration_notes_pdf.py
       - name: Atualizar materiais de revisão BPF e APPCC
         run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
@@ -42,6 +45,7 @@ jobs:
           node tools/test_hygiene_records.cjs
           node tools/test_individual_phrases.cjs
           node tools/test_quality_details.cjs
+          node tools/test_responsible_details.cjs
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js
