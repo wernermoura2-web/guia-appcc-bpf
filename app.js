@@ -103,9 +103,23 @@ function migrateHygieneRecords(state){
  }
  state.hygieneRecordsVersion='higienizacao-registros-f2-20261101';return state;
 }
+function migrateIndividualPhrases(state){
+ if(state.individualPhrasesVersion==='frases-individuais-20261101')return state;
+ const counts={'4.2.7':3,'4.3.5':3,'4.7.4':4,'4.7.5':5},moves={'4.2.7':{1:1},'4.3.5':{0:0},'4.7.4':{1:3},'4.7.5':{1:4}};
+ state.legacyIndividualPhrases=state.legacyIndividualPhrases||{};
+ for(const [key,c]of Object.entries(CFG.itens)){
+  if(!counts[c.code]||!state.a?.[key])continue;
+  const old=state.a[key];if(old[counts[c.code]-1])continue;
+  state.legacyIndividualPhrases[key]=JSON.parse(JSON.stringify(old));const next={};
+  for(let i=0;i<counts[c.code];i++)next[i]={cat:c.frases[i].cat,obs:'Revisar após individualizar requisitos. Respostas anteriores preservadas no histórico.'};
+  for(const [from,to]of Object.entries(moves[c.code]))if(old[from])next[to]={...old[from]};state.a[key]=next;
+ }
+ state.individualPhrasesVersion='frases-individuais-20261101';return state;
+}
 function migrateCurrentState(state){
  state=migrateCapRecords(state);
  state=migrateBeforeReceptionPPRO(state);
+ state=migrateIndividualPhrases(state);
  state=migrateHygieneRecords(state);
  state=migrateReservoirSplit(state);
  if(state.receptionPPROVersion==='recepcao-ppro-20261026')return state;

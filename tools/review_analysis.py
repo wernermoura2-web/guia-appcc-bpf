@@ -58,6 +58,10 @@ HAZARDS={
 def assessment(item,index,f):
     code=item['code'];cat=f['cat'].replace('PPHO','POP');significant=cat in ('PPRO','PCC');pcc=cat=='PCC'
     hazard=HAZARDS[code]
+    if code in ['4.2.7','4.3.5'] and index==2:hazard='B/Q: execução não rastreável por ausência de registros de higienização.'
+    if code in ['4.2.7','4.3.5'] and index==3:hazard='B/Q: execução incorreta da higienização por pessoal sem capacitação demonstrada.'
+    if code=='4.7.4':hazard={1:'B: empoçamento e respingos de água por escoamento inadequado.',2:'B: retorno de contaminantes pelo ralo sem sifão ou tampa funcional.',3:'F: fragmentos de luminária ou vidro por quebra sem proteção.',4:'B: condensação e contaminação ambiental por ventilação inadequada.'}[index]
+    if code=='4.7.5':hazard={1:'B/F: ingresso de contaminantes por acesso não controlado.',2:'B: contaminação das mãos por acionamento manual ou lavatório inadequado.',3:'B: higiene das mãos ineficaz por ausência de sabonete ou antisséptico.',4:'B: recontaminação das mãos no sistema de secagem.',5:'B: transferência de microrganismos por higiene inadequada das mãos.'}[index]
     if code=='4.6.11' and index==2:hazard='B/Q: falhas de execução não rastreáveis por ausência de registros da limpeza e desinfecção.'
     if code=='4.6.11' and index==3:hazard='B/Q: execução incorreta por pessoal sem capacitação demonstrada.'
     if code=='4.3.3':hazard={1:'B/F: ingresso de contaminantes por extravasor desprotegido.',2:'B: estagnação e higienização incompleta por drenagem inadequada.',3:'B: filtros deteriorados ou fora da frequência de verificação e troca.',4:'B: ingresso de microrganismos pelo ar sem barreira microbiológica íntegra.',5:'B: retorno de contaminantes por falha da retenção ou fecho hídrico.',6:'B: amostra contaminada ou não representativa por ponto de coleta inadequado.'}[index]
@@ -102,5 +106,8 @@ def assessment(item,index,f):
     notes='Pré-análise documental, sem nova inspeção. Respostas S descrevem o desenho necessário do controle; ND exige comprovação. P='+str(f['P'])+' é ordinal e mantido do guia, não frequência estatística. NA na árvore não dispensa requisito aplicável.'
     evidence='Exigir registros e documentos indicados na orientação vigente, identificados por data, responsável, processo e lote. Não foram presumidos resultados satisfatórios de uma empresa.'
     procedure=PROCEDURES[code]
+    if code in ['4.2.7','4.3.5']:procedure={1:'Higienização e liberação',2:'Registros de higienização',3:'Capacitação dos executores'}[index]+(' da canalização' if code=='4.2.7' else ' do reservatório')
+    if code=='4.7.4':procedure={1:'Escoamento do piso',2:'Ralo sifonado e tampa escamoteável',3:'Proteção das luminárias',4:'Ventilação e controle de condensação'}[index]
+    if code=='4.7.5':procedure={1:'Controle de acesso pela antesala',2:'Lavatório e torneira sem contato manual',3:'Sabonete inodoro e antisséptico',4:'Secagem sem contato manual',5:'Execução da higiene das mãos'}[index]
     if code=='4.6.11':procedure={1:'Execução da limpeza e desinfecção das embalagens',2:'Registros de limpeza e desinfecção das embalagens',3:'Capacitação dos executores da higienização das embalagens'}[index]
     return dict(procedure=procedure,hazard=hazard,measure=measure,triage=triage,typeq=typeq,decision=decision,validation=vals,foundation=foundation,notes=notes,evidence=evidence,cat=cat,p=f['P'])
