@@ -31,6 +31,7 @@ jobs:
           python tools/sync_reservoir_split_pdf.py
           python tools/sync_hygiene_records_pdf.py
           python tools/sync_individual_phrases_pdf.py
+          python tools/sync_quality_details_pdf.py
       - name: Atualizar materiais de revisão BPF e APPCC
         run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
@@ -40,6 +41,7 @@ jobs:
           node tools/test_reservoir_split.cjs
           node tools/test_hygiene_records.cjs
           node tools/test_individual_phrases.cjs
+          node tools/test_quality_details.cjs
           node tools/test_inspector_guidance.cjs
           node --check inspector-orientations.js
           node --check orientacoes-inspetores.js

@@ -23,14 +23,14 @@ def build_review_table(path,rows,weights):
     def band(t,top,h=14):
         c.setFillColor(blue);c.rect(M,top-h,BW,h,fill=1,stroke=0);c.setFillColor(white);c.setFont('Helvetica-Bold',7);c.drawString(M+5,top-h+4,t)
     def field(name,x,top,w,h=14,multi=False,value='',font=7):
-        value=str(value)
+        value=str(value).replace("—","-").replace("–","-")
         if multi and value:
             while True:
                 lines=simpleSplit(value,'Helvetica',font,w-4)
                 if len(lines)*font*1.2<=h-2 or font<=4.2:break
                 font-=.2
             value='\n'.join(lines)
-        c.acroForm.textfield(name=name,x=x,y=top-h,width=w,height=h,value=str(value),fontName='Helvetica',fontSize=font,borderColor=line,borderWidth=.5,fillColor=white,textColor=blue,fieldFlags='multiline' if multi else '',forceBorder=True)
+        c.acroForm.textfield(name=name,x=x,y=top-h,width=w,height=h,value=str(value).replace("—","-").replace("–","-"),fontName='Helvetica',fontSize=font,borderColor=line,borderWidth=.5,fillColor=white,textColor=blue,fieldFlags='multiline' if multi else '',forceBorder=True)
     process={'4.1':'CAPTAÇÃO','4.2':'CONDUÇÃO','4.3':'RESERVATÓRIOS','4.5':'RECEPÇÃO','4.6':'HIGIENIZAÇÃO','4.7':'ENVASE','4.10':'CONTROLE DE QUALIDADE','4.11':'RESPONSABILIDADE E MANIPULADORES'}
     groups=[('Tabela 1 - Triagem A-E',[('A','O perigo é significativo nesta frase?'),('B','Existe medida de controle prevista?'),('C','A etapa foi concebida para controlar o perigo?'),('D','O perigo pode atingir nível inaceitável?'),('E','Há barreira posterior comprovadamente eficaz?')]),('Tabela 2 - Tipo de controle F-I',[('F','Controle operacional de perigo significativo?'),('G','Procedimento operacional ou de higiene?'),('H','Condição básica, estrutura ou capacitação?'),('I','Controle específico de apoio e verificação?')]),('Decisão Q1-Q4',[('Q1','A medida é necessária neste passo?'),('Q2','A implementação está comprovada?'),('Q3','A falha compromete a segurança do produto?'),('Q4','Há limite crítico validado e monitoramento oportuno?')])]
     for n,(item,i,f) in enumerate(rows,1):

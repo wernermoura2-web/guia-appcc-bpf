@@ -12,6 +12,8 @@ for i in range(1,len(names),2):
  start=s.index('var CFG=')+8;old,end=json.JSONDecoder().raw_decode(s[start:])
  for key,c in old['itens'].items():
   c['frases']=cfg['itens'][key]['frases']
+  for prop in ['allowNA','template','editorPrefix']:
+   if prop in cfg['itens'][key]:c[prop]=cfg['itens'][key][prop]
  old['classificationRevision']=cfg['classificationRevision'];old['inspectorGuidanceVersion']=cfg['inspectorGuidanceVersion']
  s=s[:start]+json.dumps(old,ensure_ascii=True,separators=(',',':'))+s[start+end:]
  needle="+'\\nOrientação: '+c.frases[i].orientacao"

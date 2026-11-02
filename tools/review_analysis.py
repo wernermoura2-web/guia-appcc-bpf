@@ -58,6 +58,7 @@ HAZARDS={
 def assessment(item,index,f):
     code=item['code'];cat=f['cat'].replace('PPHO','POP');significant=cat in ('PPRO','PCC');pcc=cat=='PCC'
     hazard=HAZARDS[code]
+    if code=='4.10.3':hazard=('Q: substâncias químicas acima dos limites do Anexo I da RDC 717/2022.' if index==15 else 'B: '+f.get('parameter','contaminação microbiológica')+' no '+f.get('monitoringPoint','produto envasado')+' não detectada por controle inadequado.')
     if code in ['4.2.7','4.3.5'] and index==2:hazard='B/Q: execução não rastreável por ausência de registros de higienização.'
     if code in ['4.2.7','4.3.5'] and index==3:hazard='B/Q: execução incorreta da higienização por pessoal sem capacitação demonstrada.'
     if code=='4.7.4':hazard={1:'B: empoçamento e respingos de água por escoamento inadequado.',2:'B: retorno de contaminantes pelo ralo sem sifão ou tampa funcional.',3:'F: fragmentos de luminária ou vidro por quebra sem proteção.',4:'B: condensação e contaminação ambiental por ventilação inadequada.'}[index]
@@ -106,6 +107,8 @@ def assessment(item,index,f):
     notes='Pré-análise documental, sem nova inspeção. Respostas S descrevem o desenho necessário do controle; ND exige comprovação. P='+str(f['P'])+' é ordinal e mantido do guia, não frequência estatística. NA na árvore não dispensa requisito aplicável.'
     evidence='Exigir registros e documentos indicados na orientação vigente, identificados por data, responsável, processo e lote. Não foram presumidos resultados satisfatórios de uma empresa.'
     procedure=PROCEDURES[code]
+    if code=='4.10.2':procedure={1:'Capacidade e rastreabilidade do laboratório próprio',2:'Qualificação do laboratório externo',3:'Contrato de análises terceirizadas'}[index]
+    if code=='4.10.3':procedure=(f['parameter']+' — '+f['monitoringPoint'])if f.get('parameter')else {15:'Análise anual das substâncias do Anexo I da RDC 717/2022',16:'Análise microbiológica externa mensal de um lote',17:'Controle microbiológico de todos os lotes em cinco unidades'}[index]
     if code in ['4.2.7','4.3.5']:procedure={1:'Higienização e liberação',2:'Registros de higienização',3:'Capacitação dos executores'}[index]+(' da canalização' if code=='4.2.7' else ' do reservatório')
     if code=='4.7.4':procedure={1:'Escoamento do piso',2:'Ralo sifonado e tampa escamoteável',3:'Proteção das luminárias',4:'Ventilação e controle de condensação'}[index]
     if code=='4.7.5':procedure={1:'Controle de acesso pela antesala',2:'Lavatório e torneira sem contato manual',3:'Sabonete inodoro e antisséptico',4:'Secagem sem contato manual',5:'Execução da higiene das mãos'}[index]

@@ -5,3 +5,5 @@
 .doc-process thead th{text-align:center;vertical-align:middle;overflow-wrap:normal;word-break:normal;white-space:nowrap;line-height:1.2}.doc-process thead th:nth-child(2){white-space:normal}.doc-process thead tr:nth-child(2) th{padding-top:2px;padding-bottom:2px}@media print{.doc-process thead th{font-size:6.8pt;padding-left:1pt;padding-right:1pt}.doc-dense thead th{font-size:6.5pt}}
 
 @media print{.doc-process table{font-size:8pt;line-height:1.12}.doc-process.doc-dense table{font-size:7pt;line-height:1.08}.doc-process tbody td{vertical-align:middle}.doc-process thead th{vertical-align:middle}}
+
+@media print{.doc-process.doc-dense table{font-size:6.1pt;line-height:1.02}.doc-process.doc-dense td{padding:1pt 2pt}.doc-process.doc-dense input[type=checkbox]{width:11px;height:11px}}
