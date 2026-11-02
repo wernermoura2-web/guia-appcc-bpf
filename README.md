@@ -23,3 +23,10 @@ Correção das frases: 4.3.3 usa as três sentenças da descrição (PPRO/PC/PPR
 ### Revisão PCC — 02/11/2026
 
 4.1.3 F1, 4.2.7 F1, 4.3.5 F1 e 4.7.8 F1 são PCC (NC 5; P 3; 15 pontos por frase). Registros e capacitação mantêm suas classificações próprias. O desmonte de 4.7.8 F2 é PC (NC 3; P 3; 9 pontos), como apoio ao PCC da F1. No envase, incluir reservatório/pulmão, conexões, tubulações, mangueiras, vedações e bicos. Condutividade em linha é medida complementar no circuito de enxágue, com referência da água, calibração/compensação de temperatura, limites validados, registros e resposta ao desvio. Não substitui controle específico de resíduo nem verificação microbiológica.
+
+
+### Médias por grupo de frases — 02/11/2026
+
+{"4.3.3": [[1, 5, 4], [6, 2]], "4.7.4": [[3, 4, 2]], "4.7.5": [[2, 3, 4, 5]], "4.11.2": [[1, 2, 3], [4, 5, 6]], "4.10.5": [[1, 2, 3]], "4.10.2": [[2, 3]], "4.10.3": [[1, 2, 3, 4, 5, 6, 7, 15, 16], [8, 9, 10], [11, 12, 13, 14]]}
+
+NA fica fora da média; não agrupadas pontuam separadamente. Resultado BPF mantém qualquer Não = item Não. Retirada a antiga F2 de registros de 4.6.11; capacitação renumerada F3→F2, com histórico preservado.

@@ -11,12 +11,13 @@
    let unit=unitName(c.page,c.col);if(c.page<=1&&S.names?.[c.col])unit+=' — '+S.names[c.col];if(c.page>=2&&c.page<=5)unit+=' · Captação '+(c.page-1)+(S.names?.[c.page-1]?' — '+S.names[c.page-1]:'');
    const allowed=c.frases[instance.index].allowNA??c.allowNA,nc=CFG.pesos[r.cat],weight=nc*r.P;
    const answers=({S:'☒ Sim',N:'☒ Não',A:'☒ NA'}[r.a]||'—');
-   for(const value of [unit+'\nF'+(instance.index+1)+(active?'':' · Unidade não utilizada'),answers,r.cat,nc,r.P,weight,active&&r.a==='S'?weight:0])record.appendChild(make('td',String(value??'')));
+   for(const value of [unit+'\nF'+(instance.index+1)+(active?'':' · Unidade não utilizada'),answers,r.cat,nc,r.P,weight,active?(APPCCScoring.totals(c,rows(instance.key),CFG.pesos).contributions[instance.index]?.earned||0):0])record.appendChild(make('td',String(typeof value==='number'?Number(value.toFixed(6)):(value??''))));
    const obs=make('td');obs.className='annex-observation';obs.appendChild(make('div',r.obs||''));const line=make('div');line.className='annex-write-line';if(!String(r.obs||'').trim())obs.appendChild(line);record.appendChild(obs);body.appendChild(record);
   }return table;
  }
  function articleFor(row,instances){
   const item=make('article');item.className='annex-row';item.append(make('h3',row.process+' · '+(row.processId?row.processId+' · ':'')+(api.guide==='original'?'Item ':'Indicador ')+row.code+' · '+row.phraseLabels.join(' / ')),make('p',row.requirement));
+  const groupNote=APPCCScoring.label(CFG.itens[instances[0].key]);if(groupNote)item.appendChild(make('p',groupNote));
   if(row.references.length){const ref=make('p','Referência normativa: '+row.references.join(' · '));ref.className='annex-reference';item.appendChild(ref);}
   const guidance=api.value(row.id);if(guidance)item.appendChild(make('p','Orientação ao inspetor: '+guidance));
   item.appendChild(tableFor(row,instances));return item;
@@ -44,7 +45,7 @@
   if(!filledRows.length&&!notePages.length){document.body.classList.toggle('with-guidance-annex',false);return;}
   api.reload();const intro=make('div');intro.className='annex-intro';intro.append(make('h1','Anexo dos F — Respostas e observações'),make('p',api.title+' · '+new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeZone:'America/Sao_Paulo'}).format(new Date())));
   if(S.meta?.empresa)intro.appendChild(make('p','Estabelecimento: '+S.meta.empresa));if(S.meta?.data)intro.appendChild(make('p','Inspeção: '+S.meta.data));
-  intro.appendChild(make('p','Somente linhas preenchidas. NC = criticidade; P = probabilidade; NC × P = peso. Pontos obtidos: peso das respostas Sim em unidades utilizadas. A linha na coluna de observações permite complemento manual.'));const blocks=[intro];
+  intro.appendChild(make('p','Somente linhas preenchidas. NC = criticidade; P = probabilidade; NC × P = peso bruto. Nos grupos, a contribuição de cada frase é dividida pelo número de frases aplicáveis; NA fica fora da média. Pontos obtidos consideram apenas respostas Sim em unidades utilizadas. A linha na coluna de observações permite complemento manual.'));const blocks=[intro];
   // One complete requirement and source reference per group of units.
   for(const row of filledRows)for(let offset=0;offset<row.instances.length;offset+=8)blocks.push(articleFor(row,row.instances.slice(offset,offset+8)));
   for(const page of notePages){const note=make('section');note.className='annex-general-note';note.append(make('h3','Observações gerais — '+(PAGES[page]||'Página '+(page+1))),make('p',S.notes[page]));blocks.push(note);}

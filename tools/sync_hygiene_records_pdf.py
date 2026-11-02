@@ -7,7 +7,7 @@ from pypdf.generic import NameObject,TextStringObject,ArrayObject,FloatObject,Di
 from reportlab.lib.utils import simpleSplit
 R=Path(__file__).resolve().parents[1];path=R/'Guia_APPCC_BPF.pdf'
 cfg=json.loads((R/'config.js').read_text()[10:].strip().rstrip(';'))
-source=next(c for c in cfg['itens'].values()if c['code']=='4.6.11');assert len(source['frases'])==3
+source=next(c for c in cfg['itens'].values()if c['code']=='4.6.11');assert len(source['frases'])==2
 reader=PdfReader(path);writer=PdfWriter();writer.clone_document_from_reader(reader)
 before=set(writer.get_fields());names=writer.root_object['/Names']['/Templates']['/Names']
 page=next(names[i+1].get_object()for i in range(0,len(names),2)if names[i]=='Frases_4_6_11_S')
@@ -34,6 +34,8 @@ values={}
 for i in range(3):
  bottom=550-i*190
  for ref,obj,m in rows[i]:
+  if i>=len(source['frases']):
+   obj[NameObject('/F')]=NumberObject(2);continue
   old=rects[m[1]+m[3]];rect=[old[0],bottom+(old[1]-basebottom)*174/(basetop-basebottom),old[2],bottom+(old[3]-basebottom)*174/(basetop-basebottom)]
   obj[NameObject('/Rect')]=ArrayObject([FloatObject(v)for v in rect])
   obj[NameObject('/F')]=NumberObject(4)
@@ -97,6 +99,6 @@ for idx in [7,8]:
 tmp=path.with_suffix('.res.pdf');doc.save(tmp,garbage=0,deflate=True);doc.close();tmp.replace(path)
 doc=fitz.open(path)
 for idx in [7,8]:
- assert 'F2 - Devem ser mantidos registros'in doc[idx].get_text()
+ assert 'F2 - As operações de limpeza'in doc[idx].get_text()
  doc[idx].get_pixmap(matrix=fitz.Matrix(1.6,1.6),annots=False).save(R/paper[idx]['image'])
-print('4.6.11: F1 execução, F2 registros, F3 capacitação; retornáveis e descartáveis atualizados.')
+print('4.6.11: F1 execução, F2 capacitação; antiga F2 de registros retirada da pontuação; retornáveis e descartáveis atualizados.')
