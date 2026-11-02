@@ -41,7 +41,7 @@
   report.replaceChildren();document.body.classList.toggle('with-guidance-annex',check.checked);if(!check.checked)return;
   const filledRows=api.catalog().map(row=>({...row,instances:row.instances.filter(instance=>{const r=rows(instance.key)[instance.index];return ['S','N','A'].includes(r.a)||String(r.obs||'').trim().length>0;})})).filter(row=>row.instances.length);
   const notePages=[...new Set(Object.values(CFG.itens).map(c=>c.page))].filter(page=>String(S.notes?.[page]||'').trim());
-  if(!filledRows.length&&!notePages.length){document.body.classList.toggle('with-guidance-annex',false);return;}
+  if(!filledRows.length&&!notePages.length){const empty=make('section');empty.className='annex-intro';empty.append(make('h1','Anexo dos F — Respostas e observações'),make('p','Nenhuma frase preenchida nesta inspeção.'));paginate([empty]);return;}
   api.reload();const intro=make('div');intro.className='annex-intro';intro.append(make('h1','Anexo dos F — Respostas e observações'),make('p',api.title+' · '+new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeZone:'America/Sao_Paulo'}).format(new Date())));
   if(S.meta?.empresa)intro.appendChild(make('p','Estabelecimento: '+S.meta.empresa));if(S.meta?.data)intro.appendChild(make('p','Inspeção: '+S.meta.data));
   intro.appendChild(make('p','Somente linhas preenchidas. NC = criticidade; P = probabilidade; NC × P = peso. Pontos obtidos: peso das respostas Sim em unidades utilizadas. A linha na coluna de observações permite complemento manual.'));const blocks=[intro];
@@ -50,6 +50,6 @@
   for(const page of notePages){const note=make('section');note.className='annex-general-note';note.append(make('h3','Observações gerais — '+(PAGES[page]||'Página '+(page+1))),make('p',S.notes[page]));blocks.push(note);}
   paginate(blocks);
  }
- check.addEventListener('change',prepare);window.addEventListener('beforeprint',prepare);prepare();
+ window.GuidanceAnnex={prepare};check.addEventListener('change',prepare);window.addEventListener('beforeprint',prepare);prepare();
 })();
 
