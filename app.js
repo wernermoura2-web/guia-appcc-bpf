@@ -137,11 +137,15 @@ function clearMigrationNotes(state){
  return state;
 }
 function migrateQualityReports(state){
- if(state.qualityReportsVersion==='laudos-cq05-20261102')return state;
+ if(state.qualityReportsVersion==='laudos-cq05-tres-frases-20261102')return state;
  for(const [key,c]of Object.entries(CFG.itens))if(c.code==='4.10.5'&&state.a?.[key]){
-  const rows=state.a[key];for(let i=1;i<c.frases.length;i++)if(!rows[i])rows[i]={cat:c.frases[i].cat,obs:''};
+  const rows=state.a[key];
+  if(state.qualityReportsVersion==='laudos-cq05-20261102'||rows[3]){
+   state.legacyQualityReportsFour=state.legacyQualityReportsFour||{};state.legacyQualityReportsFour[key]=JSON.parse(JSON.stringify(rows));
+   state.a[key]={0:rows[0]||{cat:'PC',obs:''},1:rows[1]||{cat:'PC',obs:''},2:rows[3]||{cat:'PC',obs:''}};
+  }else for(let i=1;i<c.frases.length;i++)if(!rows[i])rows[i]={cat:c.frases[i].cat,obs:''};
  }
- state.qualityReportsVersion='laudos-cq05-20261102';return state;
+ state.qualityReportsVersion='laudos-cq05-tres-frases-20261102';return state;
 }
 function migrateCurrentState(state){
  state=migrateQualityReports(state);
