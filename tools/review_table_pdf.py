@@ -72,11 +72,11 @@ def build_review_table(path,rows,weights):
         validation=['Eficácia','Critério / limite','Monitoramento','Correção','Destino do produto','Registros e verificação']
         for k,title in enumerate(validation):
             x=M+(k%3)*(gw+4);top=253-(k//3)*38;box(x,top,gw,35);p(title,x+4,top-4,gw-27,6.2,True);ans,reason=a['validation'][k];field(tag+'_validacao_'+str(k),x+gw-22,top-3,17,11,value=ans,font=6);p(reason,x+4,top-17,gw-8,5.3,maxh=17)
-        p('Fonte: Guia Estadual BPF/APPCC atual, configuração adotada em 01/11/2026. A obrigação de controle não comprova sua execução.',M,173,BW,6.1)
+        p('Fonte: Guia Estadual BPF/APPCC atual, configuração adotada em 02/11/2026. A obrigação de controle não comprova sua execução.',M,173,BW,6.1)
         box(M,159,BW,27);p('Evidências das inspeções / documentos consultados',M+4,156,BW-8,6.3,True);field(tag+'_evidencias_inspecao',M+4,146,BW-8,11,True,value=a['evidence'],font=5.5)
         box(M,128,BW,38);p('Fundamento da classificação vigente e condição de confirmação',M+4,125,BW-8,6.3,True);p(a['foundation'],M+4,114,BW-8,5.8,maxh=21)
         box(M,86,BW,25);p('Observações e premissas da revisão',M+4,83,BW-8,6.3,True);field(tag+'_observacoes',M+4,74,BW-8,10,True,value=a['notes'],font=5)
         p('PPR (1): pré-requisitos. POP (2): procedimento operacional padronizado, inclusive higienização. PC (3): ponto de controle. PPRO (4): pré-requisito operacional. PCC (5): ponto crítico de controle. P: escala ordinal 1–5, independente da categoria. A proposta e as respostas da árvore precisam de confirmação na unidade.',M,52,BW,6.1,maxh=27)
-        p('Uma frase por página A4 | Análise preenchida em 01/11/2026 | Confirmar na unidade',M,18,BW-50,6)
+        p('Uma frase por página A4 | Análise preenchida em 02/11/2026 | Confirmar na unidade',M,18,BW-50,6)
         c.setFont('Helvetica',7);c.setFillColor(blue);c.drawRightString(W-M,12,f'{n} / {len(rows)}');c.showPage()
     c.save()

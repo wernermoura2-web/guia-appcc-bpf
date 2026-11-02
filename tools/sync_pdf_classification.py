@@ -23,6 +23,10 @@ for i in range(1,len(names),2):
   migration="""function migrarRegistrosCaptacao(){var d=dados.call(this);if(d.capRecordsVersion==='captacao-registros-f3-20261101')return;d.legacyCapRecords=d.legacyCapRecords||{};for(var key in CFG.itens){if(CFG.itens[key].code!=='4.1.3'||!d.u[key])continue;var rs=d.u[key];if(!rs[2]&&rs[1]){d.legacyCapRecords[key]=JSON.parse(JSON.stringify(rs[1]));rs[1]={c:'PPR',a:'',o:'Revisar capacitação e registros separadamente; resposta conjunta anterior preservada no histórico.'};rs[2]={c:'PPR',a:'',o:'Confirmar registros de limpeza e desinfecção da captação.'};}}d.capRecordsVersion='captacao-registros-f3-20261101';gravar.call(this,d);}
 """
   s=s.replace('function iniciar(){try{',migration+'function iniciar(){try{migrarRegistrosCaptacao.call(this);')
+ if 'function migrarPccHigienizacao' not in s:
+  migration="""function migrarPccHigienizacao(){var d=dados.call(this);if(d.pccHigieneVersion==='pcc-higienizacao-condutividade-20261102')return;d.pccHigieneBackup=JSON.parse(JSON.stringify(d.u||{}));for(var key in CFG.itens){var c=CFG.itens[key];if(!d.u||!d.u[key])continue;if(c.code==='4.1.3'||c.code==='4.2.7'||c.code==='4.3.5'||c.code==='4.7.8'){if(d.u[key][0])d.u[key][0].c='PCC';}if(c.code==='4.7.8'&&d.u[key][1])d.u[key][1].c='PC';}d.pccHigieneVersion='pcc-higienizacao-condutividade-20261102';gravar.call(this,d);}
+"""
+  s=s.replace('function iniciar(){try{',migration+'function iniciar(){try{migrarPccHigienizacao.call(this);')
  obj[NameObject('/JS')]=TextStringObject(s);count+=1
 assert count==1
 # Remove the protocol/literature appendix; preserve the 22 inspection pages.

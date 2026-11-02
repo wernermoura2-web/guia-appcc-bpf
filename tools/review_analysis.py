@@ -78,6 +78,7 @@ def assessment(item,index,f):
     if code=='4.6.11' and index==3:measure='Comprovar a capacitação dos executores e a compreensão dos procedimentos de limpeza, desinfecção e resposta aos desvios.'
     if code=='4.1.3' and index==2:measure='Capacitação comprovada dos executores da limpeza e desinfecção; conferir certificados, conteúdo e identificação dos funcionários.'
     if code=='4.1.3' and index==3:measure='Manter registros datados da limpeza e desinfecção, identificando captação, parâmetros executados e responsável; confrontar com o POP.'
+    if code in ('4.1.3','4.2.7','4.3.5') and index==1:measure+=' Condutividade em linha como medida complementar: sensor calibrado, compensação de temperatura, referência da água, limites validados, registros e resposta ao desvio; não substitui ensaio específico de saneante e microbiologia.'
     if code in ('4.1.3','4.2.7','4.3.5','4.7.8') and significant:measure+=' Definir liberação após higienização por microbiologia e/ou ATP, conforme aplicação; ATP não equivale a ensaio microbiológico.'
     special=code=='4.6.8';release=code=='4.10.4' and index==2
     triage={

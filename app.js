@@ -226,6 +226,7 @@ function migrateReceptionState(state){
  state.receptionVersion='recepcao-20261025';return state;
 }
 function migrateAdoptedClassification(state){
+ if(state.pccHygieneVersion!=='pcc-higienizacao-condutividade-20261102'){state.pccHygieneBackup=JSON.parse(JSON.stringify(state.a||{}));for(const [key,c]of Object.entries(CFG.itens))if(['4.1.3','4.2.7','4.3.5','4.7.8'].includes(c.code)&&state.a?.[key]?.[0])state.a[key][0].cat='PCC';for(const [key,c]of Object.entries(CFG.itens))if(c.code==='4.7.8'&&state.a?.[key]?.[1])state.a[key][1].cat='PC';state.pccHygieneVersion='pcc-higienizacao-condutividade-20261102';}
  if(state.adoptedClassificationVersion==='bpf-appcc-adotado-20261101')return state;
  state.classificationBackup20261031=JSON.parse(JSON.stringify({answers:state.a||{},overrides:state.appccOverrides||{}}));
  for(const [key,c]of Object.entries(CFG.itens))c.frases.forEach((f,i)=>{if(state.a?.[key]?.[i])state.a[key][i].cat=f.cat;});

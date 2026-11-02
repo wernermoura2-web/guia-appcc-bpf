@@ -18,3 +18,8 @@ Condução revisada: 4.2.2/4.2.7/4.2.8 PPRO em todas as frases; 4.2.9 PPHO em to
 Reservatórios revisados: 4.3.2/4.3.4/4.3.5 PPRO; 4.3.3 segunda frase PC e demais PPRO; 4.3.6 PPHO (última indicação do usuário). Probabilidades, respostas e observações preservadas; migração única com backup em legacyReservatorios.
 
 Correção das frases: 4.3.3 usa as três sentenças da descrição (PPRO/PC/PPRO); 4.3.4 usa duas sentenças (PPRO/PPRO), ambas com observação e resposta próprias pelo F. Por frase removido das opções APPCC. Base inicial dos reservatórios: 125.
+
+
+### Revisão PCC — 02/11/2026
+
+4.1.3 F1, 4.2.7 F1, 4.3.5 F1 e 4.7.8 F1 são PCC (NC 5; P 3; 15 pontos por frase). Registros e capacitação mantêm suas classificações próprias. O desmonte de 4.7.8 F2 é PC (NC 3; P 3; 9 pontos), como apoio ao PCC da F1. No envase, incluir reservatório/pulmão, conexões, tubulações, mangueiras, vedações e bicos. Condutividade em linha é medida complementar no circuito de enxágue, com referência da água, calibração/compensação de temperatura, limites validados, registros e resposta ao desvio. Não substitui controle específico de resíduo nem verificação microbiológica.
