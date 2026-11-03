@@ -36,7 +36,7 @@
  function backup(){localStorage.setItem(backupKey,JSON.stringify(state));}
  function value(id){const row=byId.get(id);return own(state.overrides,id)?state.overrides[id]:(row?.base||'');}
  function basisValue(id){return own(state.foundations||{},id)?state.foundations[id]:(byId.get(id)?.baseBasis||'');}
- const api={guide,storageKey,title:guide==='original'?'Guia original':'Guia de revisão',catalog:()=>catalog,
+ const api={guide,storageKey,scoringNote,title:guide==='original'?'Guia original':'Guia de revisão',catalog:()=>catalog,
   get:(c,i)=>value(idFor(c,i)),value,basisGet:(c,i)=>basisValue(idFor(c,i)),basisValue,setBasis(id,text){if(!byId.has(id)||typeof text!=='string')throw Error('Fundamento não encontrado.');const next={...(state.foundations||{})};if(text===byId.get(id).baseBasis)delete next[id];else next[id]=text;return write(state.overrides,next);},
   changed:id=>own(state.overrides,id)||own(state.foundations||{},id),count:()=>catalog.filter(r=>own(state.overrides,r.id)||own(state.foundations||{},r.id)).length,
   set(id,text){if(!byId.has(id)||typeof text!=='string')throw Error('Orientação não encontrada.');const next={...state.overrides};if(text===byId.get(id).base)delete next[id];else next[id]=text;return write(next);},
