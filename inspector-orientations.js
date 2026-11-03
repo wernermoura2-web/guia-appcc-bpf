@@ -5,10 +5,16 @@
  const storageKey='guia-appcc-'+guide+'-orientacoes-v1',backupKey=storageKey+'-recuperacao';
  const schema='orientacoes-inspetor-v1',names={'4.1':'Captação','4.2':'Condução','4.3':'Reservatórios','4.5':'Recepção de embalagens e insumos','4.6':'Higienização de embalagens e tampas','4.7':'Envase e fechamento','4.10':'Controle de qualidade','4.11':'Responsáveis e manipuladores'};
  const idFor=(c,i)=>JSON.stringify([String(c.proc),String(c.code),c.frases[i].texto]);
+ function scoringNote(c){
+  if(c.code==='4.6.11')return 'F1: execução da higienização. F2: capacitação (antiga F3). A antiga F2 de registros deixou de ser pontuada separadamente; conferir os registros como evidência da execução da F1.';
+  const groups=c.scoringGroups||[];if(!groups.length)return '';
+  const used=new Set(groups.flat()),independent=c.frases.map((_,i)=>i+1).filter(n=>!used.has(n));
+  return 'Avaliar e responder cada frase individualmente. Pontuação APPCC: '+groups.map(g=>'média de '+g.map(n=>'F'+n).join(', ')).join('; ')+'.'+(independent.length?' Pontuação independente: '+independent.map(n=>'F'+n).join(', ')+'.':'')+' NA fica fora do divisor, quando permitido e justificado. O agrupamento não dispensa evidências nem altera a regra BPF de qualquer Não tornar o item Não.';
+ }
  const byId=new Map();
  for(const [key,c]of Object.entries(CFG.itens))c.frases.forEach((f,i)=>{
   const id=idFor(c,i);let row=byId.get(id);
-  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),processId:c.processId||'',title:c.title||'',requirement:f.texto,base:f.orientacao||'',baseBasis:f.fundamento||f.consideracao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
+  if(!row){row={id,proc:c.proc,process:names[c.proc]||c.proc,code:String(c.code),processId:c.processId||'',title:c.title||'',requirement:f.texto,base:f.orientacao||'',scoringNote:scoringNote(c),baseBasis:f.fundamento||f.consideracao||'',page:c.page,index:i,phraseLabels:[],references:[],sourceTexts:[],instances:[]};byId.set(id,row);}
   if(!row.phraseLabels.includes('F'+(i+1)))row.phraseLabels.push('F'+(i+1));
   if(f.ref&&!row.references.includes(f.ref))row.references.push(f.ref);
   if(f.sourceTexto&&!row.sourceTexts.includes(f.sourceTexto))row.sourceTexts.push(f.sourceTexto);

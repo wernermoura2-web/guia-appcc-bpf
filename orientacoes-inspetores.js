@@ -7,12 +7,12 @@
  function recover(action,success){try{action();render();message(success);}catch(error){message('Não foi possível recuperar o texto: '+error.message,true);}}
  function render(){
   const proc=$('process-filter').value,query=$('search').value.trim().toLocaleLowerCase('pt-BR');
-  const rows=catalog.filter(row=>(!proc||row.proc===proc)&&(!query||[row.code,row.process,row.requirement,api.value(row.id),api.basisValue(row.id)].join(' ').toLocaleLowerCase('pt-BR').includes(query)));
+  const rows=catalog.filter(row=>(!proc||row.proc===proc)&&(!query||[row.code,row.process,row.requirement,row.scoringNote,api.value(row.id),api.basisValue(row.id)].join(' ').toLocaleLowerCase('pt-BR').includes(query)));
   const fragment=document.createDocumentFragment();let current=null;
   rows.forEach((row,n)=>{
    if(row.proc!==current){fragment.appendChild(create('h2','process-title',row.process));current=row.proc;}
    const card=create('article','guidance-card'),heading=create('div','card-heading'),title=create('h3','',`${row.processId?row.processId+' · ':''}${api.guide==='original'?'Item':'Indicador'} ${row.code} · ${row.phraseLabels.join(' / ')}`),badge=create('span','edited','Revisada');badge.hidden=!api.changed(row.id);heading.append(title,badge);card.appendChild(heading);
-   card.appendChild(create('p','requirement',row.requirement));if(row.references.length)card.appendChild(create('p','reference','Referência normativa: '+row.references.join(' · ')));
+   card.appendChild(create('p','requirement',row.requirement));if(row.scoringNote)card.appendChild(create('p','scoring-note',row.scoringNote));if(row.references.length)card.appendChild(create('p','reference','Referência normativa: '+row.references.join(' · ')));
    if(row.references.length||row.sourceTexts.length){const details=create('details','reference');details.appendChild(create('summary','','Referências e texto de origem'));for(const text of [...row.sourceTexts,...row.references])details.appendChild(create('p','',text));card.appendChild(details);}
    const label=create('label','','Orientação ao inspetor'),textarea=create('textarea');textarea.id='orientacao-'+n;textarea.value=api.value(row.id);label.htmlFor=textarea.id;card.append(label,textarea);
    const basisLabel=create('label','','Fundamento da classificação'),basis=create('textarea');basis.id='fundamento-'+n;basis.value=api.basisValue(row.id);basisLabel.htmlFor=basis.id;card.append(basisLabel,basis);basis.addEventListener('input',()=>{try{api.setBasis(row.id,basis.value);badge.hidden=!api.changed(row.id);restore.disabled=!api.changed(row.id);updateSummary();message('Fundamento salvo neste aparelho e disponível no F.');}catch(e){message(e.message,true);}});
@@ -28,7 +28,7 @@
   let proc=null,section;
   for(const row of catalog){
    if(proc!==row.proc){section=create('section','report-process');section.appendChild(create('h2','',row.process));fragment.appendChild(section);proc=row.proc;}
-   const article=create('article','report-row');article.appendChild(create('h3','',`${row.processId?row.processId+' · ':''}${api.guide==='original'?'Item':'Indicador'} ${row.code} · ${row.phraseLabels.join(' / ')}`));article.appendChild(create('p','',row.requirement));const p=create('p','guidance-text');p.append(create('strong','','Orientação ao inspetor: '),document.createTextNode(api.value(row.id)||'Orientação não preenchida.'));article.appendChild(p);article.appendChild(create('p','guidance-text','Fundamento da classificação: '+api.basisValue(row.id)));if(row.references.length)article.appendChild(create('p','report-reference',row.references.join(' · ')));section.appendChild(article);
+   const article=create('article','report-row');article.appendChild(create('h3','',`${row.processId?row.processId+' · ':''}${api.guide==='original'?'Item':'Indicador'} ${row.code} · ${row.phraseLabels.join(' / ')}`));article.appendChild(create('p','',row.requirement));if(row.scoringNote)article.appendChild(create('p','scoring-note',row.scoringNote));const p=create('p','guidance-text');p.append(create('strong','','Orientação ao inspetor: '),document.createTextNode(api.value(row.id)||'Orientação não preenchida.'));article.appendChild(p);article.appendChild(create('p','guidance-text','Fundamento da classificação: '+api.basisValue(row.id)));if(row.references.length)article.appendChild(create('p','report-reference',row.references.join(' · ')));section.appendChild(article);
   }
   report.replaceChildren(fragment);
  }

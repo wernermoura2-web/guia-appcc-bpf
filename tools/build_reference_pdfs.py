@@ -69,3 +69,6 @@ for name in ['Arvore_Decisao_APPCC.pdf','APPCC_Fluxogramas_Passos_1_2_3.pdf']:
 
 from current_materials import build
 build(out,cfg,rows)
+
+from build_inspector_orientations import build as build_inspector_orientations
+build_inspector_orientations(out,cfg)
