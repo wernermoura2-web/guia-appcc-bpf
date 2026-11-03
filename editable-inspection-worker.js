@@ -81,7 +81,7 @@ self.onmessage=async e=>{try{
   else if(f instanceof PDFLib.PDFDropdown){const v=printable(value);if(f.getOptions().includes(v))f.select(v);}
   else if(f instanceof PDFLib.PDFCheckBox){value==='Yes'?f.check():f.uncheck();}
   else if(f instanceof PDFLib.PDFButton&&/^b_q_/.test(name)){
-   for(const w of f.acroField.getWidgets())w.getOrCreateAppearanceCharacteristics().setCaptions(printable(value));f.defaultUpdateAppearances(font);
+   for(const w of f.acroField.getWidgets())w.getOrCreateAppearanceCharacteristics().setCaptions({normal:printable(value)});f.defaultUpdateAppearances(font);
   }
  }
  form.getTextField('dados_frases').setText(JSON.stringify(payload.native).replace(/[\u0100-\uffff]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0')));
