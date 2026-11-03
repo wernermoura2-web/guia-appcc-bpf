@@ -35,11 +35,15 @@ jobs:
           python tools/sync_responsible_overview_pdf.py
           python tools/sync_missing_f_pdf.py
           python tools/clear_migration_notes_pdf.py
+          python tools/sync_all_phrase_templates.py
+          python tools/sync_all_phrase_templates.py Guia_APPCC_BPF_Em_Branco_Todos_F.pdf
+          python tools/sync_all_phrase_templates.py Guia_APPCC_BPF_Em_Branco_Todos_F_Documentos.pdf
       - name: Atualizar materiais de revisão BPF e APPCC
         run: python tools/build_reference_pdfs.py
       - name: Validar o guia APPCC revisado sem sobrescrever os arquivos
         run: |
           node --check app.js
+          node tools/test_editable_inspection.cjs
           node tools/test_cap_records.cjs
           node tools/test_reservoir_split.cjs
           node tools/test_hygiene_records.cjs
